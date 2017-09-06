@@ -2,14 +2,10 @@ import {
   GraphQLInterfaceType,
   GraphQLResolveInfo,
   GraphQLObjectType
-} from "graphql";
-import {
-  UnmountedFieldMap,
-  MountedFieldMap,
-  mountFields
-} from "./field";
-import { ObjectType, ResolverFunction } from "./objecttype";
-import { GraphQLClassType } from "./base";
+} from 'graphql';
+import { UnmountedFieldMap, MountedFieldMap, mountFields } from './field';
+import { ObjectType, ResolverFunction } from './objecttype';
+import { GraphQLClassType } from './base';
 
 export class Interface extends GraphQLClassType {
   static gql: GraphQLInterfaceType;
@@ -28,7 +24,7 @@ export class Interface extends GraphQLClassType {
       name: this.typeName,
       description: this.description,
       fields: () => {
-        var graphqlFields: {[key: string]: any;} = {};
+        var graphqlFields: { [key: string]: any } = {};
         for (let fieldName in this.mountedFields) {
           graphqlFields[fieldName] = this.mountedFields[fieldName].gql;
         }
@@ -37,7 +33,7 @@ export class Interface extends GraphQLClassType {
       resolveType: (...args: any[]) => {
         const resolvedType = this.resolveType(...args);
         if (
-          typeof resolvedType === "string" ||
+          typeof resolvedType === 'string' ||
           resolvedType instanceof GraphQLObjectType
         ) {
           return resolvedType;

@@ -3,10 +3,10 @@ import {
   GraphQLObjectType,
   graphql,
   printSchema
-} from "graphql";
+} from 'graphql';
 
-import { getGraphQLType } from "./base";
-import { ObjectType } from "./objecttype";
+import { getGraphQLType } from './base';
+import { ObjectType } from './objecttype';
 
 type SchemaOptions = {
   query: typeof ObjectType | GraphQLObjectType;

@@ -1,16 +1,17 @@
-import { GraphQLInputObjectType } from "graphql";
+import { GraphQLInputObjectType } from 'graphql';
 
-import { MountableInputField } from "./mountable";
-import { GraphQLClassType, getGraphQLType } from "./base";
+import { MountableInputField, MountableArgument } from './mountable';
+import { GraphQLClassType, getGraphQLType } from './base';
 import {
   UnmountedInputFieldMap,
   MountedInputFieldMap,
   mountInputFields,
   InputField
-} from "./inputfield";
+} from './inputfield';
+import { Argument } from './argument';
 
 export class InputObjectType extends GraphQLClassType
-  implements MountableInputField {
+  implements MountableInputField, MountableArgument {
   static gql: GraphQLInputObjectType;
   static fields: UnmountedInputFieldMap;
   static get mountedFields(): MountedInputFieldMap {
@@ -21,7 +22,7 @@ export class InputObjectType extends GraphQLClassType
       name: this.typeName,
       description: this.description,
       fields: () => {
-        var graphqlFields: {[key: string]: any;} = {};
+        var graphqlFields: { [key: string]: any } = {};
         for (let fieldName in this.mountedFields) {
           let field: InputField = this.mountedFields[fieldName];
           graphqlFields[fieldName] = {
@@ -44,5 +45,8 @@ export class InputObjectType extends GraphQLClassType
       <typeof InputObjectType>this.constructor,
       ...this.args
     );
+  }
+  toArgument(): Argument {
+    return new Argument(<typeof InputObjectType>this.constructor, ...this.args);
   }
 }

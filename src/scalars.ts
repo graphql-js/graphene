@@ -5,12 +5,16 @@ import {
   GraphQLInt,
   GraphQLBoolean,
   GraphQLFloat
-} from "graphql";
-import { Field } from "./field";
-import { InputField } from "./inputfield";
-import { Argument } from "./argument";
-import { MountableField, MountableInputField, MountableArgument } from "./mountable";
-import { GraphQLClassType } from "./base";
+} from 'graphql';
+import { Field } from './field';
+import { InputField } from './inputfield';
+import { Argument } from './argument';
+import {
+  MountableField,
+  MountableInputField,
+  MountableArgument
+} from './mountable';
+import { GraphQLClassType } from './base';
 
 export class Scalar extends GraphQLClassType
   implements MountableField, MountableArgument, MountableInputField {

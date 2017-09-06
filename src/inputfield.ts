@@ -1,5 +1,5 @@
-import { MountableInputField, isMountableInputField } from "./mountable";
-import { NonNull } from "./structures";
+import { MountableInputField, isMountableInputField } from './mountable';
+import { NonNull } from './structures';
 
 type InputFieldOptions = {
   required?: boolean | MountableInputField;

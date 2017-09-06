@@ -1,5 +1,5 @@
-import { printType, GraphQLScalarType, GraphQLType } from "graphql";
-import { List, NonNull } from "./structures";
+import { printType, GraphQLScalarType, GraphQLType } from 'graphql';
+import { List, NonNull } from './structures';
 
 export class GraphQLClassType {
   private static _gql: any;
@@ -22,7 +22,7 @@ export class GraphQLClassType {
     return this._gql;
   }
   static constructType() {
-    throw new Error("Any custom type must implement constructType.");
+    throw new Error('Any custom type must implement constructType.');
   }
 }
 

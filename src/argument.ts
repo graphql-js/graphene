@@ -1,7 +1,7 @@
-import { GraphQLInputType, GraphQLArgumentConfig } from "graphql";
-import { MountableArgument, isMountableArgument } from "./mountable";
-import { NonNull } from "./structures";
-import { getGraphQLType } from "./base";
+import { GraphQLInputType, GraphQLArgumentConfig } from 'graphql';
+import { MountableArgument, isMountableArgument } from './mountable';
+import { NonNull } from './structures';
+import { getGraphQLType } from './base';
 
 type ArgumentOptions = {
   required?: boolean;

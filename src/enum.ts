@@ -1,12 +1,16 @@
-import { GraphQLEnumValueConfigMap, GraphQLEnumType } from "graphql";
-import { Field } from "./field";
-import { Argument } from "./argument";
-import { InputField } from "./inputfield";
-import { MountableField, MountableInputField, MountableArgument } from "./mountable";
-import { GraphQLClassType } from "./base";
+import { GraphQLEnumValueConfigMap, GraphQLEnumType } from 'graphql';
+import { Field } from './field';
+import { Argument } from './argument';
+import { InputField } from './inputfield';
+import {
+  MountableField,
+  MountableInputField,
+  MountableArgument
+} from './mountable';
+import { GraphQLClassType } from './base';
 
 export class Enum extends GraphQLClassType
-implements MountableField, MountableArgument, MountableInputField {
+  implements MountableField, MountableArgument, MountableInputField {
   args: any[];
   static _values: GraphQLEnumValueConfigMap;
   constructor(...args: any[]) {

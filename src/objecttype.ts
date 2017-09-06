@@ -4,14 +4,10 @@ import {
   GraphQLResolveInfo,
   GraphQLFieldConfig,
   GraphQLInterfaceType
-} from "graphql";
-import {
-  UnmountedFieldMap,
-  MountedFieldMap,
-  mountFields
-} from "./field";
-import { Interface } from "./interface";
-import { GraphQLClassType, getGraphQLType } from "./base";
+} from 'graphql';
+import { UnmountedFieldMap, MountedFieldMap, mountFields } from './field';
+import { Interface } from './interface';
+import { GraphQLClassType, getGraphQLType } from './base';
 
 type Input = { [key: string]: Input } | string | boolean | number | null;
 type ResolverArguments = { [key: string]: Input };
@@ -69,8 +65,8 @@ export class ObjectType extends GraphQLClassType {
         } = {};
         for (let fieldName in this.mountedFields) {
           graphqlFields[fieldName] = {
-              ...this.mountedFields[fieldName].gql,
-              resolve: this.getResolver(fieldName),
+            ...this.mountedFields[fieldName].gql,
+            resolve: this.getResolver(fieldName)
           };
         }
         return graphqlFields;

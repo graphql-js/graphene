@@ -1,8 +1,8 @@
-import { GraphQLList, GraphQLNonNull } from "graphql";
-import { GraphQLClassType, getGraphQLType } from "./base";
-import { MountableField, MountableArgument, Mountable } from "./mountable";
-import { Field } from "./field";
-import { Argument } from "./argument";
+import { GraphQLList, GraphQLNonNull } from 'graphql';
+import { GraphQLClassType, getGraphQLType } from './base';
+import { MountableField, MountableArgument, Mountable } from './mountable';
+import { Field } from './field';
+import { Argument } from './argument';
 
 export class List extends Mountable
   implements MountableField, MountableArgument {
@@ -13,11 +13,11 @@ export class List extends Mountable
   }
   get gql() {
     if (this.args.length) {
-        throw new Error(
-            `The List arguments: ${this.args} will be dismissed.` +
-            `You will need to mount as a Field with using INSTANCE.toField()`
-          );
-        }
+      throw new Error(
+        `The List arguments: ${this.args} will be dismissed.` +
+          `You will need to mount as a Field with using INSTANCE.toField()`
+      );
+    }
     return new GraphQLList(getGraphQLType(this.ofType));
   }
   toField(): Field {
@@ -39,7 +39,7 @@ export class NonNull extends Mountable
     if (this.args.length) {
       throw new Error(
         `The NonNull arguments: ${this.args} will be dismissed.` +
-        `You will need to mount as a Field with using INSTANCE.toField()`
+          `You will need to mount as a Field with using INSTANCE.toField()`
       );
     }
     return new GraphQLNonNull(getGraphQLType(this.ofType));

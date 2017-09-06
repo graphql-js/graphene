@@ -1,6 +1,6 @@
-import { Field } from "./field";
-import { Argument } from "./argument";
-import { InputField } from "./inputfield";
+import { Field } from './field';
+import { Argument } from './argument';
+import { InputField } from './inputfield';
 
 export class Mountable {
   args: any[];
@@ -22,17 +22,17 @@ export interface MountableInputField {
 }
 
 export const isMountableField = (object: any): object is MountableField => {
-  return "toField" in object;
+  return 'toField' in object;
 };
 
 export const isMountableArgument = (
   object: any
 ): object is MountableArgument => {
-  return "toArgument" in object;
+  return 'toArgument' in object;
 };
 
 export const isMountableInputField = (
   object: any
 ): object is MountableInputField => {
-  return "toInputField" in object;
+  return 'toInputField' in object;
 };

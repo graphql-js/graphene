@@ -1,24 +1,25 @@
-import { GraphQLFieldConfig, GraphQLOutputType } from "graphql";
-import { MountableField, isMountableField } from "./mountable";
-import { getGraphQLType } from "./base";
-import { NonNull } from "./structures";
+import { GraphQLFieldConfig, GraphQLOutputType } from 'graphql';
+import { MountableField, isMountableField } from './mountable';
+import { getGraphQLType } from './base';
+import { NonNull } from './structures';
 import {
   MountedArgumentMap,
   UnMountedArgumentMap,
   mountArguments
-} from "./argument";
-import { ResolverFunction } from "./objecttype";
+} from './argument';
+import { ResolverFunction } from './objecttype';
 
-type FieldOptions = {
+type FieldOptions<T> = {
   required?: boolean | MountableField;
   description?: string;
   deprecationReason?: string;
+  resolver?: ResolverFunction<T>;
   args?: UnMountedArgumentMap;
 };
 
-export class Field {
+export class Field<T = any> {
   type: any;
-  options: FieldOptions;
+  options: FieldOptions<T>;
   args: MountedArgumentMap;
   get gql(): GraphQLFieldConfig<any, any> {
     return {
@@ -27,7 +28,7 @@ export class Field {
       deprecationReason: this.options.deprecationReason
     };
   }
-  constructor(type: any, options: FieldOptions = {}) {
+  constructor(type: any, options: FieldOptions<T> = {}) {
     if (options.required) {
       type = new NonNull(type);
     }
@@ -35,8 +36,8 @@ export class Field {
     this.options = options;
     this.args = mountArguments(this.options.args || {});
   }
-  getResolver<T = any>(parentResolver: ResolverFunction<T>) {
-    return parentResolver;
+  getResolver(parentResolver: ResolverFunction<T>) {
+    return this.options.resolver || parentResolver;
   }
 }
 
