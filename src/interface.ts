@@ -16,17 +16,15 @@ export class Interface extends GraphQLClassType {
   static set fields(fields: UnmountedFieldMap) {
     this._fields = fields;
   }
-  static get mountedFields(): MountedFieldMap {
-    return mountFields(this.fields);
-  }
   static constructType(): GraphQLInterfaceType {
     return new GraphQLInterfaceType({
       name: this.typeName,
       description: this.description,
       fields: () => {
+        var mountedFields = mountFields(this.fields);
         var graphqlFields: { [key: string]: any } = {};
-        for (let fieldName in this.mountedFields) {
-          graphqlFields[fieldName] = this.mountedFields[fieldName].gql;
+        for (let fieldName in mountedFields) {
+          graphqlFields[fieldName] = mountedFields[fieldName].gql;
         }
         return graphqlFields;
       },

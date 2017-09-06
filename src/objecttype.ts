@@ -48,7 +48,7 @@ export class ObjectType extends GraphQLClassType {
     this._fields = fields;
   }
 
-  static get mountedFields(): MountedFieldMap {
+  private static getMountedFields(): MountedFieldMap {
     return mountFields(this.fields);
   }
 
@@ -60,12 +60,13 @@ export class ObjectType extends GraphQLClassType {
         _interface => <GraphQLInterfaceType>getGraphQLType(_interface)
       ),
       fields: () => {
+        var mountedFields = this.getMountedFields();
         var graphqlFields: {
           [key: string]: GraphQLFieldConfig<any, any>;
         } = {};
-        for (let fieldName in this.mountedFields) {
+        for (let fieldName in mountedFields) {
           graphqlFields[fieldName] = {
-            ...this.mountedFields[fieldName].gql,
+            ...mountedFields[fieldName].gql,
             resolve: this.getResolver(fieldName)
           };
         }
@@ -75,7 +76,8 @@ export class ObjectType extends GraphQLClassType {
   }
 
   static getResolver<T = any>(fieldName: string): ResolverFunction<T> {
-    const field = this.mountedFields[fieldName];
+    var mountedFields = this.getMountedFields();
+    const field = mountedFields[fieldName];
     if (!field) {
       throw new Error(
         `Can't get the resolver of a a field that is not in the ObjectType. Received: ${fieldName}.`
