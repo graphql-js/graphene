@@ -6,14 +6,12 @@ import {
 import {
   UnmountedFieldMap,
   MountedFieldMap,
-  mountFields,
-  Field
+  mountFields
 } from "./field";
-import { constructArgs } from "./argument";
 import { ObjectType, ResolverFunction } from "./objecttype";
-import { GraphQLClassType, getGraphQLType } from "./base";
+import { GraphQLClassType } from "./base";
 
-export class Interface<T = any> extends GraphQLClassType {
+export class Interface extends GraphQLClassType {
   static gql: GraphQLInterfaceType;
   static _fields: UnmountedFieldMap;
   static get fields() {

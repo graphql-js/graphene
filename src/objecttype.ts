@@ -3,16 +3,13 @@ import {
   defaultFieldResolver,
   GraphQLResolveInfo,
   GraphQLFieldConfig,
-  GraphQLOutputType,
   GraphQLInterfaceType
 } from "graphql";
 import {
-  Field,
   UnmountedFieldMap,
   MountedFieldMap,
   mountFields
 } from "./field";
-import { constructArgs } from "./argument";
 import { Interface } from "./interface";
 import { GraphQLClassType, getGraphQLType } from "./base";
 

@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ObjectType setup create ObjectType properly 1`] = `
+"# My Description
+type MyCustomObjectType {
+  hello: String
+}"
+`;
