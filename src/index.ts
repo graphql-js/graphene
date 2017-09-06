@@ -1,42 +1,24 @@
 export {
-    ObjectType,
-    ResolverFunction,
-    ResolverThisFunction,
+  ObjectType,
+  ResolverFunction
 } from "./objecttype";
 
 export {
-    Interface,
-} from "./interface";
+    InputObjectType
+} from "./inputobjecttype";
 
-export {
-    Field,
-    UnmountedFieldMap
-} from "./field";
+export { Interface } from "./interface";
 
-export {
-    Argument,
-    UnMountedArgumentMap
-} from "./argument";
+export { Field, UnmountedFieldMap } from "./field";
 
-export {
-    Enum,
-} from "./enum";
+export { InputField, UnmountedInputFieldMap } from "./inputfield";
 
-export {
-    Scalar,
-    String,
-    Str,
-    Boolean,
-    Float,
-    ID,
-    Int
-} from "./scalars";
+export { Argument, UnMountedArgumentMap } from "./argument";
 
-export {
-    Schema,
-} from "./schema";
+export { Enum } from "./enum";
 
-export {
-    NonNull,
-    List
-} from "./structures";
+export { Scalar, String, Str, Boolean, Float, ID, Int } from "./scalars";
+
+export { Schema } from "./schema";
+
+export { NonNull, List } from "./structures";
