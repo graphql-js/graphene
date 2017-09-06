@@ -1,5 +1,5 @@
 import { GraphQLInterfaceType } from 'graphql';
-import { ObjectType, Interface, Field, String } from '../src';
+import { Interface, Field, String } from '../src';
 
 describe("Interface", () => {
   test(`create Interface`, () => {

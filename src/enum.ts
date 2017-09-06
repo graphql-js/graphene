@@ -5,14 +5,14 @@ import { MountableField, MountableArgument } from "./mountable";
 import { GraphQLClassType } from "./base";
 
 export class Enum extends GraphQLClassType
-  implements MountableField, MountableArgument {
+implements MountableField, MountableArgument {
   args: any[];
   static _values: GraphQLEnumValueConfigMap;
   constructor(...args: any[]) {
     super();
     this.args = args;
   }
-  static constructType() {
+  static constructType(): GraphQLEnumType {
     return new GraphQLEnumType({
       name: this.typeName,
       description: this.description,
