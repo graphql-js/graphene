@@ -1,7 +1,7 @@
 import { GraphQLEnumType } from 'graphql';
-import { Enum } from '../src';
+import { Enum, Field, InputField, Argument } from '../src';
 
-describe("Enum", () => {
+describe("Enum creation", () => {
   test(`create Enum`, () => {
     class MyEnum extends Enum {
     }
@@ -70,4 +70,45 @@ describe("Enum", () => {
     ]);
   })
 
+})
+
+describe('Enum can be mounted', () => {
+  class MyEnum extends Enum {
+    static description = "Desc";
+    static values = {
+      VALUE1: {
+        description: "Value1 description",
+        value: 1
+      },
+      VALUE2: {
+        description: "Value2 description",
+        deprecationReason: "Value2 is deprecated",
+        value: 2
+      }
+    }
+  }
+
+  test(`as a Field`, () => {
+    let unmounted = new Enum({description: "MyEnum field"});
+    let field = unmounted.toField();
+    expect(field).toBeInstanceOf(Field);
+    expect(field.type).toBe(Enum);
+    expect(field.options).toMatchObject({description: "MyEnum field"});
+  })
+
+  test(`as a Argument`, () => {
+    let unmounted = new Enum({description: "MyEnum argument"});
+    let arg = unmounted.toArgument();
+    expect(arg).toBeInstanceOf(Argument);
+    expect(arg.type).toBe(Enum);
+    expect(arg.options).toMatchObject({description: "MyEnum argument"});
+  })
+
+  test(`as a InputField`, () => {
+    let unmounted = new Enum({description: "MyEnum input field"});
+    let inputfield = unmounted.toInputField();
+    expect(inputfield).toBeInstanceOf(InputField);
+    expect(inputfield.type).toBe(Enum);
+    expect(inputfield.options).toMatchObject({description: "MyEnum input field"});
+  })
 })
