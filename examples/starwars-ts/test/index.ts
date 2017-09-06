@@ -2,7 +2,7 @@ import schema, {Episode} from "../schema";
 
 describe("Interface", () => {
   test(`create Interface`, () => {
-    console.log(schema.toString());
+    expect(schema.toString()).toMatchSnapshot();
   });
   test("try query", async () => {
     var result = await schema.execute(`
@@ -17,7 +17,6 @@ describe("Interface", () => {
     }
 }
 `);
-    console.log(result)
     expect(result).toMatchObject({
       data: {
         hero: {

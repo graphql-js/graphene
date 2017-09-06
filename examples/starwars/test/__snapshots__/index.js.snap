@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Interface create Interface 1`] = `
+"# A character in the Star Wars Trilogy
+interface Character {
+  id: ID
+  name: String
+  friends: [Character]
+  appearsIn: Episode
+}
+
+type Droid implements Character {
+  id: ID
+  name: String
+  friends: [Character]
+  appearsIn: Episode
+  primaryFunction: String
+}
+
+# The description
+enum Episode {
+  NEWHOPE
+  EMPIRE
+  JEDI
+}
+
+type Human implements Character {
+  id: ID
+  name: String
+  friends: [Character]
+  appearsIn: Episode
+  homePlanet: String
+}
+
+type Query {
+  hero: Character
+  human: Human
+  droid: Droid
+}
+"
+`;
