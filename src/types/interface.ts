@@ -3,7 +3,7 @@ import {
   GraphQLResolveInfo,
   GraphQLObjectType
 } from 'graphql';
-import { UnmountedFieldMap, MountedFieldMap, mountFields } from './field';
+import { UnmountedFieldMap, mountFields } from './field';
 import { ObjectType, ResolverFunction } from './objecttype';
 import { GraphQLClassType } from './base';
 

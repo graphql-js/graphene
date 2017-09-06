@@ -21,7 +21,7 @@ export type ResolverFunction<T, R = any, A = ResolverArguments, C = any> = (
 
 export class ObjectType extends GraphQLClassType {
   static gql: GraphQLObjectType;
-  static _fields: UnmountedFieldMap;
+  static _fields: any;
   private static _interfaces: typeof Interface[];
   static set interfaces(value: typeof Interface[]) {
     this._interfaces = value;
@@ -29,7 +29,7 @@ export class ObjectType extends GraphQLClassType {
   static get interfaces(): typeof Interface[] {
     return this._interfaces || [];
   }
-  static get fields() {
+  static get fields(): UnmountedFieldMap {
     var interfaceFields = {};
     for (let _interfaceIndex in this._interfaces) {
       let _interface: typeof Interface = this._interfaces[_interfaceIndex];

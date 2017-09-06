@@ -4,7 +4,6 @@ import { MountableInputField, MountableArgument } from './mountable';
 import { GraphQLClassType, getGraphQLType } from './base';
 import {
   UnmountedInputFieldMap,
-  MountedInputFieldMap,
   mountInputFields,
   InputField
 } from './inputfield';
