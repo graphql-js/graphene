@@ -9,7 +9,7 @@ import {
 } from './argument';
 import { ResolverFunction } from './objecttype';
 
-type FieldOptions<T> = {
+export type FieldOptions<T> = {
   required?: boolean | MountableField;
   description?: string;
   deprecationReason?: string;

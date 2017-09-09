@@ -1,7 +1,7 @@
 import { MountableInputField, isMountableInputField } from './mountable';
 import { NonNull } from './structures';
 
-type InputFieldOptions = {
+export type InputFieldOptions = {
   required?: boolean | MountableInputField;
   description?: string;
 };

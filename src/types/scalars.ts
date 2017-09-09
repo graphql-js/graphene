@@ -6,9 +6,9 @@ import {
   GraphQLBoolean,
   GraphQLFloat
 } from 'graphql';
-import { Field } from './field';
-import { InputField } from './inputfield';
-import { Argument } from './argument';
+import { Field, FieldOptions } from './field';
+import { InputField, InputFieldOptions } from './inputfield';
+import { Argument, ArgumentOptions } from './argument';
 import {
   MountableField,
   MountableInputField,
@@ -16,9 +16,11 @@ import {
 } from './mountable';
 import { GraphQLClassType } from './base';
 
-export class Scalar extends GraphQLClassType
+type ScalarOptions = FieldOptions<any> | InputFieldOptions | ArgumentOptions;
+
+export class Scalar<T = ScalarOptions> extends GraphQLClassType
   implements MountableField, MountableArgument, MountableInputField {
-  args: any[];
+  options?: T;
   static gql: GraphQLScalarType;
   static serialize: (value: any) => any;
   static parseLiteral: (value: any) => any;
@@ -32,21 +34,21 @@ export class Scalar extends GraphQLClassType
       parseValue: this.parseValue
     });
   }
-  constructor(...args: any[]) {
+  constructor(options?: T) {
     super();
-    this.args = args;
+    this.options = options;
   }
   toField(): Field {
     var type = (<typeof Scalar>this.constructor).gql;
-    return new Field(type, ...this.args);
+    return new Field(type, <FieldOptions<any>>this.options);
   }
   toArgument(): Argument {
     var type = (<typeof Scalar>this.constructor).gql;
-    return new Argument(type, ...this.args);
+    return new Argument(type, <ArgumentOptions>this.options);
   }
   toInputField(): InputField {
     var type = (<typeof Scalar>this.constructor).gql;
-    return new InputField(type, ...this.args);
+    return new InputField(type, <InputFieldOptions>this.options);
   }
 }
 export class Str extends Scalar {

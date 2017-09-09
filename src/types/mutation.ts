@@ -1,20 +1,16 @@
-import {
-  GraphQLInterfaceType,
-  GraphQLResolveInfo,
-  GraphQLObjectType
-} from 'graphql';
-import { UnmountedFieldMap, Field } from './field';
+import { GraphQLObjectType } from 'graphql';
+import { Field } from './field';
 import { ObjectType, ResolverFunction } from './objecttype';
 import { UnMountedArgumentMap } from './argument';
-import { GraphQLClassType, getGraphQLType } from './base';
+import { getGraphQLType } from './base';
 
 export class Mutation extends ObjectType {
   static mutationName: string;
   static args: UnMountedArgumentMap;
-  static _fields: UnmountedFieldMap | typeof GraphQLClassType;
+  static outputType: any;
   static constructType(): GraphQLObjectType {
-    if (this.fields instanceof GraphQLClassType) {
-      return <GraphQLObjectType>getGraphQLType(this.fields);
+    if (this.outputType) {
+      return <GraphQLObjectType>getGraphQLType(this.outputType);
     }
     return ObjectType.constructType.call(this);
   }
@@ -25,7 +21,10 @@ export class Mutation extends ObjectType {
         `The mutation ${this.name} must define a mutate static method on it.`
       );
     }
-    return new Field(this, { args: this.args, resolver: this.mutate });
+    return new Field(this.outputType || this, {
+      args: this.args,
+      resolver: this.mutate
+    });
   }
 }
 

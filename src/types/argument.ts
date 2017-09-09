@@ -3,7 +3,7 @@ import { MountableArgument, isMountableArgument } from './mountable';
 import { NonNull } from './structures';
 import { getGraphQLType } from './base';
 
-type ArgumentOptions = {
+export type ArgumentOptions = {
   required?: boolean;
   description?: string;
   defaultValue?: any;

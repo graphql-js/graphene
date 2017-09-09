@@ -7,56 +7,56 @@ import {
   ID,
   List,
   Enum
-} from "../../src";
-import { getHero, getFriends, getHuman, getDroid } from "./data";
+} from '../../src';
+import { getHero, getFriends, getHuman, getDroid } from './data';
 
 export class Episode extends Enum {
-  static description = "The description";
+  static description = 'The description';
   static values = {
     NEWHOPE: {
       value: 4,
-      description: "Released in 1977."
+      description: 'Released in 1977.'
     },
     EMPIRE: {
       value: 5,
-      description: "Released in 1980."
+      description: 'Released in 1980.'
     },
     JEDI: {
       value: 6,
-      description: "Released in 1983."
+      description: 'Released in 1983.'
     }
   };
 }
 
 class Character extends Interface {
-  static description = "A character in the Star Wars Trilogy";
+  static description = 'A character in the Star Wars Trilogy';
   static fields = {
-    id: new ID({ required: true, description: "The id of the character." }),
-    name: new String({ description: "The name of the character." }),
+    id: new ID({ required: true, description: 'The id of the character.' }),
+    name: new String({ description: 'The name of the character.' }),
     friends: new List(Character, {
-      description: "The friends of the character, or an empty list if they have none."
+      description:
+        'The friends of the character, or an empty list if they have none.'
     }),
-    appearsIn: new Episode({ description: "Which movies they appear in." })
+    appearsIn: new Episode({ description: 'Which movies they appear in.' })
   };
   static resolveType = (root: TCharacter) => {
-    return getHuman(root.id) ? Human: Droid;
+    return getHuman(root.id) ? Human : Droid;
   };
   static resolvers = {
     friends(root: TCharacter): TCharacter[] {
       return getFriends(root);
     }
-  }
+  };
 }
-
 
 type TCharacter = Human | Droid;
 
 export class Human extends ObjectType implements Character {
-  static description = "A humanoid creature in the Star Wars universe.";
+  static description = 'A humanoid creature in the Star Wars universe.';
   static interfaces = [Character];
   static fields = {
     homePlanet: new String({
-      description: "The home planet of the human, or null if unknown.."
+      description: 'The home planet of the human, or null if unknown..'
     })
   };
 
@@ -68,11 +68,11 @@ export class Human extends ObjectType implements Character {
 }
 
 export class Droid extends ObjectType {
-  static description = "A mechanical creature in the Star Wars universe.";
+  static description = 'A mechanical creature in the Star Wars universe.';
   static interfaces = [Character];
   static fields = {
     primaryFunction: new String({
-      description: "The primary function of the droid, or null if unknown.."
+      description: 'The primary function of the droid, or null if unknown..'
     })
   };
 
@@ -100,7 +100,7 @@ class Query extends ObjectType {
     droid(root: any, args: { id: string }): Droid {
       return getDroid(args.id);
     }
-  }
+  };
 }
 
 const schema = new Schema({

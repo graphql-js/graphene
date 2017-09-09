@@ -3,9 +3,9 @@ import { Argument } from './argument';
 import { InputField } from './inputfield';
 
 export class Mountable {
-  args: any[];
-  constructor(...args: any[]) {
-    this.args = args;
+  options: any;
+  constructor(options?: any) {
+    this.options = options;
   }
 }
 
