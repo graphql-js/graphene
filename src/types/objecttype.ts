@@ -51,7 +51,6 @@ export class ObjectType extends GraphQLClassType {
   private static getMountedFields(): MountedFieldMap {
     return mountFields(this.fields);
   }
-
   static constructType(): GraphQLObjectType {
     return new GraphQLObjectType({
       name: this.typeName,
@@ -59,19 +58,7 @@ export class ObjectType extends GraphQLClassType {
       interfaces: this.interfaces.map(
         _interface => <GraphQLInterfaceType>getGraphQLType(_interface)
       ),
-      fields: () => {
-        var mountedFields = this.getMountedFields();
-        var graphqlFields: {
-          [key: string]: GraphQLFieldConfig<any, any>;
-        } = {};
-        for (let fieldName in mountedFields) {
-          graphqlFields[fieldName] = {
-            ...mountedFields[fieldName].gql,
-            resolve: this.getResolver(fieldName)
-          };
-        }
-        return graphqlFields;
-      }
+      fields: this.getGraphQLFields.bind(this)
     });
   }
 
@@ -102,4 +89,18 @@ export class ObjectType extends GraphQLClassType {
   static resolvers: {
     [key: string]: ResolverFunction<any>;
   } = {};
+
+  protected static getGraphQLFields() {
+    var mountedFields: MountedFieldMap = this.getMountedFields();
+    var graphqlFields: {
+      [key: string]: GraphQLFieldConfig<any, any>;
+    } = {};
+    for (let fieldName in mountedFields) {
+      graphqlFields[fieldName] = {
+        ...mountedFields[fieldName].gql,
+        resolve: this.getResolver(fieldName)
+      };
+    }
+    return graphqlFields;
+  }
 }
