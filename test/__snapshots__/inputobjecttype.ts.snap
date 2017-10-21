@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InputObjectType setup create InputObjectType properly 1`] = `
+"# My Description
+input MyCustomInputObjectType {
+  hello: String
+}"
+`;
