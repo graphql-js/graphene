@@ -39,15 +39,15 @@ export class Scalar<T = ScalarOptions> extends GraphQLClassType
     this.options = options;
   }
   toField(): Field {
-    var type = (<typeof Scalar>this.constructor).gql;
+    var type = <typeof Scalar>this.constructor;
     return new Field(type, <FieldOptions<any>>this.options);
   }
   toArgument(): Argument {
-    var type = (<typeof Scalar>this.constructor).gql;
+    var type = <typeof Scalar>this.constructor;
     return new Argument(type, <ArgumentOptions>this.options);
   }
   toInputField(): InputField {
-    var type = (<typeof Scalar>this.constructor).gql;
+    var type = <typeof Scalar>this.constructor;
     return new InputField(type, <InputFieldOptions>this.options);
   }
 }
