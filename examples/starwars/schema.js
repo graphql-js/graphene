@@ -7,11 +7,11 @@ import {
   ID,
   List,
   Enum
-} from "../../src";
-import { getHero, getFriends, getHuman, getDroid } from "./data";
+} from '../../src';
+import { getHero, getFriends, getHuman, getDroid } from './data';
 
 export class Episode extends Enum {
-  static description = "The description";
+  static description = 'The description';
   static values = {
     NEWHOPE: {
       value: 4
@@ -26,7 +26,7 @@ export class Episode extends Enum {
 }
 
 class Character extends Interface {
-  static description = "A character in the Star Wars Trilogy";
+  static description = 'A character in the Star Wars Trilogy';
   static fields = {
     id: new ID(),
     name: new String(),
@@ -39,11 +39,9 @@ class Character extends Interface {
     }
     return Droid;
   };
-  static resolvers = {
-    friends(root) {
-      return getFriends(root);
-    }
-  };
+  friends(root) {
+    return getFriends(root);
+  }
 }
 
 class Human extends ObjectType {
@@ -68,17 +66,16 @@ class Query extends ObjectType {
     human: new Field(Human, { args: { id: new ID() } }),
     droid: new Field(Droid, { args: { id: new ID() } })
   };
-  static resolvers = {
-    hero(root, { episode }) {
-      return getHero(episode);
-    },
-    human(root, { id }) {
-      return getHuman(id);
-    },
-    droid(root, { id }) {
-      return getDroid(id);
-    }
-  };
+
+  hero(root, { episode }) {
+    return getHero(episode);
+  }
+  human(root, { id }) {
+    return getHuman(id);
+  }
+  droid(root, { id }) {
+    return getDroid(id);
+  }
 }
 
 const schema = new Schema({

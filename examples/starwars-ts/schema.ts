@@ -42,16 +42,15 @@ class Character extends Interface {
   static resolveType = (root: TCharacter) => {
     return getHuman(root.id) ? Human : Droid;
   };
-  static resolvers = {
-    friends(root: TCharacter): TCharacter[] {
-      return getFriends(root);
-    }
-  };
+
+  friends(root: TCharacter): TCharacter[] {
+    return getFriends(root);
+  }
 }
 
 type TCharacter = Human | Droid;
 
-export class Human extends ObjectType implements Character {
+export class Human extends ObjectType {
   static description = 'A humanoid creature in the Star Wars universe.';
   static interfaces = [Character];
   static fields = {
@@ -90,17 +89,15 @@ class Query extends ObjectType {
     droid: new Field(Droid, { args: { id: new ID() } })
   };
 
-  static resolvers = {
-    hero(root: any, args: { episode: any }): TCharacter {
-      return getHero(args.episode);
-    },
-    human(root: any, args: { id: string }): Human {
-      return getHuman(args.id);
-    },
-    droid(root: any, args: { id: string }): Droid {
-      return getDroid(args.id);
-    }
-  };
+  hero(root: any, args: { episode: any }): TCharacter {
+    return getHero(args.episode);
+  }
+  human(root: any, args: { id: string }): Human {
+    return getHuman(args.id);
+  }
+  droid(root: any, args: { id: string }): Droid {
+    return getDroid(args.id);
+  }
 }
 
 const schema = new Schema({

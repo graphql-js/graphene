@@ -1,9 +1,11 @@
+import { ObjectType } from './objecttype';
 import {
   GraphQLObjectType,
   defaultFieldResolver,
   GraphQLResolveInfo,
   GraphQLFieldConfig,
-  GraphQLInterfaceType
+  GraphQLInterfaceType,
+  GraphQLObjectTypeConfig
 } from 'graphql';
 import { UnmountedFieldMap, MountedFieldMap, mountFields } from './field';
 import { Interface } from './interface';
@@ -19,8 +21,19 @@ export type ResolverFunction<T, R = any, A = ResolverArguments, C = any> = (
   info?: GraphQLResolveInfo
 ) => R;
 
+export class GrapheneObjectType extends GraphQLObjectType {
+  grapheneType: typeof ObjectType;
+  constructor(
+    grapheneType: typeof ObjectType,
+    config: GraphQLObjectTypeConfig<any, any>
+  ) {
+    super(config);
+    this.grapheneType = grapheneType;
+  }
+}
+
 export class ObjectType extends GraphQLClassType {
-  static gql: GraphQLObjectType;
+  static gql: GrapheneObjectType;
   static _fields: any;
   private static _interfaces: typeof Interface[];
   static set interfaces(value: typeof Interface[]) {
@@ -51,8 +64,8 @@ export class ObjectType extends GraphQLClassType {
   private static getMountedFields(): MountedFieldMap {
     return mountFields(this.fields);
   }
-  static constructType(): GraphQLObjectType {
-    return new GraphQLObjectType({
+  static constructType(): GrapheneObjectType {
+    return new GrapheneObjectType(this, {
       name: this.typeName,
       description: this.description,
       interfaces: this.interfaces.map(
@@ -71,11 +84,14 @@ export class ObjectType extends GraphQLClassType {
       );
     }
 
-    var parentResolver = <ResolverFunction<T>>this.resolvers[fieldName];
+    var parentResolver = <ResolverFunction<T> | undefined>(this.resolvers[
+      fieldName
+    ] || this.prototype[fieldName]);
     if (!parentResolver) {
       for (let _interface of this._interfaces) {
-        parentResolver = _interface.resolvers[fieldName];
-        if (parentResolver) {
+        let interfaceResolver = _interface.getResolver(fieldName);
+        if (interfaceResolver !== undefined) {
+          parentResolver = interfaceResolver;
           break;
         }
       }
