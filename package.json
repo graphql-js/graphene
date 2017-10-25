@@ -37,10 +37,12 @@
     "typescript": "^2.5.2"
   },
   "dependencies": {
+    "@types/graphql-relay": "^0.4.2",
     "change-case": "^3.0.1",
     "core-js": "^2.5.0",
     "glob": "^7.1.2",
     "graphql": "^0.9.4",
+    "graphql-relay": "^0.5.2",
     "inflected": "^2.0.2",
     "mkdirp": "^0.5.1",
     "node-fetch": "^1.7.2",
