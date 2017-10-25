@@ -28,10 +28,6 @@ For instaling graphene, just run this command in your shell
 npm install --save graphene-js
 ```
 
-## 2.0 Upgrade Guide
-
-Please read [UPGRADE-v2.0.md](/UPGRADE-v2.0.md) to learn how to upgrade.
-
 
 ## Examples
 
@@ -51,7 +47,6 @@ class Query extends graphene.ObjectType {
 }
 
 const schema = new Schema(Query);
-schema.execute('query { hello }')
 ```
 
 Then Querying `graphene.Schema` is as simple as:

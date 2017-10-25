@@ -1,9 +1,8 @@
 {
   "name": "graphene-js",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "GraphQL Framework for Javascript",
   "main": "./lib/index.js",
-  "bin": "./lib/cli.js",
   "scripts": {
     "clean": "rm -rf lib",
     "compile": "tsc",
