@@ -1,4 +1,4 @@
-# ![Graphene Logo](http://graphene-js.org/favicon.png) [Graphene](http://graphene-js.org) [![Build Status](https://travis-ci.org/graphql-js/graphene.svg?branch=master)](https://travis-ci.org/graphql-js/graphene) [![PyPI version](https://badge.fury.io/py/graphene.svg)](https://badge.fury.io/py/graphene) [![Coverage Status](https://coveralls.io/repos/graphql-js/graphene/badge.svg?branch=master&service=github)](https://coveralls.io/github/graphql-js/graphene?branch=master)
+# ![Graphene Logo](http://graphene-python.org/favicon.png) [Graphene](http://graphene-js.org) [![Build Status](https://travis-ci.org/graphql-js/graphene.svg?branch=master)](https://travis-ci.org/graphql-js/graphene) [![PyPI version](https://badge.fury.io/py/graphene.svg)](https://badge.fury.io/py/graphene) [![Coverage Status](https://coveralls.io/repos/graphql-js/graphene/badge.svg?branch=master&service=github)](https://coveralls.io/github/graphql-js/graphene?branch=master)
 
 
 [Graphene-js](http://graphene-js.org) is a Python library for building GraphQL schemas/types fast and easily.
