@@ -55,4 +55,5 @@ export class Interface extends GraphQLClassType {
   static getResolver(name: string): ResolverFunction<any> | undefined {
     return this.resolvers[name] || this.prototype[name];
   }
+  [key: string]: ResolverFunction<any>;
 }

@@ -1,4 +1,3 @@
-import { ObjectType } from './objecttype';
 import {
   GraphQLObjectType,
   defaultFieldResolver,
@@ -11,8 +10,8 @@ import { UnmountedFieldMap, MountedFieldMap, mountFields } from './field';
 import { Interface } from './interface';
 import { GraphQLClassType, getGraphQLType } from './base';
 
-type Input = { [key: string]: Input } | string | boolean | number | null;
-type ResolverArguments = { [key: string]: Input };
+export type Input = { [key: string]: Input } | string | boolean | number | null;
+export type ResolverArguments = { [key: string]: Input };
 
 export type ResolverFunction<T, R = any, A = ResolverArguments, C = any> = (
   root?: T,
@@ -119,4 +118,5 @@ export class ObjectType extends GraphQLClassType {
     }
     return graphqlFields;
   }
+  [key: string]: ResolverFunction<any>;
 }

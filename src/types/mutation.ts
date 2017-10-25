@@ -1,6 +1,5 @@
-import { GraphQLObjectType } from 'graphql';
 import { Field } from './field';
-import { ObjectType, ResolverFunction } from './objecttype';
+import { ObjectType, ResolverFunction, GrapheneObjectType } from './objecttype';
 import { UnMountedArgumentMap } from './argument';
 import { getGraphQLType } from './base';
 
@@ -8,9 +7,9 @@ export class Mutation extends ObjectType {
   static mutationName: string;
   static args: UnMountedArgumentMap;
   static outputType: any;
-  static constructType(): GraphQLObjectType {
+  static constructType(): GrapheneObjectType {
     if (this.outputType) {
-      return <GraphQLObjectType>getGraphQLType(this.outputType);
+      return <GrapheneObjectType>getGraphQLType(this.outputType);
     }
     return ObjectType.constructType.call(this);
   }

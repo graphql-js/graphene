@@ -1,22 +1,18 @@
 {
-    "compilerOptions": {
-      "target": "es2015",
-      "module": "commonjs",
-      "moduleResolution": "node",
-      "sourceMap": true,
-      "outDir": "lib",
-      "removeComments": true,
-      "strict": true,
-      "noImplicitReturns": true,
-      "noFallthroughCasesInSwitch": true,
-      "noUnusedParameters": true,
-      "noUnusedLocals": true,
-      "allowJs": true,
-      "allowUnreachableCode": true
-    },
-    "include" : [
-      "src/**/*",
-      "test/**/*"
-    ]
-  }
-  
+  "compilerOptions": {
+    "target": "es2015",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "lib",
+    "removeComments": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "allowJs": true,
+    "allowUnreachableCode": true
+  },
+  "include": ["src/**/*"]
+}
