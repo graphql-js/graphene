@@ -1,6 +1,6 @@
 {
   "name": "graphene-js",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "GraphQL Framework for Javascript",
   "main": "./lib/index.js",
   "bin": "./lib/cli.js",
@@ -10,7 +10,8 @@
     "watch": "tsc -w",
     "prepublish": "npm run clean && npm run compile",
     "test": "./node_modules/.bin/jest",
-    "test:smoke": "rm -rf node_modules && npm install --prod && node ./lib/cli.js && echo 'Smoke Test Passed'"
+    "test:smoke":
+      "rm -rf node_modules && npm install --prod && node ./lib/cli.js && echo 'Smoke Test Passed'"
   },
   "repository": {
     "type": "git",
@@ -49,13 +50,8 @@
   },
   "jest": {
     "testEnvironment": "node",
-    "setupFiles": [
-      "<rootDir>/src/polyfills.js"
-    ],
-    "testMatch": [
-      "**/test/**/*.(js|ts)",
-      "**/test/*.(js|ts)"
-    ],
+    "setupFiles": ["<rootDir>/src/polyfills.js"],
+    "testMatch": ["**/test/**/*.(js|ts)", "**/test/*.(js|ts)"],
     "testPathIgnorePatterns": [
       "<rootDir>/node_modules/",
       "<rootDir>/lib/",
@@ -65,9 +61,6 @@
     "transform": {
       ".(js|ts)": "<rootDir>/test/preprocessor.js"
     },
-    "moduleFileExtensions": [
-      "ts",
-      "js"
-    ]
+    "moduleFileExtensions": ["ts", "js"]
   }
 }
