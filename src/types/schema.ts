@@ -2,13 +2,14 @@ import {
   GraphQLSchema,
   GraphQLObjectType,
   graphql,
-  printSchema
+  printSchema,
+  ExecutionResult,
 } from 'graphql';
 
 import { getGraphQLType } from './base';
 import { ObjectType } from './objecttype';
 
-type SchemaOptions = {
+export type SchemaOptions = {
   query: typeof ObjectType | GraphQLObjectType;
   mutation?: typeof ObjectType | GraphQLObjectType;
   subscription?: typeof ObjectType | GraphQLObjectType;

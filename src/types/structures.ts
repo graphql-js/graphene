@@ -1,4 +1,13 @@
-import { GraphQLList, GraphQLNonNull } from 'graphql';
+import {
+  GraphQLList,
+  GraphQLNonNull,
+  GraphQLEnumType,
+  GraphQLInputObjectType,
+  GraphQLInterfaceType,
+  GraphQLObjectType,
+  GraphQLScalarType,
+  GraphQLUnionType,
+} from 'graphql';
 import { GraphQLClassType, getGraphQLType } from './base';
 import {
   MountableField,
@@ -10,7 +19,7 @@ import { Field, FieldOptions } from './field';
 import { Argument, ArgumentOptions } from './argument';
 import { InputField, InputFieldOptions } from './inputfield';
 
-type AllOptions = FieldOptions<any> | ArgumentOptions | InputFieldOptions;
+export type AllOptions = FieldOptions<any> | ArgumentOptions | InputFieldOptions;
 
 export class List extends Mountable
   implements MountableField, MountableArgument, MountableInputField {
@@ -24,7 +33,7 @@ export class List extends Mountable
     if (this.options) {
       throw new Error(
         `The List options: ${this.options} will be dismissed.` +
-          `You will need to mount as a Field with using INSTANCE.toField()`
+        `You will need to mount as a Field with using INSTANCE.toField()`
       );
     }
     return new GraphQLList(getGraphQLType(this.ofType));
@@ -53,7 +62,7 @@ export class NonNull extends Mountable
     if (this.options) {
       throw new Error(
         `The NonNull options: ${this.options} will be dismissed.` +
-          `You will need to mount as a Field with using INSTANCE.toField()`
+        `You will need to mount as a Field with using INSTANCE.toField()`
       );
     }
     return new GraphQLNonNull(getGraphQLType(this.ofType));
