@@ -16,7 +16,7 @@ import {
 } from './mountable';
 import { GraphQLClassType } from './base';
 
-type ScalarOptions = FieldOptions<any> | InputFieldOptions | ArgumentOptions;
+export type ScalarOptions = FieldOptions<any> | InputFieldOptions | ArgumentOptions;
 
 export class Scalar<T = ScalarOptions> extends GraphQLClassType
   implements MountableField, MountableArgument, MountableInputField {
