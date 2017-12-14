@@ -20,7 +20,7 @@ export const GRAPHENE_TYPE_METADATA_KEY = 'graphene:type';
 export const GRAPHENE_FIELDS_METADATA_KEY = 'graphene:fields';
 export const GRAPHENE_DESCRIPTION_KEY = 'graphene:description';
 export const GRAPHENE_DEPRECATED_KEY = 'graphene:deprecated';
-export const GRAPHENE_ARGUMENTS_METADATA_KEY = 'graphene:arguments';
+// export const GRAPHENE_ARGUMENTS_METADATA_KEY = 'graphene:arguments';
 
 // A utility funciton to convert values like:
 // [String]
