@@ -16,7 +16,8 @@ import {
   GraphQLInterfaceType,
   GraphQLTypeResolver,
   GraphQLID,
-  GraphQLEnumType
+  GraphQLEnumType,
+  GraphQLEnumValueConfigMap
 } from 'graphql';
 
 import 'reflect-metadata';
@@ -361,22 +362,39 @@ export const InterfaceType = (opts: InterfaceTypeOptions = {}) => <
   // return target;
 };
 
+class BaseClass {}
+
+const BaseClassProperties = Object.getOwnPropertyNames(BaseClass);
+
+// We remove the properties automatically includes in the BaseClass
+// Such as .length, .name and .prototype
+const getStaticProperties = (_class: Object) => {
+  return Object.getOwnPropertyNames(_class).filter(
+    name => BaseClassProperties.indexOf(name) === -1
+  );
+};
+
 type EnumOptions = {
   name?: string;
   description?: string;
 };
 export const EnumType = (opts: EnumOptions = {}) => <
-  T extends { new (...args: any[]): {} }
+  T extends { new (...args: any[]): {}; [key: string]: any }
 >(
   target: T
 ): T => {
-  console.log(GraphQLEnumType, opts.name, target);
+  var values: GraphQLEnumValueConfigMap = {};
+  getStaticProperties(target).forEach(name => {
+    values[name] = {
+      value: target[name]
+    };
+  });
   setGraphQLType(
     target,
     new GraphQLEnumType({
       name: opts.name || target.name,
       description: opts.description,
-      values: {}
+      values: values
     })
   );
   return target;
