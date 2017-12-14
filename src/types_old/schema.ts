@@ -27,9 +27,7 @@ export class Schema extends GraphQLSchema {
         : undefined
     });
   }
-  execute(query: string, ...args: any[]) {
-    return graphql(this, query, ...args);
-  }
+  execute = graphql.bind(null, this);
   toString() {
     return printSchema(this);
   }

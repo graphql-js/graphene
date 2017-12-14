@@ -12,7 +12,16 @@
     "noUnusedParameters": true,
     "noUnusedLocals": true,
     "allowJs": true,
-    "allowUnreachableCode": true
+    "allowSyntheticDefaultImports": true,
+    "allowUnreachableCode": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
-  "include": ["src/**/*"]
+  "include": [
+    "src/types/*",
+    "src/index",
+    "test/*",
+    "examples/schema5.ts",
+    "examples/starwars-ts/*.ts"
+  ]
 }

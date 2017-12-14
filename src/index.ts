@@ -1,23 +1,7 @@
 export {
   ObjectType,
-  ResolverFunction,
-  InputObjectType,
-  Interface,
   Field,
-  UnmountedFieldMap,
-  InputField,
-  UnmountedInputFieldMap,
   Argument,
-  UnMountedArgumentMap,
-  Enum,
-  Scalar,
-  String,
-  Str,
-  Boolean,
-  Float,
-  ID,
-  Int,
-  Schema,
-  NonNull,
-  List
+  InterfaceType,
+  graphqlTypeFromType
 } from './types';

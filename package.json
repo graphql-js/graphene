@@ -9,7 +9,8 @@
     "watch": "tsc -w",
     "prepublish": "npm run clean && npm run compile",
     "test": "./node_modules/.bin/jest",
-    "test:smoke": "rm -rf node_modules && npm install --prod && node ./lib/cli.js && echo 'Smoke Test Passed'"
+    "test:smoke":
+      "rm -rf node_modules && npm install --prod && node ./lib/cli.js && echo 'Smoke Test Passed'"
   },
   "repository": {
     "type": "git",
@@ -27,15 +28,17 @@
     "@types/inflected": "^1.1.29",
     "@types/jest": "^20.0.6",
     "@types/mkdirp": "^0.5.0",
+    "@types/node": "^8.0.51",
     "@types/node-fetch": "^1.6.7",
     "@types/yargs": "^8.0.2",
     "ansi-regex": "^3.0.0",
     "common-tags": "^1.4.0",
     "jest": "^20.0.4",
     "jest-matcher-utils": "^20.0.3",
-    "typescript": "^2.5.2"
+    "typescript": "^2.6.1"
   },
   "dependencies": {
+    "@types/node": "^8.0.51",
     "change-case": "^3.0.1",
     "core-js": "^2.5.0",
     "glob": "^7.1.2",
@@ -43,18 +46,15 @@
     "inflected": "^2.0.2",
     "mkdirp": "^0.5.1",
     "node-fetch": "^1.7.2",
+    "reflect-metadata": "^0.1.10",
     "source-map-support": "^0.4.15",
+    "typescript": "^2.6.1",
     "yargs": "^8.0.2"
   },
   "jest": {
     "testEnvironment": "node",
-    "setupFiles": [
-      "<rootDir>/src/polyfills.js"
-    ],
-    "testMatch": [
-      "**/test/**/*.(js|ts)",
-      "**/test/*.(js|ts)"
-    ],
+    "setupFiles": ["<rootDir>/src/polyfills.js"],
+    "testMatch": ["**/test/**/*.(js|ts)", "**/test/*.(js|ts)"],
     "testPathIgnorePatterns": [
       "<rootDir>/node_modules/",
       "<rootDir>/lib/",
@@ -64,9 +64,6 @@
     "transform": {
       ".(js|ts)": "<rootDir>/test/preprocessor.js"
     },
-    "moduleFileExtensions": [
-      "ts",
-      "js"
-    ]
+    "moduleFileExtensions": ["ts", "js"]
   }
 }

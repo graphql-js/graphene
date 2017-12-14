@@ -34,13 +34,11 @@ npm install --save graphene-js
 Here is one example for you to get started:
 
 ```js
-import * as graphene from "graphene";
+import { ObjectType, Field, Schema } from "graphene";
 
-class Query extends graphene.ObjectType {
-  static fields = {
-    hello: new graphene.String()
-  };
-
+@ObjectType()
+class Query {
+  @Field(String)
   hello() {
     return "Hello world!";
   }
