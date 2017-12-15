@@ -2,7 +2,13 @@ import { GraphQLString, GraphQLType, GraphQLList } from 'graphql';
 import {
   setGraphQLType,
   getGraphQLType,
-  convertArrayToGraphQLList
+  convertArrayToGraphQLList,
+  setDescription,
+  getDescription,
+  description,
+  setDeprecationReason,
+  getDeprecationReason,
+  deprecated
 } from '../src/types/reflection';
 import { GraphQLInt } from 'graphql/type/scalars';
 
@@ -92,6 +98,83 @@ describe('Reflection integration', () => {
         convertArrayToGraphQLList([]);
       }).toThrowError(
         /Graphene Array definitions should contain exactly one element\./m
+      );
+    });
+  });
+
+  describe('description', () => {
+    var type: any;
+    beforeEach(() => {
+      class MyType {
+        myMethod() {}
+      }
+      type = MyType;
+    });
+
+    test('description on class', () => {
+      setDescription(type, 'The description');
+      expect(getDescription(type)).toBe('The description');
+    });
+
+    test('description on class method', () => {
+      setDescription(type, 'myMethod', 'Method description');
+      expect(getDescription(type, 'myMethod')).toBe('Method description');
+    });
+
+    test('description as class decorator', () => {
+      @description('The description')
+      class MyType {
+        myMethod() {}
+      }
+
+      expect(getDescription(MyType)).toBe('The description');
+    });
+
+    test('description as method decorator', () => {
+      class MyType {
+        @description('Method description')
+        myMethod() {}
+      }
+
+      expect(getDescription(MyType.prototype, 'myMethod')).toBe(
+        'Method description'
+      );
+    });
+  });
+
+  describe('deprecated', () => {
+    var type: any;
+    beforeEach(() => {
+      class MyType {
+        myMethod() {}
+      }
+      type = MyType;
+    });
+
+    test('deprecated on class method', () => {
+      setDeprecationReason(type, 'myMethod', 'Method deprecated');
+      expect(getDeprecationReason(type, 'myMethod')).toBe('Method deprecated');
+    });
+
+    test('deprecated decorator in class', () => {
+      expect(() => {
+        @deprecated('is deprecated')
+        class MyType {
+          myMethod() {}
+        }
+      }).toThrowError(
+        `Classes can't be decorated with the @deprecated decorator.`
+      );
+    });
+
+    test('deprecated decorator in static method', () => {
+      class MyType {
+        @deprecated('Method deprecated')
+        static myMethod() {}
+      }
+
+      expect(getDeprecationReason(MyType, 'myMethod')).toBe(
+        'Method deprecated'
       );
     });
   });

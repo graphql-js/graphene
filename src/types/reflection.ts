@@ -100,7 +100,7 @@ export const setDescription = (
   keyOrDescription: string,
   description?: string
 ) => {
-  if (arguments.length === 2) {
+  if (typeof description === 'undefined') {
     Reflect.defineMetadata(GRAPHENE_DESCRIPTION_KEY, keyOrDescription, target);
   } else {
     Reflect.defineMetadata(
@@ -160,7 +160,7 @@ export const description = (description: string) => (
   target: any,
   key?: string
 ) => {
-  if (key) {
+  if (typeof key !== 'undefined') {
     // It's a decorated method
     setDescription(target, key, description);
     return target[key];
@@ -177,9 +177,10 @@ export const description = (description: string) => (
 //     myMethod() {}
 //   }
 export const deprecated = (reason: string) => (target: any, key?: string) => {
-  if (key) {
+  if (typeof key !== 'undefined') {
     // It's a decorated method
-    setDeprecationReason(reason, target, key);
+    // console.log(reason, target, key);
+    setDeprecationReason(target, key, reason);
     return target[key];
   }
   // It's a decorated class
