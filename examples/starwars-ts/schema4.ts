@@ -3,12 +3,11 @@ import {
   InterfaceType,
   Schema,
   Field,
-  // Interface,
-  // String,
   ID,
   description,
   deprecated,
-  EnumType
+  EnumType,
+  NonNull
   // EnumValue
   // List,
   // Enum
@@ -18,11 +17,12 @@ import { getHero, getFriends, getHuman, getDroid } from './data';
 @EnumType()
 @description('The description')
 export class Episode {
-  @description('Released in 1977.') static NEWHOPE = 4;
-
-  @description('Released in 1980.') static EMPIRE = 5;
-
-  @description('Released in 1983.') static JEDI = 6;
+  // @description('Released in 1977.')
+  static NEWHOPE = 4;
+  // @description('Released in 1980.')
+  static EMPIRE = 5;
+  // @description('Released in 1983.')
+  static JEDI = 6;
 }
 
 @InterfaceType({
@@ -32,7 +32,7 @@ export class Episode {
 })
 @description('A character in the Star Wars Trilogy')
 export class Character {
-  @Field(ID)
+  @Field(NonNull(ID))
   @description('The id of the character.')
   @deprecated('This is no longer used')
   public id: string;
@@ -59,6 +59,7 @@ export class Character {
 @ObjectType({
   interfaces: [Character]
 })
+@description('A humanoid creature in the Star Wars universe.')
 export class Human implements Character {
   @Field(String)
   @description('The home planet of the human, or null if unknown..')

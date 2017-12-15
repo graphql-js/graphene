@@ -17,7 +17,9 @@ import {
   GraphQLTypeResolver,
   GraphQLID,
   GraphQLEnumType,
-  GraphQLEnumValueConfigMap
+  GraphQLEnumValueConfigMap,
+  GraphQLList,
+  GraphQLNonNull
 } from 'graphql';
 
 import 'reflect-metadata';
@@ -25,6 +27,7 @@ import { GraphQLSchema } from 'graphql/type/schema';
 import { getGraphQLType, setGraphQLType, setupNativeTypes } from './reflection';
 
 export const GRAPHENE_FIELDS_METADATA_KEY = 'graphene:fields';
+import { getDeprecationReason, getDescription } from './reflection';
 
 export {
   description,
@@ -47,6 +50,14 @@ export const Argument = (
     description,
     defaultValue
   };
+};
+
+export const List = (ofType: any) => {
+  return new GraphQLList(getGraphQLType(ofType));
+};
+
+export const NonNull = (ofType: any) => {
+  return new GraphQLNonNull(getGraphQLType(ofType));
 };
 
 export type ArgumentType = {
@@ -172,6 +183,7 @@ export const Field: FieldType = (type?: any, options: FieldOptions = {}) => (
     return {
       args: fieldArgs,
       type: _type,
+      description: getDescription(target, key),
       resolve: resolver
     };
   };
@@ -269,7 +281,7 @@ export const ObjectType = (opts: ObjectTypeOptions = {}) => <
     target,
     new GraphQLObjectType({
       name: opts.name || target.name,
-      description: opts.description,
+      description: opts.description || getDescription(target),
       interfaces: interfaces,
       fields: () => {
         var key: string;
@@ -335,7 +347,7 @@ export const InterfaceType = (opts: InterfaceTypeOptions = {}) => <
     target,
     new GraphQLInterfaceType({
       name: opts.name || target.name,
-      description: opts.description,
+      description: opts.description || getDescription(target),
       resolveType: resolveType,
       fields: () => {
         var key: string;
@@ -366,7 +378,7 @@ class BaseClass {}
 
 const BaseClassProperties = Object.getOwnPropertyNames(BaseClass);
 
-// We remove the properties automatically includes in the BaseClass
+// We remove the properties automatically included in the BaseClass
 // Such as .length, .name and .prototype
 const getStaticProperties = (_class: Object) => {
   return Object.getOwnPropertyNames(_class).filter(
@@ -393,7 +405,7 @@ export const EnumType = (opts: EnumOptions = {}) => <
     target,
     new GraphQLEnumType({
       name: opts.name || target.name,
-      description: opts.description,
+      description: opts.description || getDescription(target),
       values: values
     })
   );

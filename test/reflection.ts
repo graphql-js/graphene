@@ -140,6 +140,22 @@ describe('Reflection integration', () => {
         'Method description'
       );
     });
+
+    test('description on static value', () => {
+      class MyType {
+        @description('key description') static statickey = 1;
+      }
+
+      expect(getDescription(MyType, 'statickey')).toBe('key description');
+    });
+
+    test('description on value', () => {
+      class MyType {
+        @description('key description') key = 1;
+      }
+
+      expect(getDescription(MyType.prototype, 'key')).toBe('key description');
+    });
   });
 
   describe('deprecated', () => {

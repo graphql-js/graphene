@@ -162,7 +162,9 @@ export const description = (description: string) => (
 ) => {
   if (typeof key !== 'undefined') {
     // It's a decorated method
+    console.log('description', target, key, description);
     setDescription(target, key, description);
+    console.log('description end');
     return target[key];
   }
   // It's a decorated class
