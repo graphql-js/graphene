@@ -1,4 +1,4 @@
-import { Character, Human, Droid } from './schema3';
+import { Character, Human, Droid } from './schema';
 
 const luke: Human = {
   id: '1000',
@@ -72,8 +72,8 @@ const droidData: {
 };
 
 /**
-   * Helper function to get a character by ID.
-   */
+ * Helper function to get a character by ID.
+ */
 function getCharacter(id: string): Human | Droid {
   // Returning a promise just to illustrate GraphQL.js's support.
   return humanData[id] || droidData[id];
@@ -84,15 +84,15 @@ function getCharacter(id: string): Human | Droid {
 // }
 
 /**
-   * Allows us to query for a character's friendIds.
-   */
+ * Allows us to query for a character's friendIds.
+ */
 export function getFriends(character: Character): (Human | Droid)[] {
   return character.friendIds.map(id => getCharacter(id));
 }
 
 /**
-   * Allows us to fetch the undisputed hero of the Star Wars trilogy, R2-D2.
-   */
+ * Allows us to fetch the undisputed hero of the Star Wars trilogy, R2-D2.
+ */
 export function getHero(episode: number): Human | Droid {
   if (episode === 5) {
     // Luke is the hero of Episode V.
@@ -103,15 +103,15 @@ export function getHero(episode: number): Human | Droid {
 }
 
 /**
-   * Allows us to query for the human with the given id.
-   */
+ * Allows us to query for the human with the given id.
+ */
 export function getHuman(id: string): Human {
   return humanData[id];
 }
 
 /**
-   * Allows us to query for the droid with the given id.
-   */
+ * Allows us to query for the droid with the given id.
+ */
 export function getDroid(id: string): Droid {
   return droidData[id];
 }

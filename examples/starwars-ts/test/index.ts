@@ -1,4 +1,4 @@
-import schema, { Episode } from '../schema4';
+import schema, { Episode } from '../schema';
 
 describe('Interface', () => {
   test(`create Interface`, () => {

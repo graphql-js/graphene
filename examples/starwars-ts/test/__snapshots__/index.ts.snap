@@ -13,7 +13,7 @@ interface Character {
   friends: [Character]
 
   # Which movies they appear in.
-  appearsIn: Episode
+  appearsIn: [Episode]
 }
 
 # A mechanical creature in the Star Wars universe.
@@ -28,7 +28,7 @@ type Droid implements Character {
   friends: [Character]
 
   # Which movies they appear in.
-  appearsIn: Episode
+  appearsIn: [Episode]
 
   # The primary function of the droid, or null if unknown..
   primaryFunction: String
@@ -58,16 +58,16 @@ type Human implements Character {
   friends: [Character]
 
   # Which movies they appear in.
-  appearsIn: Episode
+  appearsIn: [Episode]
 
   # The home planet of the human, or null if unknown..
   homePlanet: String
 }
 
 type Query {
-  hero: Character
-  human: Human
-  droid: Droid
+  hero(episode: Episode): Character
+  human(id: String): Human
+  droid(id: String): Droid
 }
 "
 `;

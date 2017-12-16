@@ -398,7 +398,8 @@ export const EnumType = (opts: EnumOptions = {}) => <
   var values: GraphQLEnumValueConfigMap = {};
   getStaticProperties(target).forEach(name => {
     values[name] = {
-      value: target[name]
+      value: target[name],
+      description: getDescription(target, name)
     };
   });
   setGraphQLType(
