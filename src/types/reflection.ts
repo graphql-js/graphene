@@ -158,14 +158,13 @@ export const getDeprecationReason = (target: any, key: string) => {
 //   }
 export const description = (description: string) => (
   target: any,
-  key?: string
+  key?: string,
+  descriptor?: PropertyDescriptor
 ) => {
   if (typeof key !== 'undefined') {
     // It's a decorated method
-    console.log('description', target, key, description);
     setDescription(target, key, description);
-    console.log('description end');
-    return target[key];
+    return descriptor;
   }
   // It's a decorated class
   setDescription(target, description);
@@ -178,12 +177,16 @@ export const description = (description: string) => (
 //     @deprecated('This method is deprecated')
 //     myMethod() {}
 //   }
-export const deprecated = (reason: string) => (target: any, key?: string) => {
+export const deprecated = (reason: string) => (
+  target: any,
+  key: string,
+  descriptor: PropertyDescriptor
+) => {
   if (typeof key !== 'undefined') {
     // It's a decorated method
     // console.log(reason, target, key);
     setDeprecationReason(target, key, reason);
-    return target[key];
+    return descriptor;
   }
   // It's a decorated class
   throw new Error(

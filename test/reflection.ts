@@ -141,7 +141,15 @@ describe('Reflection integration', () => {
       );
     });
 
-    test('description on static value', () => {
+    test('description on static property', () => {
+      class MyType {
+        static statickey = 1;
+      }
+      setDescription(MyType, 'statickey', 'key description');
+      expect(getDescription(MyType, 'statickey')).toBe('key description');
+    });
+
+    test('description as decorator on static property', () => {
       class MyType {
         @description('key description') static statickey = 1;
       }
@@ -149,7 +157,7 @@ describe('Reflection integration', () => {
       expect(getDescription(MyType, 'statickey')).toBe('key description');
     });
 
-    test('description on value', () => {
+    test('description as decorator on property', () => {
       class MyType {
         @description('key description') key = 1;
       }
