@@ -17,11 +17,5 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
-  "include": [
-    "src/types/*",
-    "src/index",
-    "test/*",
-    "examples/schema5.ts",
-    "examples/starwars-ts/*.ts"
-  ]
+  "include": ["src/types/*", "src/index", "test/*", "examples/*"]
 }

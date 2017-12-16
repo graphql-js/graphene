@@ -184,7 +184,6 @@ export const deprecated = (reason: string) => (
 ) => {
   if (typeof key !== 'undefined') {
     // It's a decorated method
-    // console.log(reason, target, key);
     setDeprecationReason(target, key, reason);
     return descriptor;
   }

@@ -60,42 +60,6 @@ class Query {
   }
 }
 
-// @InterfaceType()
-// class MyIf {
-//   @Field(String) public x: string;
-// }
-
-// var Search = UnionType({
-//   name: 'Search',
-//   types: [Person, Query]
-// });
-
-// @EnumType()
-// class RGB {
-//   @EnumValue() RED = 0;
-//   @EnumValue() GREEN = 1;
-//   @EnumValue() BLUE = 2;
-// }
-// // class Search {
-// //   @PossibleType(Query)
-// //   @PossibleType(Person)
-// // }
-
-// class R implements MyIf {
-//   x: string;
-// }
-// console.log(new R());
-// var MyUnion = UnionType('MyUnion', [Query, Person])
-
-// // console.log(Reflect.getMetadata(GRAPHENE_FIELDS, Person));
-// var personType = Reflect.getMetadata(GRAPHENE_TYPE_METADATA_KEY, Person);
-// var queryType = Reflect.getMetadata(GRAPHENE_TYPE_METADATA_KEY, Query);
-// console.log(personType, personType.getFields());
-// console.log(queryType, queryType.getFields());
-// var p = new Person('2', 'remo', 'Jansen');
-// p.name = 'Remo';
-// // var n = p.name;
-
 var schema = new Schema({
   query: Query
 });

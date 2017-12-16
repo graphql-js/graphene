@@ -103,11 +103,6 @@ export const Field: FieldType = (type?: any, options: FieldOptions = {}) => (
   target: any,
   key: string
 ) => {
-  // property value
-  // console.log('Field', target, key);
-  // console.log(type, target, key, target.constructor);
-
-  // var _val = target[key];
   var _class = target.constructor;
   var fields: {
     [key: string]: () => GraphQLFieldConfig<any, any>;
@@ -119,22 +114,13 @@ export const Field: FieldType = (type?: any, options: FieldOptions = {}) => (
     fields = Reflect.getMetadata(GRAPHENE_FIELDS_METADATA_KEY, _class);
   }
   if (key in fields) {
-    throw new Error(`Field ${key} is already defined.`);
+    throw new Error(`Field ${key} is already defined in ${_class}.`);
   }
   fields[key] = () => {
     var _type = getGraphQLType(type);
     if (!isOutputType(_type)) {
       throw new Error('Type is not output');
     }
-    // Arg construction
-    // var decoratedArguments: ArgumentMap | null = null;
-    // if (target[key]) {
-    //   decoratedArguments = Reflect.getMetadata(
-    //     GRAPHENE_ARGUMENTS_METADATA_KEY,
-    //     target[key]
-    //   );
-    // }
-    // console.log('FIELD', target, key, decoratedArguments);
     var argKey: string;
     var args = options.args || {};
     var fieldArgs: ArgumentMap = {};
@@ -184,38 +170,11 @@ export const Field: FieldType = (type?: any, options: FieldOptions = {}) => (
       args: fieldArgs,
       type: _type,
       description: getDescription(target, key),
+      deprecationReason: getDeprecationReason(target, key),
       resolve: resolver
     };
   };
-  // console.log('TYPE', Reflect.getMetadata('design:type', target, key));
-  // console.log(
-  //   'RETURN TYPE',
-  //   Reflect.getMetadata('design:returntype', target, key)
-  // );
 };
-
-// export const argument = (type?: any, options?: ArgumentOptions) => (
-//   target: any,
-//   key: string
-//   // index: number
-// ) => {
-//   // console.log('argument', type, 'x', target, 'o', key, 'fin');
-//   var baseArguments: ArgumentMap;
-//   if (!Reflect.hasMetadata(GRAPHENE_ARGUMENTS_METADATA_KEY, target[key])) {
-//     baseArguments = {};
-//     Reflect.defineMetadata(
-//       GRAPHENE_ARGUMENTS_METADATA_KEY,
-//       baseArguments,
-//       target[key]
-//     );
-//   } else {
-//     baseArguments = Reflect.getMetadata(
-//       GRAPHENE_ARGUMENTS_METADATA_KEY,
-//       target[key]
-//     );
-//   }
-//   baseArguments[key] = new Argument(type, options);
-// };
 
 export type ObjectTypeOptions = {
   name?: string;
@@ -250,6 +209,7 @@ export const ObjectType = (opts: ObjectTypeOptions = {}) => <
   var allInterfaceFields: {
     [key: string]: () => GraphQLFieldConfig<any, any>;
   } = {};
+
   (opts.interfaces || []).forEach((_, index) => {
     var iface = (opts.interfaces || [])[index];
     var ifaceFields: FieldsMap = Reflect.getMetadata(
@@ -263,13 +223,14 @@ export const ObjectType = (opts: ObjectTypeOptions = {}) => <
       ...allInterfaceFields,
       ...ifaceFields
     };
-    // return ifaceFields;
   });
 
   var fields: {
     [key: string]: () => GraphQLFieldConfig<any, any>;
   } = {
+    // First we introduce the fields from the interfaces that we inherit
     ...allInterfaceFields,
+    // Then we retrieve the fields for the current type
     ...(Reflect.getMetadata(GRAPHENE_FIELDS_METADATA_KEY, target) || {})
   };
 
@@ -288,12 +249,6 @@ export const ObjectType = (opts: ObjectTypeOptions = {}) => <
         var finalFields: {
           [key: string]: GraphQLFieldConfig<any, any>;
         } = {};
-        // var ifaceFields: FieldsMap;
-        // for (ifaceFields of interfacesFields) {
-        //   for (key in ifaceFields) {
-        //     finalFields[key] = ifaceFields[key]();
-        //   }
-        // }
         for (key in fields) {
           finalFields[key] = fields[key]();
         }
@@ -302,16 +257,7 @@ export const ObjectType = (opts: ObjectTypeOptions = {}) => <
     })
   );
 
-  // var MYO = class extends target {
-  //   [P in keyof target]?: target[P]
-  // };
   return target;
-  // return class extends target implements MYI {
-  //   ra: boolean = true;
-  // };
-
-  // return new constructor (will override original)
-  // return target;
 };
 
 export type InterfaceTypeOptions = {
@@ -390,6 +336,7 @@ type EnumOptions = {
   name?: string;
   description?: string;
 };
+
 export const EnumType = (opts: EnumOptions = {}) => <
   T extends { new (...args: any[]): {}; [key: string]: any }
 >(
@@ -399,7 +346,8 @@ export const EnumType = (opts: EnumOptions = {}) => <
   getStaticProperties(target).forEach(name => {
     values[name] = {
       value: target[name],
-      description: getDescription(target, name)
+      description: getDescription(target, name),
+      deprecationReason: getDeprecationReason(target, name)
     };
   });
   setGraphQLType(

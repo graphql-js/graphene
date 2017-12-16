@@ -5,12 +5,8 @@ import {
   Field,
   ID,
   description,
-  deprecated,
   EnumType,
   NonNull
-  // EnumValue
-  // List,
-  // Enum
 } from '../../src/types';
 import { getHero, getFriends, getHuman, getDroid } from './data';
 
@@ -31,7 +27,6 @@ export class Episode {
 export class Character {
   @Field(NonNull(ID))
   @description('The id of the character.')
-  @deprecated('This is no longer used')
   public id: string;
 
   @Field(String)
@@ -106,14 +101,5 @@ class Query {
 const schema = new Schema({
   query: Query
 });
-
-// schema
-//   .execute(
-//     `{ hero {
-//   id
-// }
-// }`
-//   )
-//   .then(resp => console.log(resp));
 
 export default schema;
