@@ -3,5 +3,7 @@ export {
   Field,
   Argument,
   InterfaceType,
-  graphqlTypeFromType
+  InputObjectType,
+  InputField,
+  EnumType
 } from './types';

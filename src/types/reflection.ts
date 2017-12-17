@@ -15,11 +15,13 @@ import {
   GraphQLBoolean,
   assertType,
   isType,
-  GraphQLFieldConfig
+  GraphQLFieldConfig,
+  GraphQLInputFieldConfig
 } from 'graphql';
 
 export const GRAPHENE_TYPE_METADATA_KEY = 'graphene:type';
 export const GRAPHENE_FIELDS_METADATA_KEY = 'graphene:fields';
+export const GRAPHENE_INPUTFIELDS_METADATA_KEY = 'graphene:inputfields';
 export const GRAPHENE_DESCRIPTION_KEY = 'graphene:description';
 export const GRAPHENE_DEPRECATED_KEY = 'graphene:deprecated';
 // export const GRAPHENE_ARGUMENTS_METADATA_KEY = 'graphene:arguments';
@@ -85,6 +87,7 @@ export const setGraphQLType = (target: any, type: GraphQLType): void => {
   Reflect.defineMetadata(GRAPHENE_TYPE_METADATA_KEY, type, target);
 };
 
+// Field definitions
 export type UnmountedFieldMap = {
   [key: string]: () => GraphQLFieldConfig<any, any>;
 };
@@ -118,6 +121,48 @@ export const mountFields = (
 };
 
 export const assertFields = (target: any, fields: UnmountedFieldMap) => {
+  if (Object.keys(fields).length === 0) {
+    throw new Error(`Type ${target} must have fields defined on it.`);
+  }
+};
+
+// InputFieldDefinitions
+export type UnmountedInputFieldMap = {
+  [key: string]: () => GraphQLInputFieldConfig;
+};
+
+export type MountedInputFieldMap = {
+  [key: string]: GraphQLInputFieldConfig;
+};
+
+// Get the fields given a constructor
+export const getInputFields = (target: any): UnmountedInputFieldMap => {
+  var fields: UnmountedInputFieldMap;
+  if (!Reflect.hasMetadata(GRAPHENE_INPUTFIELDS_METADATA_KEY, target)) {
+    fields = {};
+    Reflect.defineMetadata(GRAPHENE_INPUTFIELDS_METADATA_KEY, fields, target);
+  } else {
+    fields = Reflect.getMetadata(GRAPHENE_INPUTFIELDS_METADATA_KEY, target);
+  }
+  return fields;
+};
+
+// mountFields
+export const mountInputFields = (
+  fields: UnmountedInputFieldMap
+) => (): MountedInputFieldMap => {
+  var key: string;
+  var finalFields: MountedInputFieldMap = {};
+  for (key in fields) {
+    finalFields[key] = fields[key]();
+  }
+  return finalFields;
+};
+
+export const assertInputFields = (
+  target: any,
+  fields: UnmountedInputFieldMap
+) => {
   if (Object.keys(fields).length === 0) {
     throw new Error(`Type ${target} must have fields defined on it.`);
   }

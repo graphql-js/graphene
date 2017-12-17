@@ -1,3 +1,4 @@
+import { GraphQLInputObjectType } from 'graphql';
 // import { getGraphQLType } from './../types_old/base';
 import {
   GraphQLObjectType,
@@ -32,7 +33,11 @@ import {
   getFields,
   assertFields,
   UnmountedFieldMap,
-  mountFields
+  mountFields,
+  getInputFields,
+  assertInputFields,
+  UnmountedInputFieldMap,
+  mountInputFields
 } from './reflection';
 
 export {
@@ -66,10 +71,8 @@ export const NonNull = (ofType: any) => {
   return new GraphQLNonNull(getGraphQLType(ofType));
 };
 
-export type ArgumentType = {
-  type: InputType;
-  description?: string;
-  defaultValue?: any;
+type ArgumentMap = {
+  [key: string]: GraphQLArgumentConfig;
 };
 
 type InputType =
@@ -78,16 +81,19 @@ type InputType =
   | typeof String
   | typeof Number
   | typeof Boolean;
+
+export type ArgumentType = {
+  type: InputType;
+  description?: string;
+  defaultValue?: any;
+};
+
 type FieldOptions = {
   args?: {
     [key: string]: ArgumentType | InputType;
   };
   description?: string;
   deprecationReason?: string;
-};
-
-type ArgumentMap = {
-  [key: string]: GraphQLArgumentConfig;
 };
 
 type FieldType = (
@@ -170,6 +176,52 @@ export const Field: FieldType = (type?: any, options: FieldOptions = {}) => (
       description: getDescription(target, key),
       deprecationReason: getDeprecationReason(target, key),
       resolve: resolver
+    };
+  };
+};
+
+type InputFieldOptions = {
+  defaultValue?: any;
+  description?: string;
+  deprecationReason?: string;
+};
+
+type InputFieldType = (
+  type?: any,
+  options?: InputFieldOptions
+) => (target: any, key: string) => void;
+
+// type InputFieldType = (
+//   type?: any,
+//   options?: InputFieldOptions
+// ) => (target: any, key: string) => void;
+
+// type InputFieldOptions = {
+//   description?: string;
+//   defaultValue?: any;
+// };
+
+export const InputField: InputFieldType = (
+  type?: any,
+  options: InputFieldOptions = {}
+) => (target: any, key: string) => {
+  var _class = target.constructor;
+  var fields: UnmountedInputFieldMap = getInputFields(_class);
+  if (key in fields) {
+    throw new Error(`Field ${key} is already defined in ${_class}.`);
+  }
+  fields[key] = () => {
+    var _type = getGraphQLType(type);
+    if (!isInputType(_type)) {
+      throw new Error('Type is not input');
+    }
+    var defaultValue: any = target[key];
+    return {
+      type: _type,
+      description: options.description || getDescription(target, key),
+      deprecationReason:
+        options.deprecationReason || getDeprecationReason(target, key),
+      defaultValue: options.defaultValue || defaultValue
     };
   };
 };
@@ -278,6 +330,31 @@ export const InterfaceType = (opts: InterfaceTypeOptions = {}) => <
 
   // return new constructor (will override original)
   // return target;
+};
+
+export type InputObjectTypeOptions = {
+  name?: string;
+  description?: string;
+};
+
+export const InputObjectType = (opts: InputObjectTypeOptions = {}) => <
+  T extends { new (...args: any[]): any }
+>(
+  target: T
+): T => {
+  var fields: UnmountedInputFieldMap = getInputFields(target);
+  assertInputFields(target, fields);
+
+  setGraphQLType(
+    target,
+    new GraphQLInputObjectType({
+      name: opts.name || target.name,
+      description: opts.description || getDescription(target),
+      fields: mountInputFields(fields)
+    })
+  );
+
+  return target;
 };
 
 class BaseClass {}
