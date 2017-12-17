@@ -12,6 +12,7 @@ import {
   GraphQLString,
   GraphQLFloat,
   GraphQLList,
+  GraphQLBoolean,
   assertType,
   isType,
   GraphQLFieldConfig
@@ -126,6 +127,7 @@ export const assertFields = (target: any, fields: UnmountedFieldMap) => {
 // the native String and Number types.
 export const setupNativeTypes = () => {
   setGraphQLType(String, GraphQLString);
+  setGraphQLType(Boolean, GraphQLBoolean);
   setGraphQLType(Number, GraphQLFloat);
 };
 
