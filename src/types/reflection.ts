@@ -13,7 +13,8 @@ import {
   GraphQLFloat,
   GraphQLList,
   assertType,
-  isType
+  isType,
+  GraphQLFieldConfig
 } from 'graphql';
 
 export const GRAPHENE_TYPE_METADATA_KEY = 'graphene:type';
@@ -81,6 +82,44 @@ export const setGraphQLType = (target: any, type: GraphQLType): void => {
   }
   // We define the type metadata through reflection
   Reflect.defineMetadata(GRAPHENE_TYPE_METADATA_KEY, type, target);
+};
+
+export type UnmountedFieldMap = {
+  [key: string]: () => GraphQLFieldConfig<any, any>;
+};
+
+export type MountedFieldMap = {
+  [key: string]: GraphQLFieldConfig<any, any>;
+};
+
+// Get the fields given a constructor
+export const getFields = (target: any): UnmountedFieldMap => {
+  var fields: UnmountedFieldMap;
+  if (!Reflect.hasMetadata(GRAPHENE_FIELDS_METADATA_KEY, target)) {
+    fields = {};
+    Reflect.defineMetadata(GRAPHENE_FIELDS_METADATA_KEY, fields, target);
+  } else {
+    fields = Reflect.getMetadata(GRAPHENE_FIELDS_METADATA_KEY, target);
+  }
+  return fields;
+};
+
+// mountFields
+export const mountFields = (
+  fields: UnmountedFieldMap
+) => (): MountedFieldMap => {
+  var key: string;
+  var finalFields: MountedFieldMap = {};
+  for (key in fields) {
+    finalFields[key] = fields[key]();
+  }
+  return finalFields;
+};
+
+export const assertFields = (target: any, fields: UnmountedFieldMap) => {
+  if (Object.keys(fields).length === 0) {
+    throw new Error(`Type ${target} must have fields defined on it.`);
+  }
 };
 
 // The setup function that permit us to use

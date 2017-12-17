@@ -1,6 +1,5 @@
 // import { getGraphQLType } from './../types_old/base';
 import {
-  GraphQLFieldConfig,
   GraphQLObjectType,
   // GraphQLArgumentConfig,
   isOutputType,
@@ -24,10 +23,17 @@ import {
 
 import 'reflect-metadata';
 import { GraphQLSchema } from 'graphql/type/schema';
-import { getGraphQLType, setGraphQLType, setupNativeTypes } from './reflection';
-
-export const GRAPHENE_FIELDS_METADATA_KEY = 'graphene:fields';
-import { getDeprecationReason, getDescription } from './reflection';
+import {
+  getGraphQLType,
+  setGraphQLType,
+  setupNativeTypes,
+  getDeprecationReason,
+  getDescription,
+  getFields,
+  assertFields,
+  UnmountedFieldMap,
+  mountFields
+} from './reflection';
 
 export {
   description,
@@ -104,15 +110,7 @@ export const Field: FieldType = (type?: any, options: FieldOptions = {}) => (
   key: string
 ) => {
   var _class = target.constructor;
-  var fields: {
-    [key: string]: () => GraphQLFieldConfig<any, any>;
-  };
-  if (!Reflect.hasMetadata(GRAPHENE_FIELDS_METADATA_KEY, _class)) {
-    fields = {};
-    Reflect.defineMetadata(GRAPHENE_FIELDS_METADATA_KEY, fields, _class);
-  } else {
-    fields = Reflect.getMetadata(GRAPHENE_FIELDS_METADATA_KEY, _class);
-  }
+  var fields: UnmountedFieldMap = getFields(_class);
   if (key in fields) {
     throw new Error(`Field ${key} is already defined in ${_class}.`);
   }
@@ -192,10 +190,6 @@ export const ObjectType = (opts: ObjectTypeOptions = {}) => <
   target: T
 ): T => {
   // save a reference to the original constructor
-  type FieldsMap = {
-    [key: string]: () => GraphQLFieldConfig<any, any>;
-  };
-
   var interfaces: GraphQLInterfaceType[] = (opts.interfaces || []).map(
     iface => {
       var ifaceType = getGraphQLType(iface);
@@ -206,37 +200,25 @@ export const ObjectType = (opts: ObjectTypeOptions = {}) => <
     }
   );
 
-  var allInterfaceFields: {
-    [key: string]: () => GraphQLFieldConfig<any, any>;
-  } = {};
+  var allInterfaceFields: UnmountedFieldMap = {};
 
   (opts.interfaces || []).forEach((_, index) => {
     var iface = (opts.interfaces || [])[index];
-    var ifaceFields: FieldsMap = Reflect.getMetadata(
-      GRAPHENE_FIELDS_METADATA_KEY,
-      iface
-    );
-    if (!ifaceFields) {
-      throw new Error(`Type ${target} must have at least one field.`);
-    }
+    var ifaceFields: UnmountedFieldMap = getFields(iface);
     allInterfaceFields = {
       ...allInterfaceFields,
       ...ifaceFields
     };
   });
 
-  var fields: {
-    [key: string]: () => GraphQLFieldConfig<any, any>;
-  } = {
+  var fields: UnmountedFieldMap = {
     // First we introduce the fields from the interfaces that we inherit
     ...allInterfaceFields,
     // Then we retrieve the fields for the current type
-    ...(Reflect.getMetadata(GRAPHENE_FIELDS_METADATA_KEY, target) || {})
+    ...getFields(target)
   };
 
-  if (!Object.keys(fields).length) {
-    throw new Error(`Type ${target} must have at least one field.`);
-  }
+  assertFields(target, fields);
 
   setGraphQLType(
     target,
@@ -244,16 +226,7 @@ export const ObjectType = (opts: ObjectTypeOptions = {}) => <
       name: opts.name || target.name,
       description: opts.description || getDescription(target),
       interfaces: interfaces,
-      fields: () => {
-        var key: string;
-        var finalFields: {
-          [key: string]: GraphQLFieldConfig<any, any>;
-        } = {};
-        for (key in fields) {
-          finalFields[key] = fields[key]();
-        }
-        return finalFields;
-      }
+      fields: mountFields(fields)
     })
   );
 
@@ -271,12 +244,8 @@ export const InterfaceType = (opts: InterfaceTypeOptions = {}) => <
 >(
   target: T
 ): T => {
-  var fields: {
-    [key: string]: () => GraphQLFieldConfig<any, any>;
-  } = Reflect.getMetadata(GRAPHENE_FIELDS_METADATA_KEY, target);
-  if (!fields) {
-    throw new Error(`Type ${target} must have at least one field.`);
-  }
+  var fields: UnmountedFieldMap = getFields(target);
+  assertFields(target, fields);
 
   var resolveType: GraphQLTypeResolver<any, any> = (
     root?: any,
@@ -295,16 +264,7 @@ export const InterfaceType = (opts: InterfaceTypeOptions = {}) => <
       name: opts.name || target.name,
       description: opts.description || getDescription(target),
       resolveType: resolveType,
-      fields: () => {
-        var key: string;
-        var finalFields: {
-          [key: string]: GraphQLFieldConfig<any, any>;
-        } = {};
-        for (key in fields) {
-          finalFields[key] = fields[key]();
-        }
-        return finalFields;
-      }
+      fields: mountFields(fields)
     })
   );
 
