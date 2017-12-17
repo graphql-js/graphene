@@ -13,8 +13,9 @@ Graphene-Python. (except on Rust!)
 
 That means, that we need to define twice the type definitions, and the types
 used in the corresponding implementation, making a gap between GraphQL and our
-native data types. Is important to note that this gap makes harder the
-implementation of the schema as well as it make it more prone to errors.
+native data types Is important to note that this gap makes harder the
+understanding and implementation of the schema and therefore make it more prone
+to errors in the integrations.
 
 After talking in the GraphQL Summit (anonuncing Graphene-JS) and watching some
 different talks](https://www.youtube.com/watch?v=9czIsWUoQJY) it started to
@@ -35,4 +36,84 @@ Is. That. Simple.
 
 ## Future
 
-By using the type reflection API from Typescript, we can directly skip
+By using the type reflection API from Typescript, we can directly skip the need
+of doing:
+
+```typescript
+@ObjectType()
+class User {
+  @Field(String) name: string;
+}
+```
+
+To simply do:
+
+```typescript
+@ObjectType()
+class User {
+  @Field() name: string;
+}
+```
+
+Similar thing can be achieved by using a flow plugin for babel.
+
+## Incremental adoption
+
+Probably big bunch of the GraphQL developers already have their schemas defined
+with GraphQL-js. If they want to use Graphene, there must be a way that can be
+adopted incrementally.
+
+Because of that, Graphene-JS has full interoperability with GraphQL types.
+
+### Want to use GraphQL-js types in Graphene?
+
+Easy, just reference the GraphQL types:
+
+```js
+@ObjectType()
+class User {
+  @Field(GraphQLString) // Note we are using GraphQLString instead of string
+  name;
+}
+```
+
+Same applies for interfaces of ObjectTypes, types of input fields, arguments...
+
+### Want to use Graphene types in GraphQL-js?
+
+Simple, just use `getGraphQLType`:
+
+```js
+import { getGraphQLType } from 'graphene';
+
+var schema = new GraphQLSchema({
+  query: new GraphQLObjectType({
+    name: 'RootQueryType',
+    fields: {
+      getUser: {
+        type: getGraphQLType(User),
+        resolve() {
+          return 'world';
+        }
+      }
+    }
+  })
+});
+```
+
+## Nice side effects
+
+Thanks for variable declarations in JS are processed before any code is
+executed, we can self-reference a type very easily with Graphene-JS.
+
+Like:
+
+```js
+@ObjectType()
+class User {
+  @Field([User])
+  friends() {
+    return getUsersFromIds(this.friendIds);
+  }
+}
+```
