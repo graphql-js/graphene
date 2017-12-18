@@ -275,8 +275,6 @@ export const deprecated = (reason: string) => (
   }
   // It's a decorated class
   throw new Error(
-    `Classes can't be decorated with the @deprecated decorator. Received ${
-      target
-    }.`
+    `Classes can't be decorated with the @deprecated decorator. Received ${target}.`
   );
 };

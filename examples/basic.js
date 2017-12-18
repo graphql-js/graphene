@@ -1,4 +1,4 @@
-import { ObjectType, String } from '../../src';
+import { ObjectType, Field } from '../../src';
 
 @ObjectType()
 class Query {

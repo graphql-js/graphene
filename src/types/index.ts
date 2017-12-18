@@ -1,10 +1,13 @@
-import { GraphQLInputObjectType } from 'graphql';
-// import { getGraphQLType } from './../types_old/base';
+/**
+ * Copyright (c) 2017-present, Graphene.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import {
   GraphQLObjectType,
-  // GraphQLArgumentConfig,
   isOutputType,
-  // GraphQLInputType,
   isInputType,
   GraphQLArgumentConfig,
   graphql,
@@ -16,14 +19,17 @@ import {
   GraphQLInterfaceType,
   GraphQLTypeResolver,
   GraphQLID,
+  GraphQLInt,
   GraphQLEnumType,
   GraphQLEnumValueConfigMap,
   GraphQLList,
-  GraphQLNonNull
+  GraphQLNonNull,
+  GraphQLInputObjectType,
+  GraphQLType,
+  GraphQLScalarType,
+  GraphQLSchema,
+  ExecutionResult
 } from 'graphql';
-
-import 'reflect-metadata';
-import { GraphQLSchema } from 'graphql/type/schema';
 import {
   getGraphQLType,
   setGraphQLType,
@@ -47,9 +53,17 @@ export {
   getDeprecationReason
 } from './reflection';
 
-export const ID = GraphQLID;
-
+export const ID: GraphQLScalarType = GraphQLID;
+export const Int: GraphQLScalarType = GraphQLInt;
 setupNativeTypes();
+
+export const List = (ofType: any): GraphQLList<GraphQLType> => {
+  return new GraphQLList(getGraphQLType(ofType));
+};
+
+export const NonNull = (ofType: any): GraphQLNonNull<GraphQLType> => {
+  return new GraphQLNonNull(getGraphQLType(ofType));
+};
 
 export const Argument = (
   type: InputType,
@@ -63,19 +77,11 @@ export const Argument = (
   };
 };
 
-export const List = (ofType: any) => {
-  return new GraphQLList(getGraphQLType(ofType));
-};
-
-export const NonNull = (ofType: any) => {
-  return new GraphQLNonNull(getGraphQLType(ofType));
-};
-
 type ArgumentMap = {
   [key: string]: GraphQLArgumentConfig;
 };
 
-type InputType =
+export type InputType =
   | GraphQLInputType
   | any
   | typeof String
@@ -88,7 +94,7 @@ export type ArgumentType = {
   defaultValue?: any;
 };
 
-type FieldOptions = {
+export type FieldOptions = {
   args?: {
     [key: string]: ArgumentType | InputType;
   };
@@ -96,22 +102,7 @@ type FieldOptions = {
   deprecationReason?: string;
 };
 
-type FieldType = (
-  type?: any,
-  options?: FieldOptions
-) => (target: any, key: string) => void;
-
-// type InputFieldType = (
-//   type?: any,
-//   options?: InputFieldOptions
-// ) => (target: any, key: string) => void;
-
-// type InputFieldOptions = {
-//   description?: string;
-//   defaultValue?: any;
-// };
-
-export const Field: FieldType = (type?: any, options: FieldOptions = {}) => (
+export const Field = (type?: any, options: FieldOptions = {}) => (
   target: any,
   key: string
 ) => {
@@ -148,9 +139,7 @@ export const Field: FieldType = (type?: any, options: FieldOptions = {}) => (
       var newType = getGraphQLType(argType);
       if (!isInputType(newType)) {
         throw new Error(
-          `Field argument ${argKey} expected to be Input type. Received: ${
-            argType
-          }.`
+          `Field argument ${argKey} expected to be Input type. Received: ${argType}.`
         );
       }
       fieldArgs[argKey] = {
@@ -186,25 +175,10 @@ type InputFieldOptions = {
   deprecationReason?: string;
 };
 
-type InputFieldType = (
-  type?: any,
-  options?: InputFieldOptions
-) => (target: any, key: string) => void;
-
-// type InputFieldType = (
-//   type?: any,
-//   options?: InputFieldOptions
-// ) => (target: any, key: string) => void;
-
-// type InputFieldOptions = {
-//   description?: string;
-//   defaultValue?: any;
-// };
-
-export const InputField: InputFieldType = (
-  type?: any,
-  options: InputFieldOptions = {}
-) => (target: any, key: string) => {
+export const InputField = (type?: any, options: InputFieldOptions = {}) => (
+  target: any,
+  key: string
+) => {
   var _class = target.constructor;
   var fields: UnmountedInputFieldMap = getInputFields(_class);
   if (key in fields) {
@@ -424,7 +398,7 @@ export class Schema extends GraphQLSchema {
       query: queryType
     });
   }
-  execute(query: string, ...args: any[]) {
+  execute(query: string, ...args: any[]): Promise<ExecutionResult> {
     return graphql(this, query, ...args);
   }
   toString() {
