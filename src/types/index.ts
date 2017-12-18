@@ -28,7 +28,9 @@ import {
   GraphQLType,
   GraphQLScalarType,
   GraphQLSchema,
-  ExecutionResult
+  ExecutionResult,
+  GraphQLDirective,
+  GraphQLNamedType
 } from 'graphql';
 import {
   getGraphQLType,
@@ -94,7 +96,7 @@ export type ArgumentType = {
   defaultValue?: any;
 };
 
-export type FieldOptions = {
+export type FieldConfig = {
   args?: {
     [key: string]: ArgumentType | InputType;
   };
@@ -102,7 +104,7 @@ export type FieldOptions = {
   deprecationReason?: string;
 };
 
-export const Field = (type?: any, options: FieldOptions = {}) => (
+export const Field = (type?: any, config: FieldConfig = {}) => (
   target: any,
   key: string
 ) => {
@@ -117,7 +119,7 @@ export const Field = (type?: any, options: FieldOptions = {}) => (
       throw new Error('Type is not output');
     }
     var argKey: string;
-    var args = options.args || {};
+    var args = config.args || {};
     var fieldArgs: ArgumentMap = {};
     for (argKey in args) {
       var arg: ArgumentType | InputType = args[argKey];
@@ -169,13 +171,13 @@ export const Field = (type?: any, options: FieldOptions = {}) => (
   };
 };
 
-type InputFieldOptions = {
+type InputFieldConfig = {
   defaultValue?: any;
   description?: string;
   deprecationReason?: string;
 };
 
-export const InputField = (type?: any, options: InputFieldOptions = {}) => (
+export const InputField = (type?: any, config: InputFieldConfig = {}) => (
   target: any,
   key: string
 ) => {
@@ -192,15 +194,15 @@ export const InputField = (type?: any, options: InputFieldOptions = {}) => (
     var defaultValue: any = target[key];
     return {
       type: _type,
-      description: options.description || getDescription(target, key),
+      description: config.description || getDescription(target, key),
       deprecationReason:
-        options.deprecationReason || getDeprecationReason(target, key),
-      defaultValue: options.defaultValue || defaultValue
+        config.deprecationReason || getDeprecationReason(target, key),
+      defaultValue: config.defaultValue || defaultValue
     };
   };
 };
 
-export type ObjectTypeOptions = {
+export type ObjectTypeConfig = {
   name?: string;
   description?: string;
   interfaces?: any[];
@@ -210,7 +212,7 @@ export type ObjectTypeOptions = {
 //   [key: string]: any;
 // }
 
-export const ObjectType = (opts: ObjectTypeOptions = {}) => <
+export const ObjectType = (opts: ObjectTypeConfig = {}) => <
   T extends { new (...args: any[]): any }
 >(
   target: T
@@ -259,13 +261,13 @@ export const ObjectType = (opts: ObjectTypeOptions = {}) => <
   return target;
 };
 
-export type InterfaceTypeOptions = {
+export type InterfaceTypeConfig = {
   name?: string;
   description?: string;
   resolveType?: (root?: any, context?: any, info?: GraphQLResolveInfo) => any;
 };
 
-export const InterfaceType = (opts: InterfaceTypeOptions = {}) => <
+export const InterfaceType = (opts: InterfaceTypeConfig = {}) => <
   T extends { new (...args: any[]): any }
 >(
   target: T
@@ -306,12 +308,12 @@ export const InterfaceType = (opts: InterfaceTypeOptions = {}) => <
   // return target;
 };
 
-export type InputObjectTypeOptions = {
+export type InputObjectTypeConfig = {
   name?: string;
   description?: string;
 };
 
-export const InputObjectType = (opts: InputObjectTypeOptions = {}) => <
+export const InputObjectType = (opts: InputObjectTypeConfig = {}) => <
   T extends { new (...args: any[]): any }
 >(
   target: T
@@ -343,12 +345,12 @@ const getStaticProperties = (_class: Object) => {
   );
 };
 
-type EnumOptions = {
+type EnumConfig = {
   name?: string;
   description?: string;
 };
 
-export const EnumType = (opts: EnumOptions = {}) => <
+export const EnumType = (opts: EnumConfig = {}) => <
   T extends { new (...args: any[]): {}; [key: string]: any }
 >(
   target: T
@@ -374,29 +376,55 @@ export const EnumType = (opts: EnumOptions = {}) => <
   // return class extends constructor {};
 };
 
-type EnumValueOptions = {
+type EnumValueConfig = {
   description?: string;
 };
 
-export const EnumValue = (options: EnumValueOptions = {}) => (
+export const EnumValue = (config: EnumValueConfig = {}) => (
   target: any,
   key: string
 ) => {
-  console.log('enumvalue', options, target, key);
+  console.log('enumvalue', config, target, key);
 };
 
-export type SchemaOptions = {
-  query: any;
+export type SchemaConfig = {
+  query?: any;
+  mutation?: any;
+  subscription?: any;
+  directives?: GraphQLDirective[];
+  types: any[];
+};
+
+type GraphQLSchemaConfig = {
+  query: GraphQLObjectType;
+  mutation?: GraphQLObjectType;
+  subscription?: GraphQLObjectType;
+  directives?: GraphQLDirective[];
+  types?: GraphQLNamedType[];
 };
 
 export class Schema extends GraphQLSchema {
-  constructor(options: SchemaOptions) {
-    var queryType: GraphQLObjectType = <GraphQLObjectType>getGraphQLType(
-      options.query
-    );
-    super({
-      query: queryType
-    });
+  constructor(config: SchemaConfig) {
+    var schemaConfig: GraphQLSchemaConfig = {
+      query: <GraphQLObjectType>getGraphQLType(config.query),
+      directives: config.directives
+    };
+    if (config.mutation) {
+      schemaConfig.mutation = <GraphQLObjectType>getGraphQLType(
+        config.mutation
+      );
+    }
+    if (config.subscription) {
+      schemaConfig.subscription = <GraphQLObjectType>getGraphQLType(
+        config.subscription
+      );
+    }
+    if (config.types) {
+      schemaConfig.types = config.types.map(
+        type => <GraphQLObjectType>getGraphQLType(type)
+      );
+    }
+    super(schemaConfig);
   }
   execute(query: string, ...args: any[]): Promise<ExecutionResult> {
     return graphql(this, query, ...args);
