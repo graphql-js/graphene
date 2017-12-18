@@ -69,14 +69,4 @@ const schema = new Schema({
   query: Query
 });
 
-// console.log(schema.toString());
-// schema
-//   .execute(
-//     `{ hero {
-//   id
-// }
-// }`
-//   )
-//   .then(resp => console.log(resp));
-
 export default schema;

@@ -17,7 +17,7 @@ import {
   GraphQLString
 } from 'graphql';
 
-import { getFriends, getHero, getHuman, getDroid } from './starWarsData.js';
+import { getFriends, getHero, getHuman, getDroid } from './data.js';
 
 const episodeEnum = new GraphQLEnumType({
   name: 'Episode',
@@ -163,6 +163,8 @@ const queryType = new GraphQLObjectType({
   })
 });
 
-export const StarWarsSchema = new GraphQLSchema({
+const schema = new GraphQLSchema({
   query: queryType
 });
+
+export default schema;

@@ -19,6 +19,7 @@
   "include": [
     "src/",
     "test/",
-    "examples/"
+    "examples/",
+    "examples/starwars-ts/*"
   ]
 }
