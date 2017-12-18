@@ -8,6 +8,7 @@ import {
   // GraphQLInt,
   GraphQLFloat
 } from 'graphql';
+import { GraphQLDateTime } from 'graphql-iso-date';
 // import { Field, InputField, Argument } from '../src';
 // import { Scalar, ID, Str, Boolean, Int, Float } from './../src/types/scalars';
 
@@ -101,6 +102,10 @@ describe('Scalar can be mounted', () => {
 
     test(`Float`, () => {
       expect(getGraphQLType(Number)).toBe(GraphQLFloat);
+    });
+
+    test(`Date`, () => {
+      expect(getGraphQLType(Date)).toBe(GraphQLDateTime);
     });
   });
 });
