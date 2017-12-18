@@ -17,9 +17,8 @@
     "emitDecoratorMetadata": true
   },
   "include": [
-    "src/types/*",
-    "src/index",
-    "test/*",
-    "examples/*"
+    "src/",
+    "test/",
+    "examples/"
   ]
 }
