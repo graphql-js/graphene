@@ -388,11 +388,11 @@ export const EnumValue = (config: EnumValueConfig = {}) => (
 };
 
 export type SchemaConfig = {
-  query?: any;
+  query: any;
   mutation?: any;
   subscription?: any;
   directives?: GraphQLDirective[];
-  types: any[];
+  types?: any[];
 };
 
 type GraphQLSchemaConfig = {

@@ -1,6 +1,6 @@
 import { ObjectType, InterfaceType, Field, Schema } from '../src/types';
 
-@InterfaceType({})
+@InterfaceType()
 class BasePerson {
   @Field(String) public id: string;
 }
@@ -8,7 +8,7 @@ class BasePerson {
 @ObjectType({
   interfaces: [BasePerson]
 })
-class Person {
+class Person implements BasePerson {
   @Field(String) public id: string;
 
   @Field(String) public name: string;
