@@ -11,11 +11,15 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedParameters": true,
-    "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "allowUnreachableCode": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
-  "include": ["src/types/*", "src/index", "test/*", "examples/*"]
+  "include": [
+    "src/types/*",
+    "src/index",
+    "test/*",
+    "examples/*"
+  ]
 }

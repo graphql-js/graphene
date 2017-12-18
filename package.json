@@ -38,18 +38,9 @@
     "typescript": "^2.6.1"
   },
   "dependencies": {
-    "@types/node": "^8.0.51",
-    "change-case": "^3.0.1",
-    "core-js": "^2.5.0",
-    "glob": "^7.1.2",
     "graphql": "^0.9.4",
-    "inflected": "^2.0.2",
-    "mkdirp": "^0.5.1",
-    "node-fetch": "^1.7.2",
-    "reflect-metadata": "^0.1.10",
-    "source-map-support": "^0.4.15",
-    "typescript": "^2.6.1",
-    "yargs": "^8.0.2"
+    "graphql-iso-date": "^3.3.0",
+    "reflect-metadata": "^0.1.10"
   },
   "jest": {
     "testEnvironment": "node",

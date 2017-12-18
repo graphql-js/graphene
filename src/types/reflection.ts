@@ -18,6 +18,7 @@ import {
   GraphQLFieldConfig,
   GraphQLInputFieldConfig
 } from 'graphql';
+import { GraphQLDateTime } from 'graphql-iso-date';
 
 export const GRAPHENE_TYPE_METADATA_KEY = 'graphene:type';
 export const GRAPHENE_FIELDS_METADATA_KEY = 'graphene:fields';
@@ -174,6 +175,7 @@ export const setupNativeTypes = () => {
   setGraphQLType(String, GraphQLString);
   setGraphQLType(Boolean, GraphQLBoolean);
   setGraphQLType(Number, GraphQLFloat);
+  setGraphQLType(Date, GraphQLDateTime);
 };
 
 // Description setter
@@ -263,10 +265,10 @@ export const description = (description: string) => (
 //     @deprecated('This method is deprecated')
 //     myMethod() {}
 //   }
-export const deprecated = (reason: string) => (
+export const deprecated = (reason: string) => <MethodDecorator>(
   target: any,
   key: string,
-  descriptor: PropertyDescriptor
+  descriptor: any
 ) => {
   if (typeof key !== 'undefined') {
     // It's a decorated method
