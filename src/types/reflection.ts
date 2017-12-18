@@ -267,8 +267,8 @@ export const description = (description: string) => (
 //   }
 export const deprecated = (reason: string) => <MethodDecorator>(
   target: any,
-  key: string,
-  descriptor: any
+  key?: string,
+  descriptor?: any
 ) => {
   if (typeof key !== 'undefined') {
     // It's a decorated method
