@@ -9,7 +9,22 @@ In each of the different GraphQL server implementations there is a clear
 separation between GraphQL types and the corresponding data types, including
 Graphene-Python (except on Juniper, Rust GraphQL framework).
 
-(example)
+```js
+// The data type
+type User = {
+  name: string
+};
+
+// The GraphQL type
+var UserType = new GraphQLObjectType({
+  name: 'RootQueryType',
+  fields: {
+    name: {
+      type: GraphQLString
+    }
+  }
+});
+```
 
 After talking in the GraphQL Summit (anonuncing Graphene-JS) and watching some
 [insightful talks](https://www.youtube.com/watch?v=9czIsWUoQJY) it started to
@@ -19,11 +34,13 @@ and the data types**.
 Not just because of the willing of a more stable long-term solution, but also
 because it will lead to ease the integration and use of GraphQL.
 
-# Graphene-JS
+# Introducing Graphene-JS
 
-Today, I'm presenting a revamped version of Graphene-JS. Which would make much
-easier to integrate in your current js architecture, by just... by just using
-decorators. This way you can reuse the data types you were using before, in the
+Today, I'm presenting a revamped version of Graphene-JS.
+Designed to ease the integration of GraphQL in your current js architecture,
+by just... **by just using decorators**.
+
+This way you can **reuse the data types** you were using before, in the
 same fashion you do with your models on MobX or TypeORM.
 
 Is. That. Simple.
@@ -40,7 +57,6 @@ class Query {
 }
 
 // Bonus: You can use the schema as any other instance of GraphQLSchema.
-// That means, you can use it as you been using GraphQLSchema before.
 var schema = new Schema({ query: Query });
 ```
 
@@ -51,10 +67,8 @@ In our examples, we moved from a [170 LOC schema](https://github.com/graphql-js/
 
 ## Incremental adoption
 
-For us is very important that GraphQL developers that already have their schemas
-defined with GraphQL-js can adopt Graphene in a incremental way. That means,
-without then need of rewriting everything at once, but slowly moving their types
-into more easy-to-read Graphene types.
+For us is very important that GraphQL developers can adopt Graphene in a
+incremental way.
 
 Because of that, Graphene-JS has **full interoperability** with GraphQL types.
 
