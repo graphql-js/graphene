@@ -4,7 +4,7 @@ language: node_js
 sudo: false
 
 node_js:
-  - "4"
+#  - "4"
   - "6"
   - "8"
 
@@ -24,6 +24,6 @@ script:
   - coveralls < ./coverage/lcov.info || true # if coveralls doesn't have it covered
 
 env:
-  - GRAPHQL_VERSION='^0.10'
-  - GRAPHQL_VERSION='^0.11'
+#  - GRAPHQL_VERSION='^0.10'
+#  - GRAPHQL_VERSION='^0.11'
   - GRAPHQL_VERSION='^0.12'
