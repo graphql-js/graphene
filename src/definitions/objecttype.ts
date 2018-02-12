@@ -32,7 +32,7 @@ export const ObjectType = (opts: ObjectTypeConfig = {}) => <
     iface => {
       var ifaceType = getGraphQLType(iface);
       if (!(ifaceType instanceof GraphQLInterfaceType)) {
-        throw new Error('Provided interface is not valid');
+        throw new Error(`Provided interface ${ifaceType} is not valid`);
       }
       return ifaceType;
     }

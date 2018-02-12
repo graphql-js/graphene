@@ -37,6 +37,20 @@ describe('ObjectType setup', () => {
     expect(new MyObjectType().hello()).toBe('World');
   });
 
+  test(`create ObjectType with wrong interfaces`, () => {
+    expect(() => {
+      @ObjectType({
+        interfaces: [String]
+      })
+      class MyObjectType {
+        @Field(String)
+        bar?(): string {
+          return 'Bar';
+        }
+      }
+    }).toThrowErrorMatchingSnapshot();
+  });
+
   test(`create ObjectType with interfaces`, () => {
     @InterfaceType()
     class MyInterface1 {

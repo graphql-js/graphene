@@ -42,13 +42,13 @@ export const EnumType = (opts: EnumTypeConfig = {}) => <
   return target;
 };
 
-export type EnumValueConfig = {
-  description?: string;
-};
+// export type EnumValueConfig = {
+//   description?: string;
+// };
 
-export const EnumValue = (config: EnumValueConfig = {}) => (
-  target: any,
-  key: string
-) => {
-  console.log('enumvalue', config, target, key);
-};
+// export const EnumValue = (config: EnumValueConfig = {}) => (
+//   target: any,
+//   key: string
+// ) => {
+//   console.log('enumvalue', config, target, key);
+// };

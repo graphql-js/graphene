@@ -52,6 +52,9 @@
       "<rootDir>/test/fixtures/",
       "<rootDir>/test/preprocessor.js"
     ],
+    "collectCoverage": true,
+    "collectCoverageFrom": ["src/**"],
+    "coveragePathIgnorePatterns": ["/node_modules/", ".*.d.ts"],
     "transform": {
       ".(js|ts)": "<rootDir>/test/preprocessor.js"
     },
