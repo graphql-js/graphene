@@ -1,0 +1,6 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InputObjectType create InputObjectType with no fields 1`] = `
+"Type class MyInputObject {
+            } must have fields defined on it."
+`;

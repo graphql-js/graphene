@@ -1,3 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`ObjectType setup create ObjectType with no fields 1`] = `
+"Type class MyObject {
+            } must have fields defined on it."
+`;
+
 exports[`ObjectType setup create ObjectType with wrong interfaces 1`] = `"Provided interface String is not valid"`;

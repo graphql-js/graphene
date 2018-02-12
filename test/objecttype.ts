@@ -37,6 +37,13 @@ describe('ObjectType setup', () => {
     expect(new MyObjectType().hello()).toBe('World');
   });
 
+  test(`create ObjectType with no fields`, () => {
+    expect(() => {
+      @ObjectType()
+      class MyObject {}
+    }).toThrowErrorMatchingSnapshot();
+  });
+
   test(`create ObjectType with wrong interfaces`, () => {
     expect(() => {
       @ObjectType({
