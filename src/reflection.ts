@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-
 import 'reflect-metadata';
 import {
   GraphQLType,
@@ -147,7 +146,7 @@ export const getInputFields = (target: any): UnmountedInputFieldMap => {
   return fields;
 };
 
-// mountFields
+// mountInputFields
 export const mountInputFields = (
   fields: UnmountedInputFieldMap
 ) => (): MountedInputFieldMap => {
