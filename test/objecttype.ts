@@ -1,5 +1,11 @@
 import { GraphQLObjectType, GraphQLInterfaceType } from 'graphql';
-import { getGraphQLType, ObjectType, Field, InterfaceType } from './../src/';
+import {
+  getGraphQLType,
+  ObjectType,
+  Field,
+  InterfaceType,
+  description
+} from './../src/';
 
 describe('ObjectType setup', () => {
   test(`create ObjectType properly`, () => {
@@ -14,6 +20,20 @@ describe('ObjectType setup', () => {
     expect(graphqlType.name).toBe('MyObjectType');
     expect(graphqlType.description).toBe(undefined);
   });
+
+  test(`create ObjectType description decorator`, () => {
+    @ObjectType()
+    @description('My Description')
+    class MyObjectType {
+      @Field(String) hello: string;
+    }
+    var graphqlType: GraphQLObjectType = <GraphQLObjectType>getGraphQLType(
+      MyObjectType
+    );
+
+    expect(graphqlType.description).toBe('My Description');
+  });
+
   test(`create ObjectType properly`, () => {
     @ObjectType({
       name: 'MyCustomObjectType',
