@@ -11,11 +11,12 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedParameters": true,
+    "allowJs": false,
     "allowSyntheticDefaultImports": true,
     "allowUnreachableCode": true,
     "strictPropertyInitialization": false,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
-  "include": ["src/", "test/", "examples/", "examples/starwars-ts/*"]
+  "include": ["src/**/*", "test/**/*", "examples/*", "examples/starwars-ts/*"]
 }
