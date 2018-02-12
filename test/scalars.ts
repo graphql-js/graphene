@@ -1,5 +1,3 @@
-import './../src/types';
-import { getGraphQLType } from './../src/types/reflection';
 import {
   // GraphQLScalarType,
   // GraphQLID,
@@ -9,6 +7,8 @@ import {
   GraphQLFloat
 } from 'graphql';
 import { GraphQLDateTime } from 'graphql-iso-date';
+import { getGraphQLType } from './../src';
+
 // import { Field, InputField, Argument } from '../src';
 // import { Scalar, ID, Str, Boolean, Int, Float } from './../src/types/scalars';
 

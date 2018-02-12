@@ -1,16 +1,15 @@
-import { GraphQLString, GraphQLType, GraphQLList } from 'graphql';
+import { GraphQLString, GraphQLType, GraphQLList, GraphQLInt } from 'graphql';
 import {
   setGraphQLType,
   getGraphQLType,
-  convertArrayToGraphQLList,
   setDescription,
   getDescription,
   description,
+  convertArrayToGraphQLList,
   setDeprecationReason,
   getDeprecationReason,
   deprecated
-} from '../src/types/reflection';
-import { GraphQLInt } from 'graphql/type/scalars';
+} from '../src/reflection';
 
 describe('Reflection integration', () => {
   describe('setGraphQLType', () => {
@@ -59,8 +58,8 @@ describe('Reflection integration', () => {
     });
 
     test('getGraphQLType calls convertArrayToGraphQLList if the provided is an Array.', () => {
-      jest.unmock('../src/types/reflection');
-      var reflection = require('../src/types/reflection');
+      jest.unmock('../src/reflection');
+      var reflection = require('../src/reflection');
       var prev = reflection.convertArrayToGraphQLList;
       var funcResult = new GraphQLList(GraphQLString);
       reflection.convertArrayToGraphQLList = jest.fn(() => funcResult);

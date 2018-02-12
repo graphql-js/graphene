@@ -25,12 +25,11 @@ export const GRAPHENE_FIELDS_METADATA_KEY = 'graphene:fields';
 export const GRAPHENE_INPUTFIELDS_METADATA_KEY = 'graphene:inputfields';
 export const GRAPHENE_DESCRIPTION_KEY = 'graphene:description';
 export const GRAPHENE_DEPRECATED_KEY = 'graphene:deprecated';
-// export const GRAPHENE_ARGUMENTS_METADATA_KEY = 'graphene:arguments';
 
 // A utility funciton to convert values like:
-// [String]
+//   [String]
 // To:
-// GraphQLList(GraphQLString)
+//   GraphQLList(GraphQLString)
 export const convertArrayToGraphQLList = (
   target: Array<any>
 ): GraphQLList<GraphQLType> => {
@@ -46,9 +45,9 @@ export const convertArrayToGraphQLList = (
 };
 
 // A utility funciton to convert values like:
-// String
+//   String
 // To:
-// GraphQLString
+//   GraphQLString
 // Note: for String -> GraphQLString conversion to work we have to call
 // setupNativeTypes
 export const getGraphQLType = (target: any): GraphQLType => {

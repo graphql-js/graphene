@@ -32,6 +32,7 @@ import {
   GraphQLDirective,
   GraphQLNamedType
 } from 'graphql';
+
 import {
   getGraphQLType,
   setGraphQLType,
@@ -46,27 +47,33 @@ import {
   assertInputFields,
   UnmountedInputFieldMap,
   mountInputFields
-} from './reflection';
-
-export {
-  description,
-  getDescription,
-  deprecated,
-  getDeprecationReason
-} from './reflection';
+} from '../reflection';
 
 export const ID: GraphQLScalarType = GraphQLID;
 export const Int: GraphQLScalarType = GraphQLInt;
 setupNativeTypes();
 
+// Helper funciton that will convert something like:
+// List(String)
+// To:
+// GraphQLList(GraphQLString)
 export const List = (ofType: any): GraphQLList<GraphQLType> => {
   return new GraphQLList(getGraphQLType(ofType));
 };
 
+// Helper funciton that will convert something like:
+// NonNull(String)
+// To:
+// GraphQLNonNull(GraphQLString)
 export const NonNull = (ofType: any): GraphQLNonNull<GraphQLType> => {
   return new GraphQLNonNull(getGraphQLType(ofType));
 };
 
+// Helper function that ease the creation of Arguments
+// This:
+// Argument(String, "The description", "value")
+// Will be converted to:
+// {type: String, description: "The description", defaultValue: "value"}
 export const Argument = (
   type: InputType,
   description?: string,
@@ -171,7 +178,7 @@ export const Field = (type?: any, config: FieldConfig = {}) => (
   };
 };
 
-type InputFieldConfig = {
+export type InputFieldConfig = {
   defaultValue?: any;
   description?: string;
   deprecationReason?: string;
@@ -207,10 +214,6 @@ export type ObjectTypeConfig = {
   description?: string;
   interfaces?: any[];
 };
-
-// class MYI {
-//   [key: string]: any;
-// }
 
 export const ObjectType = (opts: ObjectTypeConfig = {}) => <
   T extends { new (...args: any[]): any }
@@ -296,16 +299,7 @@ export const InterfaceType = (opts: InterfaceTypeConfig = {}) => <
     })
   );
 
-  // var MYO = class extends target {
-  //   [P in keyof target]?: target[P]
-  // };
   return target;
-  // return class extends target implements MYI {
-  //   ra: boolean = true;
-  // };
-
-  // return new constructor (will override original)
-  // return target;
 };
 
 export type InputObjectTypeConfig = {
@@ -345,12 +339,12 @@ const getStaticProperties = (_class: Object) => {
   );
 };
 
-type EnumConfig = {
+export type EnumTypeConfig = {
   name?: string;
   description?: string;
 };
 
-export const EnumType = (opts: EnumConfig = {}) => <
+export const EnumType = (opts: EnumTypeConfig = {}) => <
   T extends { new (...args: any[]): {}; [key: string]: any }
 >(
   target: T
@@ -372,11 +366,9 @@ export const EnumType = (opts: EnumConfig = {}) => <
     })
   );
   return target;
-  // // return constructor;
-  // return class extends constructor {};
 };
 
-type EnumValueConfig = {
+export type EnumValueConfig = {
   description?: string;
 };
 

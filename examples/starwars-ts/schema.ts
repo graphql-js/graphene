@@ -7,7 +7,7 @@ import {
   description,
   EnumType,
   NonNull
-} from '../../src/types';
+} from '../../src';
 import { getHero, getFriends, getHuman, getDroid } from './data';
 
 @EnumType()

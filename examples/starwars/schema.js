@@ -6,7 +6,7 @@ import {
   ID,
   EnumType,
   EnumValue
-} from '../../src/types';
+} from '../../src';
 import { getHero, getFriends, getHuman, getDroid } from './data';
 
 @EnumType()

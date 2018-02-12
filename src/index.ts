@@ -1,9 +1,36 @@
 export {
-  ObjectType,
-  Field,
+  setGraphQLType,
+  getGraphQLType,
+  setDescription,
+  getDescription,
+  description,
+  setDeprecationReason,
+  getDeprecationReason,
+  deprecated
+} from '../src/reflection';
+
+export {
+  ID,
+  Int,
+  List,
+  NonNull,
   Argument,
-  InterfaceType,
-  InputObjectType,
+  InputType,
+  ArgumentType,
+  FieldConfig,
+  Field,
+  InputFieldConfig,
   InputField,
-  EnumType
-} from './types';
+  ObjectTypeConfig,
+  ObjectType,
+  InterfaceTypeConfig,
+  InterfaceType,
+  InputObjectTypeConfig,
+  InputObjectType,
+  EnumTypeConfig,
+  EnumType,
+  EnumValueConfig,
+  EnumValue,
+  SchemaConfig,
+  Schema
+} from './definitions/index';
