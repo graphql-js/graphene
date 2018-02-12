@@ -24,6 +24,8 @@ For instaling graphene, just run this command in your shell
 
 ```bash
 npm install --save graphene-js
+# or
+yarn add graphene-js
 ```
 
 ## Examples
@@ -79,8 +81,6 @@ You can also get the coverage with:
 ```sh
 yarn test --coverage
 ```
-
-### Documentation
 
 ### Documentation
 
