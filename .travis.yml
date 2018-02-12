@@ -20,7 +20,7 @@ install:
 
 script:
   - npm run lint
-  - npm test --coverage
+  - npm test -- --coverage
   - coveralls < ./coverage/lcov.info || true # if coveralls doesn't have it covered
 
 env:
