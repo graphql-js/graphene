@@ -36,8 +36,6 @@ export {
   InputObjectType,
   EnumTypeConfig,
   EnumType,
-  // EnumValueConfig,
-  // EnumValue,
   SchemaConfig,
   Schema
 } from './definitions/index';

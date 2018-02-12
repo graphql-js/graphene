@@ -13,6 +13,7 @@ import {
 } from './../reflection';
 import { getStaticProperties } from './utils';
 
+// The provided configuration type when creating an EnumType.
 export type EnumTypeConfig = {
   name?: string;
   description?: string;
@@ -41,14 +42,3 @@ export const EnumType = (opts: EnumTypeConfig = {}) => <
   );
   return target;
 };
-
-// export type EnumValueConfig = {
-//   description?: string;
-// };
-
-// export const EnumValue = (config: EnumValueConfig = {}) => (
-//   target: any,
-//   key: string
-// ) => {
-//   console.log('enumvalue', config, target, key);
-// };

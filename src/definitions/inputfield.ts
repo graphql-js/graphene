@@ -14,6 +14,7 @@ import {
   getDeprecationReason
 } from './../reflection';
 
+// The provided configuration type when creating an InputField.
 export type InputFieldConfig = {
   defaultValue?: any;
   description?: string;

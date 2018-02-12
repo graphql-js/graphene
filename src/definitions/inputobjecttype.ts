@@ -15,6 +15,7 @@ import {
   mountInputFields
 } from './../reflection';
 
+// The provided configuration type when creating an InputObjectType.
 export type InputObjectTypeConfig = {
   name?: string;
   description?: string;

@@ -16,6 +16,7 @@ import {
   mountFields
 } from './../reflection';
 
+// The provided configuration type when creating an ObjectType.
 export type ObjectTypeConfig = {
   name?: string;
   description?: string;

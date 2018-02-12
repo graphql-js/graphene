@@ -17,6 +17,7 @@ import {
 
 import { getGraphQLType } from '../reflection';
 
+// The provided configuration type when creating a new Schema.
 export type SchemaConfig = {
   query: any;
   mutation?: any;

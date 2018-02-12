@@ -21,6 +21,7 @@ import {
   mountFields
 } from './../reflection';
 
+// The provided configuration type when creating an Interface.
 export type InterfaceTypeConfig = {
   name?: string;
   description?: string;

@@ -13,5 +13,4 @@ export { InputFieldConfig, InputField } from './inputfield';
 export { ObjectTypeConfig, ObjectType } from './objecttype';
 export { InterfaceTypeConfig, InterfaceType } from './interfacetype';
 export { InputObjectTypeConfig, InputObjectType } from './inputobjecttype';
-/* EnumValueConfig, EnumValue */
 export { EnumTypeConfig, EnumType } from './enum';

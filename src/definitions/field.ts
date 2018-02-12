@@ -25,9 +25,13 @@ import {
 
 // Helper function that ease the creation of Arguments
 // This:
-// Argument(String, "The description", "value")
+//   Argument(String, "The description", "value")
 // Will be converted to:
-// {type: String, description: "The description", defaultValue: "value"}
+//   {
+//     type: String,
+//     description: "The description",
+//     defaultValue: "value"
+//   }
 export const Argument = (
   type: InputType,
   description?: string,
@@ -57,6 +61,7 @@ export type ArgumentType = {
   defaultValue?: any;
 };
 
+// The provided configuration type when creating a Field.
 export type FieldConfig = {
   args?: {
     [key: string]: ArgumentType | InputType;
