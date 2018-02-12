@@ -50,5 +50,5 @@ export const EnumValue = (config: EnumValueConfig = {}) => (
   target: any,
   key: string
 ) => {
-  // console.log('enumvalue', config, target, key);
+  console.log('enumvalue', config, target, key);
 };

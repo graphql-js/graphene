@@ -1,4 +1,4 @@
-import { ObjectType, InterfaceType, Field, Schema } from '../src/types';
+import { ObjectType, InterfaceType, Field, Schema } from '../src';
 
 @InterfaceType()
 class BasePerson {
