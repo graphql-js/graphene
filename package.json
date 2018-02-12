@@ -38,8 +38,8 @@
     "typescript": "^2.7.1"
   },
   "dependencies": {
-    "graphql": "^0.9.4",
-    "graphql-iso-date": "^3.3.0",
+    "graphql": "^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0",
+    "graphql-iso-date": "^3.5.0",
     "reflect-metadata": "^0.1.12"
   },
   "jest": {
