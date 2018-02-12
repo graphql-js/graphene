@@ -47,7 +47,7 @@ var schema = new Schema({ query: Query });
 Thanks to this, you will be able to use GraphQL in a much more friendly
 way, with less code and improved readability.
 
-In our examples, we moved from a 170 LOC schema to a very easy to read 100 LOC schema.
+In our examples, we moved from a [170 LOC schema](https://github.com/graphql-js/graphene/blob/master/examples/starwars-raw/schema.js) to a very easy to read [100 LOC schema](https://github.com/graphql-js/graphene/blob/master/examples/starwars-ts/schema.ts).
 
 ## Incremental adoption
 

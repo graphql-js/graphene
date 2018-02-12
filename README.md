@@ -8,6 +8,8 @@
   We believe that by providing a complete API you could plug Graphene-JS anywhere your data lives and make your data available
   through GraphQL.
 
+Check also the [architecture docs](https://github.com/graphql-js/graphene/blob/master/ARCHITECTURE.md) to see how Graphene-JS is architected to ease the development of GraphQL in JS.
+
 ## Integrations
 
 Graphene has multiple integrations with different frameworks:
