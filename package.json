@@ -16,8 +16,21 @@
     "type": "git",
     "url": "graphql-js/graphene-js"
   },
+  "keywords": [
+    "GraphQL",
+    "Graphene",
+    "JavaScript",
+    "TypeScript",
+    "Schema",
+    "Schema Language",
+    "Tools"
+  ],
   "author": "Syrus Akbary <me@syrusakbary.com>",
   "license": "MIT",
+  "homepage": "https://github.com/graphql-js/graphene/",
+  "bugs": {
+    "url": "https://github.com/graphql-js/graphene/issues"
+  },
   "engines": {
     "node": ">=6.0"
   },
