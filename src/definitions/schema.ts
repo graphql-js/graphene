@@ -35,7 +35,7 @@ type GraphQLSchemaConfig = {
 
 export class Schema extends GraphQLSchema {
   constructor(config: SchemaConfig) {
-    var schemaConfig: GraphQLSchemaConfig = {
+    let schemaConfig: GraphQLSchemaConfig = {
       query: <GraphQLObjectType>getGraphQLType(config.query),
       directives: config.directives
     };
@@ -56,10 +56,10 @@ export class Schema extends GraphQLSchema {
     }
     super(schemaConfig);
   }
-  execute(query: string, ...args: any[]): Promise<ExecutionResult> {
+  public execute(query: string, ...args: any[]): Promise<ExecutionResult> {
     return graphql(this, query, ...args);
   }
-  toString() {
+  public toString() {
     return printSchema(this);
   }
 }

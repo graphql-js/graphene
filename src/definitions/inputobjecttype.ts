@@ -25,7 +25,7 @@ export const InputObjectType = (opts: InputObjectTypeConfig = {}) => <
 >(
   target: T
 ): T => {
-  var fields: UnmountedInputFieldMap = getInputFields(target);
+  const fields: UnmountedInputFieldMap = getInputFields(target);
   assertInputFields(target, fields);
 
   setGraphQLType(

@@ -9,8 +9,8 @@
     "watch": "tsc -w",
     "prepublish": "npm run clean && npm run compile",
     "test": "./node_modules/.bin/jest",
-    "test:smoke":
-      "rm -rf node_modules && npm install --prod && node ./lib/cli.js && echo 'Smoke Test Passed'"
+    "posttest": "npm run lint",
+    "lint": "tslint $(find src | grep ts$)"
   },
   "repository": {
     "type": "git",
@@ -48,6 +48,7 @@
     "common-tags": "^1.4.0",
     "jest": "^20.0.4",
     "jest-matcher-utils": "^20.0.3",
+    "tslint": "^5.9.1",
     "typescript": "^2.7.1"
   },
   "dependencies": {

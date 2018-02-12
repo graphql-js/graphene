@@ -69,23 +69,22 @@ export const Field = (type?: any, config: FieldConfig = {}) => (
   target: any,
   key: string
 ) => {
-  var _class = target.constructor;
-  var fields: UnmountedFieldMap = getFields(_class);
+  const _class = target.constructor;
+  let fields: UnmountedFieldMap = getFields(_class);
   if (key in fields) {
     throw new Error(`Field ${key} is already defined in ${_class}.`);
   }
   fields[key] = () => {
-    var _type = getGraphQLType(type);
+    const _type = getGraphQLType(type);
     if (!isOutputType(_type)) {
       throw new Error('Type is not output');
     }
-    var argKey: string;
-    var args = config.args || {};
-    var fieldArgs: ArgumentMap = {};
-    for (argKey in args) {
-      var arg: ArgumentType | InputType = args[argKey];
-      var extra: {};
-      var argType: any;
+    let args = config.args || {};
+    let fieldArgs: ArgumentMap = {};
+    for (let argKey in args) {
+      let arg: ArgumentType | InputType = args[argKey];
+      let extra: {};
+      let argType: any;
       if (
         typeof (<ArgumentType>arg).type !== 'undefined' &&
         !isInputType(<GraphQLInputType>arg)
@@ -99,7 +98,7 @@ export const Field = (type?: any, config: FieldConfig = {}) => (
         argType = arg;
       }
 
-      var newType = getGraphQLType(argType);
+      const newType = getGraphQLType(argType);
       if (!isInputType(newType)) {
         throw new Error(
           `Field argument ${argKey} expected to be Input type. Received: ${argType}.`
@@ -110,8 +109,8 @@ export const Field = (type?: any, config: FieldConfig = {}) => (
         ...extra
       };
     }
-    var targetResolver = target[key];
-    var resolver: GraphQLFieldResolver<any, any> = defaultFieldResolver;
+    const targetResolver = target[key];
+    let resolver: GraphQLFieldResolver<any, any> = defaultFieldResolver;
     if (typeof targetResolver === 'function') {
       resolver = (
         root: any,

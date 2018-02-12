@@ -28,9 +28,9 @@ export const ObjectType = (opts: ObjectTypeConfig = {}) => <
   target: T
 ): T => {
   // save a reference to the original constructor
-  var interfaces: GraphQLInterfaceType[] = (opts.interfaces || []).map(
+  const interfaces: GraphQLInterfaceType[] = (opts.interfaces || []).map(
     iface => {
-      var ifaceType = getGraphQLType(iface);
+      const ifaceType = getGraphQLType(iface);
       if (!(ifaceType instanceof GraphQLInterfaceType)) {
         throw new Error(`Provided interface ${ifaceType} is not valid`);
       }
@@ -38,18 +38,18 @@ export const ObjectType = (opts: ObjectTypeConfig = {}) => <
     }
   );
 
-  var allInterfaceFields: UnmountedFieldMap = {};
+  let allInterfaceFields: UnmountedFieldMap = {};
 
   (opts.interfaces || []).forEach((_, index) => {
-    var iface = (opts.interfaces || [])[index];
-    var ifaceFields: UnmountedFieldMap = getFields(iface);
+    const iface = (opts.interfaces || [])[index];
+    const ifaceFields: UnmountedFieldMap = getFields(iface);
     allInterfaceFields = {
       ...allInterfaceFields,
       ...ifaceFields
     };
   });
 
-  var fields: UnmountedFieldMap = {
+  const fields: UnmountedFieldMap = {
     // First we introduce the fields from the interfaces that we inherit
     ...allInterfaceFields,
     // Then we retrieve the fields for the current type

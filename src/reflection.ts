@@ -39,7 +39,7 @@ export const convertArrayToGraphQLList = (
       } elements.`
     );
   }
-  var innerType = getGraphQLType(target[0]);
+  const innerType = getGraphQLType(target[0]);
   return new GraphQLList(innerType);
 };
 
@@ -56,7 +56,7 @@ export const getGraphQLType = (target: any): GraphQLType => {
   if (isType(target)) {
     return target;
   }
-  var metadataType: GraphQLType = Reflect.getMetadata(
+  const metadataType: GraphQLType = Reflect.getMetadata(
     GRAPHENE_TYPE_METADATA_KEY,
     target
   );
@@ -97,7 +97,7 @@ export type MountedFieldMap = {
 
 // Get the fields given a constructor
 export const getFields = (target: any): UnmountedFieldMap => {
-  var fields: UnmountedFieldMap;
+  let fields: UnmountedFieldMap;
   if (!Reflect.hasMetadata(GRAPHENE_FIELDS_METADATA_KEY, target)) {
     fields = {};
     Reflect.defineMetadata(GRAPHENE_FIELDS_METADATA_KEY, fields, target);
@@ -111,9 +111,8 @@ export const getFields = (target: any): UnmountedFieldMap => {
 export const mountFields = (
   fields: UnmountedFieldMap
 ) => (): MountedFieldMap => {
-  var key: string;
-  var finalFields: MountedFieldMap = {};
-  for (key in fields) {
+  let finalFields: MountedFieldMap = {};
+  for (let key in fields) {
     finalFields[key] = fields[key]();
   }
   return finalFields;
@@ -136,7 +135,7 @@ export type MountedInputFieldMap = {
 
 // Get the fields given a constructor
 export const getInputFields = (target: any): UnmountedInputFieldMap => {
-  var fields: UnmountedInputFieldMap;
+  let fields: UnmountedInputFieldMap;
   if (!Reflect.hasMetadata(GRAPHENE_INPUTFIELDS_METADATA_KEY, target)) {
     fields = {};
     Reflect.defineMetadata(GRAPHENE_INPUTFIELDS_METADATA_KEY, fields, target);
@@ -150,9 +149,8 @@ export const getInputFields = (target: any): UnmountedInputFieldMap => {
 export const mountInputFields = (
   fields: UnmountedInputFieldMap
 ) => (): MountedInputFieldMap => {
-  var key: string;
-  var finalFields: MountedInputFieldMap = {};
-  for (key in fields) {
+  let finalFields: MountedInputFieldMap = {};
+  for (let key in fields) {
     finalFields[key] = fields[key]();
   }
   return finalFields;

@@ -24,17 +24,17 @@ export const InputField = (type?: any, config: InputFieldConfig = {}) => (
   target: any,
   key: string
 ) => {
-  var _class = target.constructor;
-  var fields: UnmountedInputFieldMap = getInputFields(_class);
+  const _class = target.constructor;
+  let fields: UnmountedInputFieldMap = getInputFields(_class);
   if (key in fields) {
     throw new Error(`Field ${key} is already defined in ${_class}.`);
   }
   fields[key] = () => {
-    var _type = getGraphQLType(type);
+    const _type = getGraphQLType(type);
     if (!isInputType(_type)) {
       throw new Error('Type is not input');
     }
-    var defaultValue: any = target[key];
+    const defaultValue: any = target[key];
     return {
       type: _type,
       description: config.description || getDescription(target, key),

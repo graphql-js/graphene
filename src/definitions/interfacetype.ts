@@ -32,10 +32,10 @@ export const InterfaceType = (opts: InterfaceTypeConfig = {}) => <
 >(
   target: T
 ): T => {
-  var fields: UnmountedFieldMap = getFields(target);
+  const fields: UnmountedFieldMap = getFields(target);
   assertFields(target, fields);
 
-  var resolveType: GraphQLTypeResolver<any, any> = (
+  const resolveType: GraphQLTypeResolver<any, any> = (
     root?: any,
     context?: any,
     info?: GraphQLResolveInfo
