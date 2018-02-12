@@ -35,12 +35,12 @@
     "common-tags": "^1.4.0",
     "jest": "^20.0.4",
     "jest-matcher-utils": "^20.0.3",
-    "typescript": "^2.6.1"
+    "typescript": "^2.7.1"
   },
   "dependencies": {
     "graphql": "^0.9.4",
     "graphql-iso-date": "^3.3.0",
-    "reflect-metadata": "^0.1.10"
+    "reflect-metadata": "^0.1.12"
   },
   "jest": {
     "testEnvironment": "node",
