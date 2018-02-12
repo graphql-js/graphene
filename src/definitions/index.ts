@@ -36,7 +36,6 @@ import {
 import {
   getGraphQLType,
   setGraphQLType,
-  setupNativeTypes,
   getDeprecationReason,
   getDescription,
   getFields,
@@ -50,26 +49,8 @@ import {
 } from '../reflection';
 
 export { SchemaConfig, Schema } from './schema';
-
-export const ID: GraphQLScalarType = GraphQLID;
-export const Int: GraphQLScalarType = GraphQLInt;
-setupNativeTypes();
-
-// Helper funciton that will convert something like:
-// List(String)
-// To:
-// GraphQLList(GraphQLString)
-export const List = (ofType: any): GraphQLList<GraphQLType> => {
-  return new GraphQLList(getGraphQLType(ofType));
-};
-
-// Helper funciton that will convert something like:
-// NonNull(String)
-// To:
-// GraphQLNonNull(GraphQLString)
-export const NonNull = (ofType: any): GraphQLNonNull<GraphQLType> => {
-  return new GraphQLNonNull(getGraphQLType(ofType));
-};
+export { ID, Int } from './scalars';
+export { List, NonNull } from './structures';
 
 // Helper function that ease the creation of Arguments
 // This:
