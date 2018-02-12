@@ -49,6 +49,8 @@ import {
   mountInputFields
 } from '../reflection';
 
+export { SchemaConfig, Schema } from './schema';
+
 export const ID: GraphQLScalarType = GraphQLID;
 export const Int: GraphQLScalarType = GraphQLInt;
 setupNativeTypes();
@@ -378,50 +380,3 @@ export const EnumValue = (config: EnumValueConfig = {}) => (
 ) => {
   console.log('enumvalue', config, target, key);
 };
-
-export type SchemaConfig = {
-  query: any;
-  mutation?: any;
-  subscription?: any;
-  directives?: GraphQLDirective[];
-  types?: any[];
-};
-
-type GraphQLSchemaConfig = {
-  query: GraphQLObjectType;
-  mutation?: GraphQLObjectType;
-  subscription?: GraphQLObjectType;
-  directives?: GraphQLDirective[];
-  types?: GraphQLNamedType[];
-};
-
-export class Schema extends GraphQLSchema {
-  constructor(config: SchemaConfig) {
-    var schemaConfig: GraphQLSchemaConfig = {
-      query: <GraphQLObjectType>getGraphQLType(config.query),
-      directives: config.directives
-    };
-    if (config.mutation) {
-      schemaConfig.mutation = <GraphQLObjectType>getGraphQLType(
-        config.mutation
-      );
-    }
-    if (config.subscription) {
-      schemaConfig.subscription = <GraphQLObjectType>getGraphQLType(
-        config.subscription
-      );
-    }
-    if (config.types) {
-      schemaConfig.types = config.types.map(
-        type => <GraphQLObjectType>getGraphQLType(type)
-      );
-    }
-    super(schemaConfig);
-  }
-  execute(query: string, ...args: any[]): Promise<ExecutionResult> {
-    return graphql(this, query, ...args);
-  }
-  toString() {
-    return printSchema(this);
-  }
-}
