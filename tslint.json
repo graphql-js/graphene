@@ -83,7 +83,6 @@
       true,
       "check-format",
       "allow-leading-underscore",
-      "ban-keywords",
       "allow-pascal-case"
     ],
     "whitespace": [

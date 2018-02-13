@@ -1,5 +1,6 @@
 import { GraphQLList, GraphQLString, GraphQLNonNull } from "graphql";
-import { getGraphQLType, List, NonNull } from "./../";
+import { getGraphQLType } from "../../reflection";
+import { List, NonNull } from "./../";
 // import { GraphQLID, GraphQLList, GraphQLNonNull } from 'graphql';
 // import { Field, InputField, Argument } from '../src';
 // import { ID } from './../src/types/scalars';

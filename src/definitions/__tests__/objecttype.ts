@@ -1,11 +1,6 @@
 import { GraphQLObjectType, GraphQLInterfaceType } from "graphql";
-import {
-  getGraphQLType,
-  ObjectType,
-  Field,
-  InterfaceType,
-  description
-} from "./../";
+import { getGraphQLType, description } from "../../reflection";
+import { ObjectType, Field, InterfaceType } from "./../";
 
 describe("ObjectType setup", () => {
   test(`create ObjectType properly`, () => {

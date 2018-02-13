@@ -5,15 +5,8 @@ import {
   GraphQLNonNull,
   GraphQLObjectType
 } from "graphql";
-import {
-  getGraphQLType,
-  Schema,
-  ObjectType,
-  InterfaceType,
-  Field,
-  List,
-  NonNull
-} from "./../";
+import { getGraphQLType } from "../../reflection";
+import { Schema, ObjectType, InterfaceType, Field, List, NonNull } from "./../";
 
 describe("Schema", () => {
   @InterfaceType()

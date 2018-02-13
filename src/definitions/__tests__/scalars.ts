@@ -7,7 +7,7 @@ import {
   GraphQLFloat
 } from "graphql";
 import { GraphQLDateTime } from "graphql-iso-date";
-import { getGraphQLType } from "./../";
+import { getGraphQLType, setupNativeTypes } from "../../reflection";
 
 // import { Field, InputField, Argument } from '../src';
 // import { Scalar, ID, Str, Boolean, Int, Float } from './../src/types/scalars';
@@ -92,6 +92,8 @@ describe("Scalar can be mounted", () => {
   // });
 
   describe("Pre-defined scalars", () => {
+    setupNativeTypes();
+
     test(`String`, () => {
       expect(getGraphQLType(String)).toBe(GraphQLString);
     });

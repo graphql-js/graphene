@@ -1,5 +1,6 @@
 import { GraphQLEnumType } from "graphql";
-import { getGraphQLType, EnumType } from "../";
+import { getGraphQLType } from "../../reflection";
+import { EnumType } from "../";
 
 describe("Enum creation", () => {
   test(`create Enum`, () => {
