@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import 'reflect-metadata';
+import "reflect-metadata";
 import {
   GraphQLType,
   GraphQLString,
@@ -16,14 +16,14 @@ import {
   isType,
   GraphQLFieldConfig,
   GraphQLInputFieldConfig
-} from 'graphql';
-import { GraphQLDateTime } from 'graphql-iso-date';
+} from "graphql";
+import { GraphQLDateTime } from "graphql-iso-date";
 
-export const GRAPHENE_TYPE_METADATA_KEY = 'graphene:type';
-export const GRAPHENE_FIELDS_METADATA_KEY = 'graphene:fields';
-export const GRAPHENE_INPUTFIELDS_METADATA_KEY = 'graphene:inputfields';
-export const GRAPHENE_DESCRIPTION_KEY = 'graphene:description';
-export const GRAPHENE_DEPRECATED_KEY = 'graphene:deprecated';
+export const GRAPHENE_TYPE_METADATA_KEY = "graphene:type";
+export const GRAPHENE_FIELDS_METADATA_KEY = "graphene:fields";
+export const GRAPHENE_INPUTFIELDS_METADATA_KEY = "graphene:inputfields";
+export const GRAPHENE_DESCRIPTION_KEY = "graphene:description";
+export const GRAPHENE_DEPRECATED_KEY = "graphene:deprecated";
 
 // A utility funciton to convert values like:
 //   [String]
@@ -184,7 +184,7 @@ export const setDescription = (
   keyOrDescription: string,
   description?: string
 ) => {
-  if (typeof description === 'undefined') {
+  if (typeof description === "undefined") {
     Reflect.defineMetadata(GRAPHENE_DESCRIPTION_KEY, keyOrDescription, target);
   } else {
     Reflect.defineMetadata(
@@ -245,7 +245,7 @@ export const description = (description: string) => (
   key?: string,
   descriptor?: PropertyDescriptor
 ) => {
-  if (typeof key !== 'undefined') {
+  if (typeof key !== "undefined") {
     // It's a decorated method
     setDescription(target, key, description);
     return descriptor;
@@ -266,7 +266,7 @@ export const deprecated = (reason: string) => <MethodDecorator>(
   key?: string,
   descriptor?: any
 ) => {
-  if (typeof key !== 'undefined') {
+  if (typeof key !== "undefined") {
     // It's a decorated method
     setDeprecationReason(target, key, reason);
     return descriptor;

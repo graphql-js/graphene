@@ -1,30 +1,30 @@
-import { GraphQLEnumType } from 'graphql';
-import { getGraphQLType, EnumType } from '../src';
+import { GraphQLEnumType } from "graphql";
+import { getGraphQLType, EnumType } from "../";
 
-describe('Enum creation', () => {
+describe("Enum creation", () => {
   test(`create Enum`, () => {
     @EnumType({})
     class MyEnum {
-      static FOO = 'bar';
+      static FOO = "bar";
     }
 
     var graphqlType: GraphQLEnumType = <GraphQLEnumType>getGraphQLType(MyEnum);
-    expect(graphqlType.name).toBe('MyEnum');
+    expect(graphqlType.name).toBe("MyEnum");
     expect(graphqlType.description).toBe(undefined);
   });
 
   test(`create Enum custom settings`, () => {
     @EnumType({
-      name: 'MyCustomEnum',
-      description: 'MyCustomEnum Description'
+      name: "MyCustomEnum",
+      description: "MyCustomEnum Description"
     })
     class MyEnum {
-      static FOO = 'bar';
+      static FOO = "bar";
     }
 
     var graphqlType: GraphQLEnumType = <GraphQLEnumType>getGraphQLType(MyEnum);
-    expect(graphqlType.name).toBe('MyCustomEnum');
-    expect(graphqlType.description).toBe('MyCustomEnum Description');
+    expect(graphqlType.name).toBe("MyCustomEnum");
+    expect(graphqlType.description).toBe("MyCustomEnum Description");
   });
 
   test(`create Enum with Values`, () => {
@@ -39,7 +39,7 @@ describe('Enum creation', () => {
 
   test(`create Enum graphql type`, () => {
     @EnumType({
-      description: 'Desc'
+      description: "Desc"
     })
     class MyEnum {
       static VALUE1 = 1;
@@ -47,21 +47,21 @@ describe('Enum creation', () => {
     }
     var graphqlType: GraphQLEnumType = <GraphQLEnumType>getGraphQLType(MyEnum);
     expect(graphqlType).toBeInstanceOf(GraphQLEnumType);
-    expect(graphqlType.name).toBe('MyEnum');
-    expect(graphqlType.description).toBe('Desc');
+    expect(graphqlType.name).toBe("MyEnum");
+    expect(graphqlType.description).toBe("Desc");
     expect(graphqlType.getValues()).toMatchObject([
       {
         // "deprecationReason": undefined,
         // "description": "Value1 description",
         // "isDeprecated": false,
-        name: 'VALUE1',
+        name: "VALUE1",
         value: 1
       },
       {
         // "deprecationReason": "Value2 is deprecated",
         // "description": "Value2 description",
         // "isDeprecated": true,
-        name: 'VALUE2',
+        name: "VALUE2",
         value: 2
       }
     ]);

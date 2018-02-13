@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { GraphQLInputObjectType } from 'graphql';
+import { GraphQLInputObjectType } from "graphql";
 import {
   UnmountedInputFieldMap,
   getInputFields,
@@ -13,7 +13,7 @@ import {
   setGraphQLType,
   getDescription,
   mountInputFields
-} from './../reflection';
+} from "./../reflection";
 
 // The provided configuration type when creating an InputObjectType.
 export type InputObjectTypeConfig = {

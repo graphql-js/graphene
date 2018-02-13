@@ -5,8 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { getGraphQLType } from './../reflection';
-import { GraphQLList, GraphQLType, GraphQLNonNull } from 'graphql';
+import { getGraphQLType } from "./../reflection";
+import { GraphQLList, GraphQLType, GraphQLNonNull } from "graphql";
 
 // Helper funciton that will convert something like:
 // List(String)

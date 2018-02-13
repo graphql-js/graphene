@@ -1,4 +1,4 @@
-import { GraphQLString, GraphQLType, GraphQLList, GraphQLInt } from 'graphql';
+import { GraphQLString, GraphQLType, GraphQLList, GraphQLInt } from "graphql";
 import {
   setGraphQLType,
   getGraphQLType,
@@ -9,10 +9,10 @@ import {
   setDeprecationReason,
   getDeprecationReason,
   deprecated
-} from '../src/reflection';
+} from "../reflection";
 
-describe('Reflection integration', () => {
-  describe('setGraphQLType', () => {
+describe("Reflection integration", () => {
+  describe("setGraphQLType", () => {
     var type: any;
     beforeEach(() => {
       class MyType {}
@@ -38,28 +38,28 @@ describe('Reflection integration', () => {
     });
   });
 
-  describe('getGraphQLType', () => {
+  describe("getGraphQLType", () => {
     var type: any;
     beforeEach(() => {
       class MyType {}
       type = MyType;
     });
 
-    test('getGraphQLType throws if have no type attached', () => {
+    test("getGraphQLType throws if have no type attached", () => {
       expect(() => {
         getGraphQLType(type);
       }).toThrowError(/have no GraphQL type associated to it\./m);
     });
 
-    test('getGraphQLType works if provided a GraphQLType', () => {
+    test("getGraphQLType works if provided a GraphQLType", () => {
       expect(getGraphQLType(GraphQLString)).toBe(GraphQLString);
       var listOfString = new GraphQLList(GraphQLString);
       expect(getGraphQLType(listOfString)).toBe(listOfString);
     });
 
-    test('getGraphQLType calls convertArrayToGraphQLList if the provided is an Array.', () => {
-      jest.unmock('../src/reflection');
-      var reflection = require('../src/reflection');
+    test("getGraphQLType calls convertArrayToGraphQLList if the provided is an Array.", () => {
+      jest.unmock("../reflection");
+      var reflection = require("../reflection");
       var prev = reflection.convertArrayToGraphQLList;
       var funcResult = new GraphQLList(GraphQLString);
       reflection.convertArrayToGraphQLList = jest.fn(() => funcResult);
@@ -70,7 +70,7 @@ describe('Reflection integration', () => {
     });
   });
 
-  describe('convertArrayToGraphQLList', () => {
+  describe("convertArrayToGraphQLList", () => {
     var type: any;
     beforeEach(() => {
       class MyType {}
@@ -78,13 +78,13 @@ describe('Reflection integration', () => {
       setGraphQLType(type, GraphQLString);
     });
 
-    test('convertArrayToGraphQLList should work if array have length 1', () => {
+    test("convertArrayToGraphQLList should work if array have length 1", () => {
       var converted: GraphQLList<any> = convertArrayToGraphQLList([type]);
       expect(converted).toBeInstanceOf(GraphQLList);
       expect(converted.ofType).toBe(GraphQLString);
     });
 
-    test('convertArrayToGraphQLList should fail if length of array is > 1', () => {
+    test("convertArrayToGraphQLList should fail if length of array is > 1", () => {
       expect(() => {
         convertArrayToGraphQLList([type, type]);
       }).toThrowError(
@@ -92,7 +92,7 @@ describe('Reflection integration', () => {
       );
     });
 
-    test('convertArrayToGraphQLList should fail if length of array is == 0', () => {
+    test("convertArrayToGraphQLList should fail if length of array is == 0", () => {
       expect(() => {
         convertArrayToGraphQLList([]);
       }).toThrowError(
@@ -101,7 +101,7 @@ describe('Reflection integration', () => {
     });
   });
 
-  describe('description', () => {
+  describe("description", () => {
     var type: any;
     beforeEach(() => {
       class MyType {
@@ -110,62 +110,62 @@ describe('Reflection integration', () => {
       type = MyType;
     });
 
-    test('description on class', () => {
-      setDescription(type, 'The description');
-      expect(getDescription(type)).toBe('The description');
+    test("description on class", () => {
+      setDescription(type, "The description");
+      expect(getDescription(type)).toBe("The description");
     });
 
-    test('description on class method', () => {
-      setDescription(type, 'myMethod', 'Method description');
-      expect(getDescription(type, 'myMethod')).toBe('Method description');
+    test("description on class method", () => {
+      setDescription(type, "myMethod", "Method description");
+      expect(getDescription(type, "myMethod")).toBe("Method description");
     });
 
-    test('description as class decorator', () => {
-      @description('The description')
+    test("description as class decorator", () => {
+      @description("The description")
       class MyType {
         myMethod() {}
       }
 
-      expect(getDescription(MyType)).toBe('The description');
+      expect(getDescription(MyType)).toBe("The description");
     });
 
-    test('description as method decorator', () => {
+    test("description as method decorator", () => {
       class MyType {
-        @description('Method description')
+        @description("Method description")
         myMethod() {}
       }
 
-      expect(getDescription(MyType.prototype, 'myMethod')).toBe(
-        'Method description'
+      expect(getDescription(MyType.prototype, "myMethod")).toBe(
+        "Method description"
       );
     });
 
-    test('description on static property', () => {
+    test("description on static property", () => {
       class MyType {
         static statickey = 1;
       }
-      setDescription(MyType, 'statickey', 'key description');
-      expect(getDescription(MyType, 'statickey')).toBe('key description');
+      setDescription(MyType, "statickey", "key description");
+      expect(getDescription(MyType, "statickey")).toBe("key description");
     });
 
-    test('description as decorator on static property', () => {
+    test("description as decorator on static property", () => {
       class MyType {
-        @description('key description') static statickey = 1;
+        @description("key description") static statickey = 1;
       }
 
-      expect(getDescription(MyType, 'statickey')).toBe('key description');
+      expect(getDescription(MyType, "statickey")).toBe("key description");
     });
 
-    test('description as decorator on property', () => {
+    test("description as decorator on property", () => {
       class MyType {
-        @description('key description') key = 1;
+        @description("key description") key = 1;
       }
 
-      expect(getDescription(MyType.prototype, 'key')).toBe('key description');
+      expect(getDescription(MyType.prototype, "key")).toBe("key description");
     });
   });
 
-  describe('deprecated', () => {
+  describe("deprecated", () => {
     var type: any;
     beforeEach(() => {
       class MyType {
@@ -174,14 +174,14 @@ describe('Reflection integration', () => {
       type = MyType;
     });
 
-    test('deprecated on class method', () => {
-      setDeprecationReason(type, 'myMethod', 'Method deprecated');
-      expect(getDeprecationReason(type, 'myMethod')).toBe('Method deprecated');
+    test("deprecated on class method", () => {
+      setDeprecationReason(type, "myMethod", "Method deprecated");
+      expect(getDeprecationReason(type, "myMethod")).toBe("Method deprecated");
     });
 
-    test('deprecated decorator in class', () => {
+    test("deprecated decorator in class", () => {
       expect(() => {
-        @deprecated('is deprecated')
+        @deprecated("is deprecated")
         class MyType {
           myMethod() {}
         }
@@ -190,14 +190,14 @@ describe('Reflection integration', () => {
       );
     });
 
-    test('deprecated decorator in static method', () => {
+    test("deprecated decorator in static method", () => {
       class MyType {
-        @deprecated('Method deprecated')
+        @deprecated("Method deprecated")
         static myMethod() {}
       }
 
-      expect(getDeprecationReason(MyType, 'myMethod')).toBe(
-        'Method deprecated'
+      expect(getDeprecationReason(MyType, "myMethod")).toBe(
+        "Method deprecated"
       );
     });
   });

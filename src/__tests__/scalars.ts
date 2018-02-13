@@ -5,9 +5,9 @@ import {
   GraphQLBoolean,
   // GraphQLInt,
   GraphQLFloat
-} from 'graphql';
-import { GraphQLDateTime } from 'graphql-iso-date';
-import { getGraphQLType } from './../src';
+} from "graphql";
+import { GraphQLDateTime } from "graphql-iso-date";
+import { getGraphQLType } from "./../";
 
 // import { Field, InputField, Argument } from '../src';
 // import { Scalar, ID, Str, Boolean, Int, Float } from './../src/types/scalars';
@@ -51,7 +51,7 @@ import { getGraphQLType } from './../src';
 //   });
 // });
 
-describe('Scalar can be mounted', () => {
+describe("Scalar can be mounted", () => {
   // class MyScalar extends Scalar {
   //   static description = 'Desc';
   //   static serialize(value: any) {
@@ -91,7 +91,7 @@ describe('Scalar can be mounted', () => {
   //   });
   // });
 
-  describe('Pre-defined scalars', () => {
+  describe("Pre-defined scalars", () => {
     test(`String`, () => {
       expect(getGraphQLType(String)).toBe(GraphQLString);
     });

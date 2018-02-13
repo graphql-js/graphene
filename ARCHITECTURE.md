@@ -17,7 +17,7 @@ type User = {
 
 // The GraphQL type
 var UserType = new GraphQLObjectType({
-  name: 'RootQueryType',
+  name: "UserType",
   fields: {
     name: {
       type: GraphQLString
@@ -46,13 +46,13 @@ same fashion you do with your models on MobX or TypeORM.
 Is. That. Simple.
 
 ```js
-import { Schema, ObjectType, Field } from 'graphene';
+import { Schema, ObjectType, Field } from "graphene";
 
 @ObjectType()
 class Query {
   @Field(String)
   hello() {
-    return 'World';
+    return "World";
   }
 }
 
@@ -91,24 +91,26 @@ Same applies for interfaces of ObjectTypes, types of InputFields, arguments...
 Simple, just use `getGraphQLType`:
 
 ```js
-import { getGraphQLType } from 'graphene';
+import { getGraphQLType } from "graphene";
 
-var schema = new GraphQLSchema({
-  query: new GraphQLObjectType({
-    name: 'RootQueryType',
-    fields: {
-      viewer: {
-        type: getGraphQLType(User)
-      }
+var QueryType = new GraphQLObjectType({
+  name: "QueryType",
+  fields: {
+    viewer: {
+      type: getGraphQLType(User)
     }
-  })
+  }
 });
 ```
 
-## Future
+## Future improvements
 
-By using the type reflection API from Typescript, we can directly skip the need
-of doing:
+Graphene-JS is designed with types in mind.
+We foresee using the type reflection API from Typescript in the future,
+so we we can directly skip the need of indicating the Field types manually
+to let Graphene detect them automatically.
+
+So instead of typing:
 
 ```typescript
 @ObjectType()
@@ -126,7 +128,7 @@ class User {
 }
 ```
 
-Something similar could be achieved by using a flow plugin for babel.
+Something similar could be achieved in Flow by using a babel plugin.
 
 ## Nice side effects
 

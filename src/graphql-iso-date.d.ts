@@ -7,8 +7,8 @@
  */
 
 // We add the missing type definitions to the graphql-iso-date package.
-declare module 'graphql-iso-date' {
-  import { GraphQLScalarType } from 'graphql';
+declare module "graphql-iso-date" {
+  import { GraphQLScalarType } from "graphql";
 
   export const GraphQLDate: GraphQLScalarType;
   export const GraphQLDateTime: GraphQLScalarType;

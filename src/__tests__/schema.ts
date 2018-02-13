@@ -1,26 +1,108 @@
-import { GraphQLList, GraphQLString, GraphQLNonNull } from 'graphql';
-import { getGraphQLType, List, NonNull } from './../src';
-// import { GraphQLID, GraphQLList, GraphQLNonNull } from 'graphql';
-// import { Field, InputField, Argument } from '../src';
-// import { ID } from './../src/types/scalars';
+import {
+  GraphQLSchema,
+  GraphQLList,
+  GraphQLString,
+  GraphQLNonNull,
+  GraphQLObjectType
+} from "graphql";
+import {
+  getGraphQLType,
+  Schema,
+  ObjectType,
+  InterfaceType,
+  Field,
+  List,
+  NonNull
+} from "./../";
 
-describe('List structure', () => {
-  test(`create new List`, () => {
-    var myList = List(String);
-    var graphqlType: GraphQLList<any> = <GraphQLList<any>>getGraphQLType(
-      myList
-    );
-    expect(graphqlType).toBeInstanceOf(GraphQLList);
-    expect(graphqlType.ofType).toBe(GraphQLString);
+describe("Schema", () => {
+  @InterfaceType()
+  class UserBase {
+    @Field(String) name: string;
+  }
+
+  @ObjectType({
+    interfaces: [UserBase]
+  })
+  class User {
+    @Field(String) name: string;
+  }
+
+  @ObjectType()
+  class Query {
+    @Field(String)
+    hello() {
+      return "World";
+    }
+    @Field(UserBase) viewer: User;
+  }
+
+  @ObjectType()
+  class Mutation {
+    @Field(String) mutate: string;
+  }
+
+  @ObjectType()
+  class Subscription {
+    @Field(String) subscribe: string;
+  }
+
+  var userType: GraphQLObjectType = <GraphQLObjectType>getGraphQLType(User);
+  var queryType: GraphQLObjectType = <GraphQLObjectType>getGraphQLType(Query);
+
+  var mutationType: GraphQLObjectType = <GraphQLObjectType>getGraphQLType(
+    Mutation
+  );
+
+  var subscriptionType: GraphQLObjectType = <GraphQLObjectType>getGraphQLType(
+    Subscription
+  );
+
+  test(`works with query`, () => {
+    var schema = new Schema({
+      query: Query
+    });
+
+    expect(schema.getQueryType()).toBe(queryType);
   });
 
-  test(`create new NonNull`, () => {
-    var myList = NonNull(String);
-    var graphqlType: GraphQLNonNull<any> = <GraphQLNonNull<any>>getGraphQLType(
-      myList
-    );
-    expect(graphqlType).toBeInstanceOf(GraphQLNonNull);
-    expect(graphqlType.ofType).toBe(GraphQLString);
+  test(`works with mutation`, () => {
+    var schema = new Schema({
+      query: Query,
+      mutation: Mutation
+    });
+
+    expect(schema.getMutationType()).toBe(mutationType);
+  });
+
+  test(`works with subscription`, () => {
+    var schema = new Schema({
+      query: Query,
+      subscription: Subscription
+    });
+
+    expect(schema.getSubscriptionType()).toBe(subscriptionType);
+  });
+
+  test(`can create a schema`, async () => {
+    var schema = new Schema({
+      query: Query,
+      mutation: Mutation,
+      subscription: Subscription,
+      types: [User]
+    });
+
+    expect(schema.getQueryType()).toBe(queryType);
+    expect(schema.getMutationType()).toBe(mutationType);
+    expect(schema.getSubscriptionType()).toBe(subscriptionType);
+
+    expect(schema.getType("User")).toBe(userType);
+
+    var result = await schema.execute(`{hello}`);
+    expect(result).toMatchSnapshot();
+
+    var repr = await schema.toString();
+    expect(repr).toMatchSnapshot();
   });
 
   //   test(`create List correct graphql type`, () => {

@@ -5,14 +5,14 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { isInputType } from 'graphql';
+import { isInputType } from "graphql";
 import {
   UnmountedInputFieldMap,
   getInputFields,
   getGraphQLType,
   getDescription,
   getDeprecationReason
-} from './../reflection';
+} from "./../reflection";
 
 // The provided configuration type when creating an InputField.
 export type InputFieldConfig = {
@@ -33,7 +33,7 @@ export const InputField = (type?: any, config: InputFieldConfig = {}) => (
   fields[key] = () => {
     const _type = getGraphQLType(type);
     if (!isInputType(_type)) {
-      throw new Error('Type is not input');
+      throw new Error("Type is not input");
     }
     const defaultValue: any = target[key];
     return {

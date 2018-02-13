@@ -13,7 +13,7 @@ import {
   GraphQLFieldResolver,
   defaultFieldResolver,
   GraphQLResolveInfo
-} from 'graphql';
+} from "graphql";
 
 import {
   UnmountedFieldMap,
@@ -21,7 +21,7 @@ import {
   getGraphQLType,
   getDescription,
   getDeprecationReason
-} from './../reflection';
+} from "./../reflection";
 
 // Helper function that ease the creation of Arguments
 // This:
@@ -82,7 +82,7 @@ export const Field = (type?: any, config: FieldConfig = {}) => (
   fields[key] = () => {
     const _type = getGraphQLType(type);
     if (!isOutputType(_type)) {
-      throw new Error('Type is not output');
+      throw new Error("Type is not output");
     }
     let args = config.args || {};
     let fieldArgs: ArgumentMap = {};
@@ -91,7 +91,7 @@ export const Field = (type?: any, config: FieldConfig = {}) => (
       let extra: {};
       let argType: any;
       if (
-        typeof (<ArgumentType>arg).type !== 'undefined' &&
+        typeof (<ArgumentType>arg).type !== "undefined" &&
         !isInputType(<GraphQLInputType>arg)
       ) {
         extra = {
@@ -116,7 +116,7 @@ export const Field = (type?: any, config: FieldConfig = {}) => (
     }
     const targetResolver = target[key];
     let resolver: GraphQLFieldResolver<any, any> = defaultFieldResolver;
-    if (typeof targetResolver === 'function') {
+    if (typeof targetResolver === "function") {
       resolver = (
         root: any,
         args: { [argName: string]: any },

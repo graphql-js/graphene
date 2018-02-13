@@ -10,7 +10,7 @@ import {
   GraphQLTypeResolver,
   GraphQLObjectType,
   GraphQLInterfaceType
-} from 'graphql';
+} from "graphql";
 import {
   UnmountedFieldMap,
   getFields,
@@ -19,7 +19,7 @@ import {
   setGraphQLType,
   getDescription,
   mountFields
-} from './../reflection';
+} from "./../reflection";
 
 // The provided configuration type when creating an Interface.
 export type InterfaceTypeConfig = {

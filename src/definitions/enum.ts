@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { GraphQLEnumValueConfigMap, GraphQLEnumType } from 'graphql';
+import { GraphQLEnumValueConfigMap, GraphQLEnumType } from "graphql";
 import {
   getDescription,
   getDeprecationReason,
   setGraphQLType
-} from './../reflection';
-import { getStaticProperties } from './utils';
+} from "./../reflection";
+import { getStaticProperties } from "./utils";
 
 // The provided configuration type when creating an EnumType.
 export type EnumTypeConfig = {

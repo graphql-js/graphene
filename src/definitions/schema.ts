@@ -13,9 +13,9 @@ import {
   GraphQLNamedType,
   graphql,
   printSchema
-} from 'graphql';
+} from "graphql";
 
-import { getGraphQLType } from '../reflection';
+import { getGraphQLType } from "../reflection";
 
 // The provided configuration type when creating a new Schema.
 export type SchemaConfig = {

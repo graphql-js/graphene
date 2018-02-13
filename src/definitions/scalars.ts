@@ -5,10 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { GraphQLInt } from 'graphql/type/scalars';
-import { GraphQLScalarType, GraphQLID } from 'graphql';
+import { GraphQLInt } from "graphql/type/scalars";
+import { GraphQLScalarType, GraphQLID } from "graphql";
 
-import { setupNativeTypes } from './../reflection';
+import { setupNativeTypes } from "./../reflection";
 
 // ID is just a reference to GraphQLID
 export const ID: GraphQLScalarType = GraphQLID;

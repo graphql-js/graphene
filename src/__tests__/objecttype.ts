@@ -1,13 +1,13 @@
-import { GraphQLObjectType, GraphQLInterfaceType } from 'graphql';
+import { GraphQLObjectType, GraphQLInterfaceType } from "graphql";
 import {
   getGraphQLType,
   ObjectType,
   Field,
   InterfaceType,
   description
-} from './../src/';
+} from "./../";
 
-describe('ObjectType setup', () => {
+describe("ObjectType setup", () => {
   test(`create ObjectType properly`, () => {
     @ObjectType()
     class MyObjectType {
@@ -17,13 +17,13 @@ describe('ObjectType setup', () => {
     var graphqlType: GraphQLObjectType = <GraphQLObjectType>getGraphQLType(
       MyObjectType
     );
-    expect(graphqlType.name).toBe('MyObjectType');
+    expect(graphqlType.name).toBe("MyObjectType");
     expect(graphqlType.description).toBe(undefined);
   });
 
   test(`create ObjectType description decorator`, () => {
     @ObjectType()
-    @description('My Description')
+    @description("My Description")
     class MyObjectType {
       @Field(String) hello: string;
     }
@@ -31,30 +31,30 @@ describe('ObjectType setup', () => {
       MyObjectType
     );
 
-    expect(graphqlType.description).toBe('My Description');
+    expect(graphqlType.description).toBe("My Description");
   });
 
   test(`create ObjectType properly`, () => {
     @ObjectType({
-      name: 'MyCustomObjectType',
-      description: 'My Description'
+      name: "MyCustomObjectType",
+      description: "My Description"
     })
     class MyObjectType {
       @Field(String)
       hello(): string {
-        return 'World';
+        return "World";
       }
     }
     var graphqlType: GraphQLObjectType = <GraphQLObjectType>getGraphQLType(
       MyObjectType
     );
 
-    expect(graphqlType.name).toBe('MyCustomObjectType');
-    expect(graphqlType.description).toBe('My Description');
-    expect(graphqlType.getFields()).toHaveProperty('hello');
+    expect(graphqlType.name).toBe("MyCustomObjectType");
+    expect(graphqlType.description).toBe("My Description");
+    expect(graphqlType.getFields()).toHaveProperty("hello");
 
     // We preserve the function
-    expect(new MyObjectType().hello()).toBe('World');
+    expect(new MyObjectType().hello()).toBe("World");
   });
 
   test(`create ObjectType with no fields`, () => {
@@ -72,7 +72,7 @@ describe('ObjectType setup', () => {
       class MyObjectType {
         @Field(String)
         bar?(): string {
-          return 'Bar';
+          return "Bar";
         }
       }
     }).toThrowErrorMatchingSnapshot();
@@ -83,7 +83,7 @@ describe('ObjectType setup', () => {
     class MyInterface1 {
       @Field(String)
       foo1?(): string {
-        return 'Foo1';
+        return "Foo1";
       }
     }
 
@@ -91,7 +91,7 @@ describe('ObjectType setup', () => {
     class MyInterface2 {
       @Field(String)
       foo2?(): string {
-        return 'Foo1';
+        return "Foo1";
       }
     }
 
@@ -101,7 +101,7 @@ describe('ObjectType setup', () => {
     class MyObjectType {
       @Field(String)
       bar?(): string {
-        return 'Bar';
+        return "Bar";
       }
     }
 
@@ -109,7 +109,7 @@ describe('ObjectType setup', () => {
       MyObjectType
     );
 
-    expect(graphqlType.name).toBe('MyObjectType');
+    expect(graphqlType.name).toBe("MyObjectType");
 
     var graphqlInterfaceType1: GraphQLInterfaceType = <GraphQLInterfaceType>getGraphQLType(
       MyInterface1
@@ -124,9 +124,9 @@ describe('ObjectType setup', () => {
     ]);
 
     expect(Object.keys(graphqlType.getFields())).toEqual([
-      'foo1',
-      'foo2',
-      'bar'
+      "foo1",
+      "foo2",
+      "bar"
     ]);
   });
 });

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { GraphQLInterfaceType, GraphQLObjectType } from 'graphql';
+import { GraphQLInterfaceType, GraphQLObjectType } from "graphql";
 import {
   getGraphQLType,
   UnmountedFieldMap,
@@ -14,7 +14,7 @@ import {
   setGraphQLType,
   getDescription,
   mountFields
-} from './../reflection';
+} from "./../reflection";
 
 // The provided configuration type when creating an ObjectType.
 export type ObjectTypeConfig = {

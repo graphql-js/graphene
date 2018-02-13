@@ -13,8 +13,12 @@ export {
   description,
   setDeprecationReason,
   getDeprecationReason,
-  deprecated
-} from '../src/reflection';
+  deprecated,
+  getFields,
+  assertFields,
+  getInputFields,
+  assertInputFields
+} from "../src/reflection";
 
 export {
   ID,
@@ -38,4 +42,4 @@ export {
   EnumType,
   SchemaConfig,
   Schema
-} from './definitions/index';
+} from "./definitions/index";

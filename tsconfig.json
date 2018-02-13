@@ -5,7 +5,8 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "declaration": true,
-    "outDir": "lib",
+    "rootDir": "./src",
+    "outDir": "./lib",
     "removeComments": true,
     "strict": true,
     "noImplicitReturns": true,
@@ -18,5 +19,6 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
-  "include": ["src/**/*", "test/**/*", "examples/*", "examples/starwars-ts/*"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

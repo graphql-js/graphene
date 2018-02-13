@@ -47,7 +47,7 @@
       "check-finally",
       "check-whitespace"
     ],
-    "quotemark": [true, "single", "avoid-escape"],
+    "quotemark": [true, "avoid-escape"],
     "radix": true,
     "semicolon": [true, "always"],
     "switch-default": true,
