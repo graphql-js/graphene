@@ -1,3 +1,4 @@
+import { FieldConfig } from "./field";
 /**
  * Copyright (c) 2017-present, Graphene.
  *
@@ -22,6 +23,7 @@ import {
   getDescription,
   getDeprecationReason
 } from "./../reflection";
+import { isFunction } from "util";
 
 // Helper function that ease the creation of Arguments
 // This:
@@ -62,7 +64,7 @@ export type ArgumentType = {
 };
 
 // The provided configuration type when creating a Field.
-export type FieldConfig = {
+export type FieldPartialConfig = {
   args?: {
     [key: string]: ArgumentType | InputType;
   };
@@ -70,17 +72,63 @@ export type FieldConfig = {
   deprecationReason?: string;
 };
 
-export const Field = (type?: any, config: FieldConfig = {}) => (
-  target: any,
-  key: string
-) => {
+export type FieldConfig = FieldPartialConfig & {
+  type?: any;
+};
+
+export type FieldDecorator = (target: any, key: string) => void;
+
+export interface FieldSignatures {
+  // Signature 1
+  (fullConfig: FieldConfig): FieldDecorator;
+  // Signature 2
+  (type: any, config?: FieldPartialConfig): FieldDecorator;
+  // (thunkConfig: () => FieldConfig): FieldDecorator;
+}
+
+export type Thunk<T> = (() => T) | T;
+
+const isFunction = (arg: any) => {
+  return typeof arg === "function";
+};
+
+const resolveThunk = <T>(thunk: Thunk<T>): T => {
+  return isFunction(thunk) ? thunk() : thunk;
+};
+
+const isObject = (o: any) => {
+  return o instanceof Object && o.constructor === Object;
+};
+
+export const Field: FieldSignatures = (
+  typeOrConfig: any,
+  baseConfig?: FieldPartialConfig
+) => (target: any, key: string) => {
+  let config: FieldConfig;
+  if (baseConfig) {
+    // Signature 2
+    config = {
+      ...baseConfig,
+      type: typeOrConfig
+    };
+  } else {
+    if (isObject(typeOrConfig)) {
+      // Signature 1
+      config = typeOrConfig;
+    } else {
+      // Signature 2
+      config = {
+        type: typeOrConfig
+      };
+    }
+  }
   const _class = target.constructor;
   let fields: UnmountedFieldMap = getFields(_class);
   if (key in fields) {
     throw new Error(`Field ${key} is already defined in ${_class}.`);
   }
   fields[key] = () => {
-    const _type = getGraphQLType(type);
+    const _type = getGraphQLType(config.type);
     if (!isOutputType(_type)) {
       throw new Error("Type is not output");
     }

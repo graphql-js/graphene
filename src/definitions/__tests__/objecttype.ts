@@ -16,6 +16,21 @@ describe("ObjectType setup", () => {
     expect(graphqlType.description).toBe(undefined);
   });
 
+  test(`create ObjectType field config`, () => {
+    @ObjectType()
+    class MyObjectType {
+      @Field({ type: String })
+      hello: string;
+    }
+
+    var graphqlType: GraphQLObjectType = <GraphQLObjectType>getGraphQLType(
+      MyObjectType
+    );
+    expect(graphqlType.name).toBe("MyObjectType");
+    expect(graphqlType.description).toBe(undefined);
+    expect(graphqlType.getFields()).toHaveProperty("hello");
+  });
+
   test(`create ObjectType description decorator`, () => {
     @ObjectType()
     @description("My Description")

@@ -113,7 +113,11 @@ export const mountFields = (
 ) => (): MountedFieldMap => {
   let finalFields: MountedFieldMap = {};
   for (let key in fields) {
-    finalFields[key] = fields[key]();
+    let field = fields[key]();
+    if (!field) {
+      continue;
+    }
+    finalFields[key] = field;
   }
   return finalFields;
 };
