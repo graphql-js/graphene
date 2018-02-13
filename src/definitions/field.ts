@@ -129,8 +129,9 @@ export const Field = (type?: any, config: FieldConfig = {}) => (
     return {
       args: fieldArgs,
       type: _type,
-      description: getDescription(target, key),
-      deprecationReason: getDeprecationReason(target, key),
+      description: getDescription(target, key) || config.description,
+      deprecationReason:
+        getDeprecationReason(target, key) || config.deprecationReason,
       resolve: resolver
     };
   };
