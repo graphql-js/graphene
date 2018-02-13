@@ -14,11 +14,12 @@ Check also the [architecture docs](https://github.com/graphql-js/graphene/blob/m
 
 Graphene has multiple integrations with different frameworks:
 
-| integration | Package         |
-| ----------- | --------------- |
-| Sequelize   | _On the works!_ |
+| integration | Package                                                                 |
+| ----------- | ----------------------------------------------------------------------- |
+| Sequelize   | [graphene-sequelize](https://github.com/graphql-js/graphene-sequelize/) |
+| TypeORM     | **on the works**                                                        |
 
-Also, Graphene is fully compatible with the GraphQL spec, working seamlessly with all GraphQL clients, such as [Relay](https://github.com/facebook/relay), [Apollo](https://github.com/apollographql/apollo-client) and [gql](https://github.com/graphql-js/gql).
+Also, Graphene is fully compatible with the GraphQL spec, working seamlessly with all GraphQL clients, such as [Relay](https://github.com/facebook/relay), [Apollo](https://github.com/apollographql/apollo-client) and [urql](https://github.com/FormidableLabs/urql).
 
 ## Installation
 
@@ -35,13 +36,13 @@ yarn add graphene-js
 Here is one example for you to get started:
 
 ```js
-import { ObjectType, Field, Schema } from 'graphene';
+import { ObjectType, Field, Schema } from "graphene";
 
 @ObjectType()
 class Query {
   @Field(String)
   hello() {
-    return 'Hello world!';
+    return "Hello world!";
   }
 }
 
@@ -55,11 +56,12 @@ query = `
     query SayHello {
       hello
     }
-`
-var result = await schema.execute(query)
+`;
+
+var result = schema.execute(query);
 ```
 
-If you want to learn even more, you can also check the following [examples](examples/):
+If you want to learn more, you can also check the [documentation](http://docs.graphene-js.org/) or check the provided [examples](examples/):
 
 * **Basic Schema**: [Starwars example](examples/starwars)
 * **Basic Schema (Typescript)**: [Starwars Relay example](examples/starwars-ts)
