@@ -5,16 +5,29 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { GraphQLInt } from "graphql/type/scalars";
-import { GraphQLScalarType, GraphQLID } from "graphql";
+import {
+  GraphQLScalarType,
+  GraphQLID,
+  GraphQLInt,
+  GraphQLFloat,
+  GraphQLBoolean,
+  GraphQLString
+} from "graphql";
+import { GraphQLDate, GraphQLDateTime, GraphQLTime } from "graphql-iso-date";
 
 import { setupNativeTypes } from "./../reflection";
 
-// ID is just a reference to GraphQLID
+// Store the basic references to GraphQL types
+export const String: GraphQLScalarType = GraphQLString;
 export const ID: GraphQLScalarType = GraphQLID;
-
-// Int is just a reference to GraphQLInt
 export const Int: GraphQLScalarType = GraphQLInt;
+export const Float: GraphQLScalarType = GraphQLFloat;
+export const Boolean: GraphQLScalarType = GraphQLBoolean;
+
+// Date/time types
+export const Date: GraphQLScalarType = GraphQLDate;
+export const DateTime: GraphQLScalarType = GraphQLDateTime;
+export const Time: GraphQLScalarType = GraphQLTime;
 
 // We setup the native data types, so we can use
 // String, Number, Boolean... as GraphQL types

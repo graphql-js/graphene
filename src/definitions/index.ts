@@ -6,7 +6,16 @@
  *
  */
 export { SchemaConfig, Schema } from "./schema";
-export { ID, Int } from "./scalars";
+export {
+  String,
+  Float,
+  Boolean,
+  ID,
+  Int,
+  Date,
+  DateTime,
+  Time
+} from "./scalars";
 export { List, NonNull } from "./structures";
 export { Argument, ArgumentType, FieldConfig, Field, InputType } from "./field";
 export { InputFieldConfig, InputField } from "./inputfield";

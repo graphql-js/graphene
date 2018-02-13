@@ -1,3 +1,4 @@
+import { Boolean } from "./definitions/scalars";
 /**
  * Copyright (c) 2017-present, Graphene.
  *
@@ -21,8 +22,14 @@ export {
 } from "./reflection";
 
 export {
+  String,
   ID,
   Int,
+  Float,
+  Boolean,
+  Date,
+  DateTime,
+  Time,
   List,
   NonNull,
   Argument,
