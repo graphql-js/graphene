@@ -76,7 +76,7 @@
       "<rootDir>/scripts/preprocessor.js"
     ],
     "collectCoverageFrom": ["src/**"],
-    "coveragePathIgnorePatterns": ["/node_modules/", ".*.d.ts"],
+    "coveragePathIgnorePatterns": ["/node_modules/", "/__tests__/", ".*.d.ts"],
     "transform": {
       ".(js|ts)": "<rootDir>/scripts/preprocessor.js"
     },
