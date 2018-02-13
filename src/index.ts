@@ -18,7 +18,7 @@ export {
   assertFields,
   getInputFields,
   assertInputFields
-} from "../src/reflection";
+} from "./reflection";
 
 export {
   ID,
