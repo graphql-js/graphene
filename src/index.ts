@@ -44,6 +44,8 @@ export {
   ObjectType,
   InterfaceTypeConfig,
   InterfaceType,
+  UnionTypeConfig,
+  UnionType,
   InputObjectTypeConfig,
   InputObjectType,
   EnumTypeConfig,

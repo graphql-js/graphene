@@ -28,5 +28,6 @@ export {
 export { InputFieldConfig, InputField } from "./inputfield";
 export { ObjectTypeConfig, ObjectType } from "./objecttype";
 export { InterfaceTypeConfig, InterfaceType } from "./interfacetype";
+export { UnionTypeConfig, UnionType } from "./uniontype";
 export { InputObjectTypeConfig, InputObjectType } from "./inputobjecttype";
 export { EnumTypeConfig, EnumType } from "./enum";

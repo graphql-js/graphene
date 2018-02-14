@@ -8,3 +8,5 @@ lib
 !.vscode/launch.json
 !.vscode/extensions.json
 /coverage
+/.vscode
+/yarn-error.log
