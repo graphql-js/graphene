@@ -46,7 +46,7 @@ class Query {
   }
 }
 
-const schema = new Schema(Query);
+const schema = new Schema({ query: Query });
 ```
 
 Then Querying `graphene.Schema` is as simple as:
