@@ -31,7 +31,7 @@ Like:
 
 .. code:: js
 
-    import { ObjectType } from "graphene-js";
+    import { ObjectType, Field } from "graphene-js";
 
     @ObjectType()
     class Character {
@@ -44,7 +44,7 @@ NonNull
 
 .. code:: js
 
-    import { ObjectType, NonNull } from "graphene-js";
+    import { ObjectType, Field, NonNull } from "graphene-js";
 
     @ObjectType()
     class Character {

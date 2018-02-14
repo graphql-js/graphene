@@ -18,7 +18,7 @@ This example model defines a Person, with a first and a last name:
 
 .. code:: js
 
-    import { ObjectType } from "graphene-js";
+    import { ObjectType, Field } from "graphene-js";
 
     @ObjectType()
     class Person {
@@ -64,7 +64,7 @@ method in the class.
 
 .. code:: js
 
-    import { ObjectType } from "graphene-js";
+    import { ObjectType, Field } from "graphene-js";
 
     @ObjectType()
     class Query {

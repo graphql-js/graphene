@@ -40,21 +40,17 @@ Base scalars
 
 Graphene also provides custom scalars for Dates, Times, and JSON:
 
-``graphene.types.datetime.Date``
+``graphene.Date``
 
     Represents a Date value as specified by `iso8601 <https://en.wikipedia.org/wiki/ISO_8601>`_.
 
-``graphene.types.datetime.DateTime``
+``graphene.DateTime``
 
     Represents a DateTime value as specified by `iso8601 <https://en.wikipedia.org/wiki/ISO_8601>`_.
 
-``graphene.types.datetime.Time``
+``graphene.Time``
 
     Represents a Time value as specified by `iso8601 <https://en.wikipedia.org/wiki/ISO_8601>`_.
-
-``graphene.types.json.JSONString``
-
-    Represents a JSON string.
 
 
 Custom scalars
@@ -65,52 +61,21 @@ The following is an example for creating a DateTime scalar:
 
 .. code:: js
 
-    import datetime
-    from graphene.types import Scalar
-    from graphql.language import ast
+    import { GraphQLScalarType } from "graphql";
 
-    class DateTime(Scalar):
-        '''DateTime Scalar Description'''
-
-        @staticmethod
-        def serialize(dt):
-            return dt.isoformat()
-
-        @staticmethod
-        def parse_literal(node):
-            if isinstance(node, ast.StringValue):
-                return datetime.datetime.strptime(
-                    node.value, "%Y-%m-%dT%H:%M:%S.%f")
-
-        @staticmethod
-        def parse_value(value):
-            return datetime.datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
-
-Mounting Scalars
-----------------
-
-Scalars mounted in a ``ObjectType``, ``Interface`` or ``Mutation`` act as
-``Field``\ s.
-
-.. code:: js
-
-    class Person(graphene.ObjectType):
-        name = graphene.String()
-
-    # Is equivalent to:
-    class Person(graphene.ObjectType):
-        name = graphene.Field(graphene.String)
-
-
-**Note:** when using the ``Field`` constructor directly, pass the type and
-not an instance.
-
-Types mounted in a ``Field`` act as ``Argument``\ s.
-
-
-.. code:: js
-
-    graphene.Field(graphene.String, to=graphene.String())
-
-    # Is equivalent to:
-    graphene.Field(graphene.String, to=graphene.Argument(graphene.String))
+    const Date = new GraphQLScalarType({
+        name: 'Date',
+        description: 'Date custom scalar type',
+        parseValue(value) {
+            return new Date(value); // value from the client
+        },
+        serialize(value) {
+            return value.getTime(); // value sent to the client
+        },
+        parseLiteral(ast) {
+            if (ast.kind === Kind.INT) {
+                return parseInt(ast.value, 10); // ast value is always in string format
+            }
+            return null;
+        },
+  });
