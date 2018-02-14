@@ -34,7 +34,7 @@ data.
 We are going to create a very simple schema, with a ``Query`` with only
 one field: ``hello`` and an input name. And when we query it, it should return ``"Hello {name}"``.
 
-.. code:: js
+.. code:: typescript
 
     import { ObjectType, Field, Schema } from "graphene";
 
@@ -54,7 +54,7 @@ Querying
 
 Then we can start querying our schema:
 
-.. code:: js
+.. code:: typescript
 
     var result = await schema.execute('{ hello }')
     console.log(result.data.hello) # "Hello stranger"
