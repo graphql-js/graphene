@@ -1,6 +1,6 @@
 {
   "name": "graphene-js",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "GraphQL Framework for Javascript",
   "main": "lib/index.js",
   "typescript": {
@@ -75,11 +75,20 @@
       "<rootDir>/test/fixtures/",
       "<rootDir>/scripts/preprocessor.js"
     ],
-    "collectCoverageFrom": ["src/**"],
-    "coveragePathIgnorePatterns": ["/node_modules/", "/__tests__/", ".*.d.ts"],
+    "collectCoverageFrom": [
+      "src/**"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/__tests__/",
+      ".*.d.ts"
+    ],
     "transform": {
       ".(js|ts)": "<rootDir>/scripts/preprocessor.js"
     },
-    "moduleFileExtensions": ["ts", "js"]
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ]
   }
 }
