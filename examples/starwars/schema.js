@@ -1,79 +1,66 @@
 import {
   ObjectType,
+  InterfaceType,
   Schema,
   Field,
-  Interface,
-  String,
   ID,
-  List,
-  Enum
+  EnumType,
+  EnumValue
 } from '../../src';
 import { getHero, getFriends, getHuman, getDroid } from './data';
 
-export class Episode extends Enum {
-  static description = 'The description';
-  static values = {
-    NEWHOPE: {
-      value: 4
-    },
-    EMPIRE: {
-      value: 5
-    },
-    JEDI: {
-      value: 6
-    }
-  };
+@EnumType()
+export class Episode {
+  static NEWHOPE = 4;
+  static EMPIRE = 5;
+  static JEDI = 6;
 }
 
-class Character extends Interface {
-  static description = 'A character in the Star Wars Trilogy';
-  static fields = {
-    id: new ID(),
-    name: new String(),
-    friends: new List(Character),
-    appearsIn: new Episode()
-  };
-  static resolveType = root => {
-    if (getHuman(root.id)) {
-      return Human;
-    }
-    return Droid;
-  };
-  friends(root) {
-    return getFriends(root);
+@InterfaceType({
+  resolveType: root => {
+    return getHuman(root.id) ? Human : Droid;
   }
+})
+export class Character {
+  @Field(ID) id;
+  @Field(String) name;
+  @Field([Character])
+  friends() {
+    return getFriends(this);
+  }
+
+  @Field([Episode])
+  appearsIn;
 }
 
-class Human extends ObjectType {
-  static interfaces = [Character];
-  static fields = {
-    ...Character.fields,
-    homePlanet: new String()
-  };
+@ObjectType({
+  interfaces: [Character]
+})
+export class Human {
+  @Field(String) homePlanet;
 }
 
-class Droid extends ObjectType {
-  static interfaces = [Character];
-  static fields = {
-    ...Character.fields,
-    primaryFunction: new String()
-  };
+@ObjectType({
+  interfaces: [Character]
+})
+export class Droid {
+  @Field(String) primaryFunction;
 }
 
-class Query extends ObjectType {
-  static fields = {
-    hero: new Field(Character, { args: { episode: new Episode() } }),
-    human: new Field(Human, { args: { id: new ID() } }),
-    droid: new Field(Droid, { args: { id: new ID() } })
-  };
-
-  hero(root, { episode }) {
+@ObjectType()
+class Query {
+  @Field(Character, { args: { episode: Number } })
+  hero({ episode }) {
     return getHero(episode);
   }
-  human(root, { id }) {
+
+  @Field(Human, { args: { id: String } })
+  human({ id }) {
     return getHuman(id);
   }
-  droid(root, { id }) {
+
+  @Field(Droid, { args: { id: String } })
+  droid({ id }) {
     return getDroid(id);
   }
 }

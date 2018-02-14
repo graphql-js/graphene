@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Schema can create a schema 1`] = `
+Object {
+  "data": Object {
+    "hello": "World",
+  },
+}
+`;
+
+exports[`Schema can create a schema 2`] = `
+"type Mutation {
+  mutate: String
+}
+
+type Query {
+  hello: String
+  viewer: UserBase
+}
+
+type Subscription {
+  subscribe: String
+}
+
+type User implements UserBase {
+  name: String
+}
+
+interface UserBase {
+  name: String
+}
+"
+`;

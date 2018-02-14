@@ -1,22 +1,26 @@
+import { graphql, printSchema } from 'graphql';
 import schema, { Episode } from '../schema';
 
 describe('Interface', () => {
   test(`create Interface`, () => {
-    expect(schema.toString()).toMatchSnapshot();
+    expect(printSchema(schema)).toMatchSnapshot();
   });
   test('try query', async () => {
-    var result = await schema.execute(`
-{
-    hero {
-        id
-        name
-        friends {
+    var result = await graphql(
+      schema,
+      `
+        {
+          hero {
             id
             name
+            friends {
+              id
+              name
+            }
+          }
         }
-    }
-}
-`);
+      `
+    );
     expect(result).toMatchObject({
       data: {
         hero: {
@@ -30,10 +34,5 @@ describe('Interface', () => {
         }
       }
     });
-  });
-  test('Episode enum', () => {
-    expect(Episode.NEWHOPE).toBe(4);
-    expect(Episode.EMPIRE).toBe(5);
-    expect(Episode.JEDI).toBe(6);
   });
 });

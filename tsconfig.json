@@ -5,16 +5,20 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "declaration": true,
-    "outDir": "lib",
+    "rootDir": "./src",
+    "outDir": "./lib",
     "removeComments": true,
     "strict": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedParameters": true,
     "allowJs": false,
-    "allowUnreachableCode": true
+    "allowSyntheticDefaultImports": true,
+    "allowUnreachableCode": true,
+    "strictPropertyInitialization": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
-  "include": [
-    "src/**/*"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

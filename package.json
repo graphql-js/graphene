@@ -2,22 +2,39 @@
   "name": "graphene-js",
   "version": "0.1.3",
   "description": "GraphQL Framework for Javascript",
-  "main": "./lib/index.js",
-  "typings": "./lib/index.d.ts",
+  "main": "lib/index.js",
+  "typescript": {
+    "definition": "lib/index.d.ts"
+  },
+  "typings": "lib/index.d.ts",
   "scripts": {
     "clean": "rm -rf lib",
     "compile": "tsc",
     "watch": "tsc -w",
     "prepublish": "npm run clean && npm run compile",
     "test": "./node_modules/.bin/jest",
-    "test:smoke": "rm -rf node_modules && npm install --prod && node ./lib/cli.js && echo 'Smoke Test Passed'"
+    "posttest": "npm run lint",
+    "lint": "tslint  \"src/**/*.ts\" -e \"**/__tests__/**\""
   },
   "repository": {
     "type": "git",
     "url": "graphql-js/graphene-js"
   },
+  "keywords": [
+    "GraphQL",
+    "Graphene",
+    "JavaScript",
+    "TypeScript",
+    "Schema",
+    "Schema Language",
+    "Tools"
+  ],
   "author": "Syrus Akbary <me@syrusakbary.com>",
   "license": "MIT",
+  "homepage": "https://github.com/graphql-js/graphene/",
+  "bugs": {
+    "url": "https://github.com/graphql-js/graphene/issues"
+  },
   "engines": {
     "node": ">=6.0"
   },
@@ -28,31 +45,27 @@
     "@types/inflected": "^1.1.29",
     "@types/jest": "^20.0.6",
     "@types/mkdirp": "^0.5.0",
+    "@types/node": "^8.0.51",
     "@types/node-fetch": "^1.6.7",
     "@types/yargs": "^8.0.2",
     "ansi-regex": "^3.0.0",
     "common-tags": "^1.4.0",
     "jest": "^20.0.4",
     "jest-matcher-utils": "^20.0.3",
-    "typescript": "^2.5.2"
+    "tslint": "^5.9.1",
+    "typescript": "^2.7.1"
   },
   "dependencies": {
-    "change-case": "^3.0.1",
-    "core-js": "^2.5.0",
-    "glob": "^7.1.2",
-    "graphql": "^0.9.4",
-    "inflected": "^2.0.2",
-    "mkdirp": "^0.5.1",
-    "node-fetch": "^1.7.2",
-    "source-map-support": "^0.4.15",
-    "yargs": "^8.0.2"
+    "graphql": "^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0",
+    "graphql-iso-date": "^3.5.0",
+    "reflect-metadata": "^0.1.12"
   },
   "jest": {
     "testEnvironment": "node",
-    "setupFiles": [
-      "<rootDir>/src/polyfills.js"
-    ],
+    "setupFiles": [],
     "testMatch": [
+      "**/__tests__/**/*.(js|ts)",
+      "**/__tests__/*.(js|ts)",
       "**/test/**/*.(js|ts)",
       "**/test/*.(js|ts)"
     ],
@@ -60,14 +73,13 @@
       "<rootDir>/node_modules/",
       "<rootDir>/lib/",
       "<rootDir>/test/fixtures/",
-      "<rootDir>/test/preprocessor.js"
+      "<rootDir>/scripts/preprocessor.js"
     ],
+    "collectCoverageFrom": ["src/**"],
+    "coveragePathIgnorePatterns": ["/node_modules/", "/__tests__/", ".*.d.ts"],
     "transform": {
-      ".(js|ts)": "<rootDir>/test/preprocessor.js"
+      ".(js|ts)": "<rootDir>/scripts/preprocessor.js"
     },
-    "moduleFileExtensions": [
-      "ts",
-      "js"
-    ]
+    "moduleFileExtensions": ["ts", "js"]
   }
 }

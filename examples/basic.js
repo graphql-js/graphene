@@ -1,15 +1,10 @@
-import {
-  ObjectType,
-  String
-} from "../../src";
+import { ObjectType, Field } from '../../src';
 
-class Query extends ObjectType {
-  static fields = {
-    hello: new String(),
-  };
-
+@ObjectType()
+class Query {
+  @Field(String)
   hello() {
-    return "World";
+    return 'World';
   }
 }
 
@@ -17,6 +12,6 @@ const schema = new Schema({ query: Query });
 
 schema.execute(`query {
     hello
-}`)
+}`);
 
 export default schema;
