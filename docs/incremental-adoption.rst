@@ -17,7 +17,7 @@ For example:
 .. code:: js
 
     import { GraphQLSchema, GraphQLObjectType } from "graphql";
-    import { ObjectType, Field, getGraphQLType } from "graphene";
+    import { ObjectType, Field, getGraphQLType } from "graphene-js";
 
     // Your graphene definition
     @ObjectType()
@@ -48,7 +48,7 @@ For example:
 
 .. code:: js
 
-    import { ObjectType, Field } from "graphene";
+    import { ObjectType, Field } from "graphene-js";
 
     var User = GraphQLObjectType({
       name: 'User',

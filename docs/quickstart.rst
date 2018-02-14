@@ -36,7 +36,7 @@ one field: ``hello`` and an input name. And when we query it, it should return `
 
 .. code:: typescript
 
-    import { ObjectType, Field, Schema } from "graphene";
+    import { ObjectType, Field, Schema } from "graphene-js";
 
     @ObjectType()
     class Query {

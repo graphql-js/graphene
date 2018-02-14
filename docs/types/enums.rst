@@ -11,7 +11,7 @@ You can create an ``Enum`` using classes:
 
 .. code:: js
 
-    import { EnumType } from "graphene";
+    import { EnumType } from "graphene-js";
 
     @EnumType()
     class Episode {

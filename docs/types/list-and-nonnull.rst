@@ -12,7 +12,7 @@ List
 
 .. code:: js
 
-    import { ObjectType, List } from "graphene";
+    import { ObjectType, List } from "graphene-js";
 
     @ObjectType()
     class Character {
@@ -31,7 +31,7 @@ Like:
 
 .. code:: js
 
-    import { ObjectType } from "graphene";
+    import { ObjectType } from "graphene-js";
 
     @ObjectType()
     class Character {
@@ -44,7 +44,7 @@ NonNull
 
 .. code:: js
 
-    import { ObjectType, NonNull } from "graphene";
+    import { ObjectType, NonNull } from "graphene-js";
 
     @ObjectType()
     class Character {

@@ -18,7 +18,7 @@ and ``Droid`` are two implementations of that interface.
 
 .. code:: js
 
-    import { InterfaceType, ObjectType } from "graphene";
+    import { InterfaceType, ObjectType } from "graphene-js";
 
     @InterfaceType()
     class Character {

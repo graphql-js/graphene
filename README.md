@@ -36,7 +36,7 @@ yarn add graphene-js
 Here is one example for you to get started:
 
 ```js
-import { ObjectType, Field, Schema } from "graphene";
+import { ObjectType, Field, Schema } from "graphene-js";
 
 @ObjectType()
 class Query {

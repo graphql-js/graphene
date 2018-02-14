@@ -46,7 +46,7 @@ same fashion you do with your models on MobX or TypeORM.
 Is. That. Simple.
 
 ```js
-import { Schema, ObjectType, Field } from "graphene";
+import { Schema, ObjectType, Field } from "graphene-js";
 
 @ObjectType()
 class Query {
@@ -91,7 +91,7 @@ Same applies for interfaces of ObjectTypes, types of InputFields, arguments...
 Simple, just use `getGraphQLType`:
 
 ```js
-import { getGraphQLType } from "graphene";
+import { getGraphQLType } from "graphene-js";
 
 var QueryType = new GraphQLObjectType({
   name: "QueryType",

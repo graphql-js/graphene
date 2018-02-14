@@ -17,7 +17,7 @@ This example model defines several ObjectTypes with their own fields.
 
 .. code:: js
 
-    import { ObjectType, UnionType } from "graphene";
+    import { ObjectType, UnionType } from "graphene-js";
 
     class Human {
         @Field(String) name;

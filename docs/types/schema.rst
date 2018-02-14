@@ -6,7 +6,7 @@ A schema definition is then supplied to the validator and executor.
 
 .. code:: js
 
-    import { Schema } from "graphene";
+    import { Schema } from "graphene-js";
 
     const schema = new Schema({
         query: MyRootQuery,
