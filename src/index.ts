@@ -37,6 +37,7 @@ export {
   ArgumentType,
   FieldConfig,
   Field,
+  DynamicField,
   InputFieldConfig,
   InputField,
   ObjectTypeConfig,

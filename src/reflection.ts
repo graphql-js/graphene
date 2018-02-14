@@ -88,7 +88,7 @@ export const setGraphQLType = (target: any, type: GraphQLType): void => {
 
 // Field definitions
 export type UnmountedFieldMap = {
-  [key: string]: () => GraphQLFieldConfig<any, any>;
+  [key: string]: () => GraphQLFieldConfig<any, any> | null;
 };
 
 export type MountedFieldMap = {

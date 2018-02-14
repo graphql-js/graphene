@@ -17,7 +17,14 @@ export {
   Time
 } from "./scalars";
 export { List, NonNull } from "./structures";
-export { Argument, ArgumentType, FieldConfig, Field, InputType } from "./field";
+export {
+  Argument,
+  ArgumentType,
+  FieldConfig,
+  Field,
+  DynamicField,
+  InputType
+} from "./field";
 export { InputFieldConfig, InputField } from "./inputfield";
 export { ObjectTypeConfig, ObjectType } from "./objecttype";
 export { InterfaceTypeConfig, InterfaceType } from "./interfacetype";

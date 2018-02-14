@@ -1,6 +1,7 @@
+import { FieldConfig } from "./../field";
 import { GraphQLObjectType, GraphQLInterfaceType } from "graphql";
 import { getGraphQLType, description } from "../../reflection";
-import { ObjectType, Field, InterfaceType } from "./../";
+import { ObjectType, Field, DynamicField, InterfaceType } from "./../";
 
 describe("ObjectType setup", () => {
   test(`create ObjectType properly`, () => {
@@ -138,5 +139,47 @@ describe("ObjectType setup", () => {
       "foo2",
       "bar"
     ]);
+  });
+
+  test(`create ObjectType with dynamic field (skip)`, () => {
+    @ObjectType()
+    class MyObjectType {
+      @DynamicField(() => null)
+      skip: any;
+
+      @Field(String)
+      hello(): string {
+        return "World";
+      }
+    }
+    var graphqlType: GraphQLObjectType = <GraphQLObjectType>getGraphQLType(
+      MyObjectType
+    );
+
+    const fields = graphqlType.getFields();
+    expect(fields).toHaveProperty("hello");
+    expect(fields).not.toHaveProperty("skip");
+  });
+
+  test(`create ObjectType with dynamic field (include)`, () => {
+    @ObjectType()
+    class MyObjectType {
+      @DynamicField((): FieldConfig => ({ type: String }))
+      skip(): string {
+        return "World";
+      }
+
+      @Field(String) hello: string;
+    }
+    var graphqlType: GraphQLObjectType = <GraphQLObjectType>getGraphQLType(
+      MyObjectType
+    );
+
+    const fields = graphqlType.getFields();
+    expect(fields).toHaveProperty("hello");
+    expect(fields).toHaveProperty("skip");
+
+    // We preserve the function
+    expect(new MyObjectType().skip()).toBe("World");
   });
 });

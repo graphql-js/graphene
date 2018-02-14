@@ -1,4 +1,3 @@
-import { FieldConfig } from "./field";
 /**
  * Copyright (c) 2017-present, Graphene.
  *
@@ -13,6 +12,7 @@ import {
   isInputType,
   GraphQLFieldResolver,
   defaultFieldResolver,
+  GraphQLFieldConfig,
   GraphQLResolveInfo
 } from "graphql";
 
@@ -23,7 +23,6 @@ import {
   getDescription,
   getDeprecationReason
 } from "./../reflection";
-import { isFunction } from "util";
 
 // Helper function that ease the creation of Arguments
 // This:
@@ -70,6 +69,7 @@ export type FieldPartialConfig = {
   };
   description?: string;
   deprecationReason?: string;
+  resolver?: GraphQLFieldResolver<any, any>;
 };
 
 export type FieldConfig = FieldPartialConfig & {
@@ -88,16 +88,83 @@ export interface FieldSignatures {
 
 export type Thunk<T> = (() => T) | T;
 
-const isFunction = (arg: any) => {
-  return typeof arg === "function";
+const isFunction = (thunk: any): boolean => {
+  return typeof thunk === "function";
 };
 
 const resolveThunk = <T>(thunk: Thunk<T>): T => {
-  return isFunction(thunk) ? thunk() : thunk;
+  return typeof thunk === "function" ? thunk() : thunk;
 };
 
 const isObject = (o: any) => {
   return o instanceof Object && o.constructor === Object;
+};
+
+const generateField = (config: FieldConfig): GraphQLFieldConfig<any, any> => {
+  const _type = getGraphQLType(config.type);
+  if (!isOutputType(_type)) {
+    throw new Error("Type is not output");
+  }
+  let args = config.args || {};
+  let fieldArgs: ArgumentMap = {};
+  for (let argKey in args) {
+    let arg: ArgumentType | InputType = args[argKey];
+    let extra: {};
+    let argType: any;
+    if (
+      typeof (<ArgumentType>arg).type !== "undefined" &&
+      !isInputType(<GraphQLInputType>arg)
+    ) {
+      extra = {
+        description: (<ArgumentType>arg).description
+      };
+      argType = (<ArgumentType>arg).type;
+    } else {
+      extra = {};
+      argType = arg;
+    }
+
+    const newType = getGraphQLType(argType);
+    if (!isInputType(newType)) {
+      throw new Error(
+        `Field argument ${argKey} expected to be Input type. Received: ${argType}.`
+      );
+    }
+    fieldArgs[argKey] = {
+      type: newType,
+      ...extra
+    };
+  }
+  return {
+    args: fieldArgs,
+    type: _type,
+    description: config.description,
+    deprecationReason: config.deprecationReason,
+    resolve: config.resolver
+  };
+};
+
+const transformResolverWithThis = (resolver: Function) => (
+  root: any,
+  args: { [argName: string]: any },
+  context: any,
+  info: GraphQLResolveInfo
+) => {
+  return resolver.call(root, args, context, info);
+};
+
+const configFromTargetField = (target: any, key: string): FieldConfig => {
+  const targetResolver = target[key];
+  const resolver =
+    typeof targetResolver === "function"
+      ? transformResolverWithThis(targetResolver)
+      : defaultFieldResolver;
+
+  return {
+    description: getDescription(target, key),
+    deprecationReason: getDeprecationReason(target, key),
+    resolver: resolver
+  };
 };
 
 export const Field: FieldSignatures = (
@@ -105,6 +172,7 @@ export const Field: FieldSignatures = (
   baseConfig?: FieldPartialConfig
 ) => (target: any, key: string) => {
   let config: FieldConfig;
+  // First, we normalize the arguments into fieldConfig
   if (baseConfig) {
     // Signature 2
     config = {
@@ -122,65 +190,40 @@ export const Field: FieldSignatures = (
       };
     }
   }
+  // We check if we can get any description, deprecationReason or
+  // resolver from the target[key]
+  const extendedConfig: FieldConfig = {
+    ...configFromTargetField(target, key),
+    ...config
+  };
   const _class = target.constructor;
   let fields: UnmountedFieldMap = getFields(_class);
   if (key in fields) {
     throw new Error(`Field ${key} is already defined in ${_class}.`);
   }
-  fields[key] = () => {
-    const _type = getGraphQLType(config.type);
-    if (!isOutputType(_type)) {
-      throw new Error("Type is not output");
-    }
-    let args = config.args || {};
-    let fieldArgs: ArgumentMap = {};
-    for (let argKey in args) {
-      let arg: ArgumentType | InputType = args[argKey];
-      let extra: {};
-      let argType: any;
-      if (
-        typeof (<ArgumentType>arg).type !== "undefined" &&
-        !isInputType(<GraphQLInputType>arg)
-      ) {
-        extra = {
-          description: (<ArgumentType>arg).description
-        };
-        argType = (<ArgumentType>arg).type;
-      } else {
-        extra = {};
-        argType = arg;
-      }
+  fields[key] = (): GraphQLFieldConfig<any, any> => {
+    return generateField(extendedConfig);
+  };
+};
 
-      const newType = getGraphQLType(argType);
-      if (!isInputType(newType)) {
-        throw new Error(
-          `Field argument ${argKey} expected to be Input type. Received: ${argType}.`
-        );
-      }
-      fieldArgs[argKey] = {
-        type: newType,
-        ...extra
-      };
+export const DynamicField = (thunkConfig: () => FieldConfig | null) => (
+  target: any,
+  key: string
+) => {
+  const _class = target.constructor;
+  let fields: UnmountedFieldMap = getFields(_class);
+  if (key in fields) {
+    throw new Error(`Field ${key} is already defined in ${_class}.`);
+  }
+  fields[key] = (): GraphQLFieldConfig<any, any> | null => {
+    const config: FieldConfig | null = thunkConfig();
+    if (config === null) {
+      return null;
     }
-    const targetResolver = target[key];
-    let resolver: GraphQLFieldResolver<any, any> = defaultFieldResolver;
-    if (typeof targetResolver === "function") {
-      resolver = (
-        root: any,
-        args: { [argName: string]: any },
-        context: any,
-        info: GraphQLResolveInfo
-      ) => {
-        return targetResolver.call(root, args, context, info);
-      };
-    }
-    return {
-      args: fieldArgs,
-      type: _type,
-      description: getDescription(target, key) || config.description,
-      deprecationReason:
-        getDeprecationReason(target, key) || config.deprecationReason,
-      resolve: resolver
+    const extendedConfig: FieldConfig = {
+      ...configFromTargetField(target, key),
+      ...config
     };
+    return generateField(extendedConfig);
   };
 };
