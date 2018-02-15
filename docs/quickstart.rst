@@ -9,7 +9,7 @@ Let’s build a basic GraphQL schema from scratch.
 Requirements
 ------------
 
--  Node or Typescript(any)
+-  Node.js
 -  Graphene-JS
 
 Project setup
