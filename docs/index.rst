@@ -7,9 +7,9 @@ Contents:
    :maxdepth: 2
 
    quickstart
-   incremental-adoption
    types/index
    relay/index
+   incremental-adoption
 
 Integrations
 -----
