@@ -1,9 +1,6 @@
 Getting started
 ===============
 
-What is GraphQL?
-----------------
-
 For an introduction to GraphQL and an overview of its concepts, please refer
 to `the official introduction <http://graphql.org/learn/>`_.
 
@@ -20,9 +17,10 @@ Project setup
 
 .. code:: bash
 
-    yarn add graphene-js
-    // or
     npm install graphene-js
+    # or
+    yarn add graphene-js
+
 
 Creating a basic Schema
 -----------------------
@@ -34,7 +32,7 @@ data.
 We are going to create a very simple schema, with a ``Query`` with only
 one field: ``hello`` and an input name. And when we query it, it should return ``"Hello {name}"``.
 
-.. code:: typescript
+.. code:: js
 
     import { ObjectType, Field, Schema } from "graphene-js";
 
@@ -54,7 +52,7 @@ Querying
 
 Then we can start querying our schema:
 
-.. code:: typescript
+.. code:: js
 
     var result = await schema.execute('{ hello }')
     console.log(result.data.hello) # "Hello stranger"
