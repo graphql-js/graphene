@@ -182,4 +182,19 @@ describe("ObjectType setup", () => {
     // We preserve the function
     expect(new MyObjectType().skip()).toBe("World");
   });
+
+  test(`create ObjectType with field with extra config`, () => {
+    @ObjectType()
+    class MyObjectType {
+      @Field(String, { complexity: 10 } as any)
+      hello: string;
+    }
+    var graphqlType: GraphQLObjectType = <GraphQLObjectType>getGraphQLType(
+      MyObjectType
+    );
+
+    const fields = graphqlType.getFields();
+    expect(fields).toHaveProperty("hello");
+    expect((fields["hello"] as any).complexity).toBe(10);
+  });
 });

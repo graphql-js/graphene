@@ -101,7 +101,14 @@ const isObject = (o: any) => {
 };
 
 const generateField = (config: FieldConfig): GraphQLFieldConfig<any, any> => {
-  const _type = getGraphQLType(config.type);
+  let {
+    type,
+    description,
+    deprecationReason,
+    resolver,
+    ...extraFieldConfig
+  } = config;
+  const _type = getGraphQLType(type);
   if (!isOutputType(_type)) {
     throw new Error("Type is not output");
   }
@@ -115,10 +122,9 @@ const generateField = (config: FieldConfig): GraphQLFieldConfig<any, any> => {
       typeof (<ArgumentType>arg).type !== "undefined" &&
       !isInputType(<GraphQLInputType>arg)
     ) {
-      extra = {
-        description: (<ArgumentType>arg).description
-      };
-      argType = (<ArgumentType>arg).type;
+      let { type, ...extraOpts } = <ArgumentType>arg;
+      argType = type;
+      extra = extraOpts;
     } else {
       extra = {};
       argType = arg;
@@ -136,11 +142,12 @@ const generateField = (config: FieldConfig): GraphQLFieldConfig<any, any> => {
     };
   }
   return {
+    ...extraFieldConfig,
     args: fieldArgs,
     type: _type,
-    description: config.description,
-    deprecationReason: config.deprecationReason,
-    resolve: config.resolver
+    description: description,
+    deprecationReason: deprecationReason,
+    resolve: resolver
   };
 };
 
